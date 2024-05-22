@@ -1,8 +1,8 @@
 # ALMAN
 Desctop application for managing kindergarten. Cycle in kindergarten is month. The administrator fills the data in the end of the month, including all incomes and exppenses and calculates revenue.
-Application will be developed with regard of time. Children are diveded to 4-5 groups based on their age.
+Application will be developed with regard of time periods. Children are diveded to 4-5 groups based on their age. Apart from children the system manages staff, typical for kindergarten expenses like food, communal fees, advertisement, internet fees, ... 
 
-The application is developed for private kidergarten with atmost 80 children. In the kindergarten lessons are taught. 
+The application is developed for private kidergarten with atmost 70 children. In the kindergarten lessons are taught. 
 Lesons are divided to two categories: 
 - ones which subscription doesnt cover. They must be paid separetely
 - ones which subscription cover and they dont need to paid.
@@ -42,3 +42,7 @@ Administrator should be able to:
 
 ## Special terminology
 - subscription - monthly payment for the child (can differ if there are two children from one family, if staff's child)
+
+## Technical specification for NPRG035, NPRG038, NPRG064, NPRG057 and architecture considerations.
+
+
