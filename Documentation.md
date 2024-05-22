@@ -1,7 +1,7 @@
 # Overview
 - [Alman](#alman)
 - [SW engineering aspects and place for ideas](#sw-engineering-aspects-and-place-for-ideas)
-- [Specification](#technologies-that-will-be-used-from-subjects)
+- [Specification](#technical-specification-for-nprg035-nprg038-nprg064-nprg057-and-architecture-considerations)
 
 ## ALMAN
 Desctop application for managing kindergarten. Cycle in kindergarten is month. The administrator fills the data in the end of the month, including all incomes and exppenses and calculates revenue.
