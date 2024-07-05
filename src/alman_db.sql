@@ -8,9 +8,7 @@ create table [alman_db].[Child] (
 );
 
 alter table [Alman_db].[Child]
-add Contract varchar(255);
-
---
+add Contract nvarchar(255);
 
 alter table [Alman_db].[Child]
 add ChildGroup int;
@@ -26,6 +24,15 @@ create table [Alman_db].[Precontract] (
     PSum money,
     Constraint PK_Precontract PRIMARY KEY (PChildID, PSum)
 );
+
+create table Precontracts (
+    PChildID INTEGER,
+    PSum INTEGER,
+	FOREIGN KEY(PChildID) REFERENCES Children(ChildId),
+    Constraint PK_Precontract PRIMARY KEY (PChildID, PSum)
+);
+
+
 
 create table [Alman_db].[YearFee] (
     YFChildID int Foreign key references Alman_db.Child(ChildID),

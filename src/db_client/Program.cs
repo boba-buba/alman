@@ -2,41 +2,39 @@
 using System.Data.SqlTypes;
 using System.Data;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace db_client
 {
-    internal class Program
+    public class Program
     {
-
-        private static void CreateCommand(string query, string connectionString)
-        {
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-               
-                SqlCommand command = connection.CreateCommand();
-                command.CommandText = query;
-                connection.Open();
-                using (var result = command.ExecuteReader())
-                {
-                    while (result.Read())
-                    {
-                        Console.WriteLine(String.Format("{0}, {1}, {2}, {3}, {4}", result[0], result[1], result[2], result[3], result[4]));
-                    }
-                }
-            }
-
-        }
         static void Main(string[] args)
         {
-            string databaseName = "alman_db";
+            using (var db = new AlmanContext())
+            {
+                //db.Database.Migrate();
+                Console.WriteLine($"Database path: {db.DbPath}.");
 
-            string connectionString = "";
-            string command = "SELECT * from Alman_db.Child";
 
-            CreateCommand(command, connectionString);
+                //Console.WriteLine("Creating new child");
+                //db.Add(new Child { ChildName = "кнмапп", ChildLastName = "йукпп", ChildContract = "апроо", ChildGroup = 1 });
+                //db.SaveChanges();
+
+                /*                Console.WriteLine("Adding precontract");
+                                db.Add(new Precontract { PChildID = 1, PSum = 20000 });
+                                db.SaveChanges();*/
+
+                Console.WriteLine("Updating child group");
+                Child? ch = db.Children.SingleOrDefault(c => c.ChildId == 1);
+                if (ch != null )
+                {
+                    ch.ChildGroup = 3;
+                    db.SaveChanges();
+                }
+                
+                
+
+            }
         }
     }
 }
-//To save non ASCII code
-// insert into [alman_db].[Child] (ChildLastName, ChildFirstName, ContractType, ChildGroup) values (N'пщупп', N'ппво', N'щлиыы', 1);

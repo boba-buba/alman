@@ -4,7 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var children = DatabaseAccess.DbAccsess.GetChildren();
+            foreach (var child in children)
+            {
+                Console.WriteLine(child);
+            }
         }
     }
 }

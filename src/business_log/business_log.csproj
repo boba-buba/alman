@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\db_client\db_client.csproj" />
+    <ProjectReference Include="..\db_access\db_access.csproj" />
   </ItemGroup>
 
 </Project>
