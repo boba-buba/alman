@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            var children = DatabaseAccess.DbAccsess.GetChildren();
+            var db = new DatabaseAccess.DbAccsess();
+            var children = db.GetChildren();
             foreach (var child in children)
             {
                 Console.WriteLine(child);
