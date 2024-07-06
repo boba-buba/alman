@@ -11,6 +11,8 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Panel Margin="40">
+		<TextBlock FontFamily="{StaticResource NunitoFont}" Text="ALMAN" HorizontalAlignment="Center"/>
+	    <Button Content="Log in" CornerRadius="16" HorizontalAlignment="Center" VerticalAlignment="Center" Click="LogInButtonClicked"/>
+	</Panel>
 </UserControl>
