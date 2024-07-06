@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace DatabaseAccess
 {
-    public class DbAccsess : AlmanDbAccess
+    public class DbAccsess // : AlmanDbAccess
     {
 
         public DbAccsess() { }
