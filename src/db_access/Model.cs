@@ -37,6 +37,8 @@ namespace DatabaseAccess
 
         public string DbPath { get; }
 
+        public AlmanContext(string dbName) { DbPath = dbName; }
+
         public AlmanContext()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
@@ -57,9 +59,9 @@ namespace DatabaseAccess
         public string ChildLastName { get; set; }
         public AlmanDefinitions.ContractType ChildContract { get; set; }
         public int ChildGroup { get; set; }
-        public int ChildState { get; set; }
+        public AlmanDefinitions.ChildState ChildState { get; set; }
         public int ChildStartYear { get; set; }
-        public int ChildMonthStart { get; set; }
+        public int ChildStartMonth { get; set; }
 
     }
 
