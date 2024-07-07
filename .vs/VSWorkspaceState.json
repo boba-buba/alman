@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\DbAccessUnitTests",
-    "\\src\\db_access"
+    ""
   ],
-  "SelectedNode": "\\src\\DbAccessUnitTests\\DbAccessModel_UnitTests.cs",
+  "SelectedNode": "\\alman.sln",
   "PreviewInSolutionExplorer": false
 }

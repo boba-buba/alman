@@ -1,13 +1,18 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data.Common;
 using System.Data.Entity;
+using System.Diagnostics;
+
+using DbAccess.Models;
 
 namespace DatabaseAccess
 {
-    public class DbAccsess // : AlmanDbAccess
+    //public delegate AlmanDefinitions.ReturnCode ExectuteNonQueryTransaction()
+    public class DbAccsess //: IAlmanDbAccess
     {
 
         public DbAccsess() { }
+
         private static AlmanContext ConnectToDb()
         {
             return new AlmanContext();
@@ -18,19 +23,33 @@ namespace DatabaseAccess
             ctx.Dispose();
         }
 
-        private void ExecuteTransaction()
+        public void ExecuteTransaction()
         {
-            var ctx = ConnectToDb();
+            using var ctx = ConnectToDb();
 
             using var transaction = ctx.Database.BeginTransaction();
             try
             {
+                ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
                 
+                ctx.SaveChanges();
+                throw new Exception();
                 transaction.Commit();
             } catch (Exception ex)
             {
+
                 transaction.Rollback();
             }
+        }
+
+        private AlmanDefinitions.ReturnCode ExecuteNonQueryTransaction(AlmanContext ctx)
+        {
+            using (var transaction =  ctx.Database.BeginTransaction())
+            {
+                transaction.Commit();
+            }
+
+            return AlmanDefinitions.ReturnCode.OK;
         }
         public IEnumerable<Child> GetChildren()
         {
@@ -42,33 +61,16 @@ namespace DatabaseAccess
 
         public static void AddNewChild()
         {
+            using var ctx = ConnectToDb();
+            ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
+
+            ctx.SaveChanges();
 
         }
 
         public static void RemoveChild()
         {
 
-        }
-
-        public static void CreateNewMonth(string month, string year)
-        {
-            var connection = ConnectToDb();
-            
-            SqliteConnection conn = new SqliteConnection($"Data Source={connection.DbPath}");
-            conn.Open();
-            SqliteCommand cmd = conn.CreateCommand();
-            cmd.CommandText = $"""
-                    create table {month}_{year}_Activity (
-                    YMChildId INTEGER,
-                    YMActivityId INTEGER,
-                    YMActivitySum INTEGER NOT NULL,
-                	FOREIGN KEY(YMChildId) references Children(ChildId),
-                	FOREIGN KEY(YMActivityId) references Activities(ActivityId),
-                    Constraint PK_Year_Month_Act PRIMARY KEY (YMChildId, YMActivityId, YMActivitySum)
-                );
-                """;
-            cmd.Connection = conn;
-            cmd.ExecuteNonQuery();
         }
 
     }

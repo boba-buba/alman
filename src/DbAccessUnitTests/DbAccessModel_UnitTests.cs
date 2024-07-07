@@ -1,4 +1,5 @@
 using DatabaseAccess;
+using DbAccess.Models;
 
 namespace DbAccessUnitTests
 {
@@ -7,7 +8,7 @@ namespace DbAccessUnitTests
 
         private void AddChild(string dbName)
         {
-            using var ctx = new DatabaseAccess.AlmanContext(dbName);
+            using var ctx = new DbAccess.Models.AlmanContext(dbName);
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
             ctx.Add(new Child
@@ -17,8 +18,8 @@ namespace DbAccessUnitTests
                 ChildStartMonth = 5,
                 ChildStartYear = 2023,
                 ChildGroup = 1,
-                ChildContract = AlmanDefinitions.ContractType.Precontract,
-                ChildState = AlmanDefinitions.ChildState.Active
+                ChildContract = (int)AlmanDefinitions.ContractType.Precontract,
+                ChildState = (int)AlmanDefinitions.ChildState.Active
             });
             ctx.SaveChanges();
 
@@ -30,7 +31,7 @@ namespace DbAccessUnitTests
         {
             // Arrange
             string testDb = "AddChild_OneChildWithSuchNameInDb.db";
-            using var ctx = new DatabaseAccess.AlmanContext(testDb);
+            using var ctx = new DbAccess.Models.AlmanContext(testDb);
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
             ctx.Add(new Child { 
@@ -39,8 +40,8 @@ namespace DbAccessUnitTests
                 ChildStartMonth = 5, 
                 ChildStartYear = 2023, 
                 ChildGroup = 1, 
-                ChildContract = AlmanDefinitions.ContractType.Precontract, 
-                ChildState = AlmanDefinitions.ChildState.Active });
+                ChildContract = (int)AlmanDefinitions.ContractType.Precontract, 
+                ChildState = (int)AlmanDefinitions.ChildState.Active });
             // Act
             ctx.SaveChanges();
 
@@ -55,18 +56,18 @@ namespace DbAccessUnitTests
         {
             //Arrrange
             string testDb = "ChangeChildState_MustPass.db";
-            using var ctx = new DatabaseAccess.AlmanContext(testDb);
+            using var ctx = new DbAccess.Models.AlmanContext(testDb);
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
             AddChild(testDb);
             //Act
             Child ch = ctx.Children.Where(ch => ch.ChildLastName == "LastName").Single();
-            ch.ChildState = AlmanDefinitions.ChildState.Inactive;
+            ch.ChildState = (int)AlmanDefinitions.ChildState.Inactive;
             ctx.SaveChanges();
             //Assert
             var child = ctx.Children.Where(ch => ch.ChildLastName == "LastName").Single();
             Assert.NotNull(child);
-            Assert.Equal(child.ChildState, AlmanDefinitions.ChildState.Inactive);
+            Assert.Equal(child.ChildState, (int)AlmanDefinitions.ChildState.Inactive);
 
         }
     }

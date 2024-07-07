@@ -1,13 +1,11 @@
 ﻿using DatabaseAccess;
 
 
-
-
 public static class AlmanDefinitions
 {
     public enum ReturnCode {
-        RET_OK = 0,
-        RET_NOT_FOUND_IN_DB,
+        OK = 0,
+        NOT_FOUND_IN_DB,
 
     }
 

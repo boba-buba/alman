@@ -6,6 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
+
+namespace DbAccess.Models;
+public partial class AlmanContext : DbContext
+{
+    public string Dbpath { get; }
+    public AlmanContext(string path)
+    {
+        this.Dbpath = path;
+    }
+}
+
+/*
 namespace DatabaseAccess
 {
 
@@ -79,6 +91,7 @@ namespace DatabaseAccess
         public int PChildID { get; set; }
         public int PSum { get; set; }
         public string PComment { get; set; }
+
     }
 
 
@@ -221,4 +234,4 @@ namespace DatabaseAccess
     }
 
     #endregion
-}
+}*/
