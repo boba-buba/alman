@@ -16,7 +16,7 @@ namespace DatabaseAccess
 
         private static AlmanContext ConnectToDb()
         {
-            return new AlmanContext();
+            return new AlmanContext("full path");
         }
 
         /* Explicit end of connection
@@ -36,27 +36,41 @@ namespace DatabaseAccess
         #endregion
 
 
-        public IEnumerable<Child> GetChildren()
+        public ICollection<Child> GetChildren()
         {
             using var connection = ConnectToDb();
 
-            IEnumerable<Child> children = connection.Children.ToList();
+            var children = connection.Children.ToList();
             return children;
         }
 
-        public static void AddNewChild()
+        public AlmanDefinitions.ReturnCode UpdateChildren(IEnumerable<Child> children)
+        {
+            using var ctx = ConnectToDb();
+
+            foreach (var child in children)
+            {
+                //var ch = ctx.Children.Where(x => x.ChildId == child.ChildId).Single();
+                //ch.ChildContract = child.ChildContract;
+                ctx.Children.Update(child);
+            }
+            ctx.SaveChanges();
+            return AlmanDefinitions.ReturnCode.OK;
+        }
+
+        public void AddNewChild()
         {
             using var ctx = ConnectToDb();
             using (var transaction = ctx.Database.BeginTransaction())
             {
 
             }
-            ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
+            ctx.Children.Add(new Child { ChildName = "name4", ChildLastName = "lastname4" });
             ctx.SaveChanges();
 
         }
 
-        public static void RemoveChild()
+        public void RemoveChild()
         {
 
         }

@@ -9,6 +9,26 @@ public interface IAlmanDbAccess
     // v impl lze pouzit linq
     #region Children operations reading
 
+    #endregion
+
+    #region Children operations writing
+    
+
+    //ty tabulky s temi cizimi klicemi
+    /** Set flag ChildState to false */
+    //public AlmanDefinitions.ReturnCode DeleteChildById(int ChildId);
+
+
+
+    #endregion
+    //public IEnumerable<OtherActivity> GetOtherActivities();
+
+}
+
+
+public interface IAlmanChildrenRead
+{
+
     /* Children table*/
     public IEnumerable<Child> GetChildren();
 
@@ -40,38 +60,46 @@ public interface IAlmanDbAccess
 
     public ContractFee GetContractFeeById(int ChildId);
 
+}
 
-    public IEnumerable<YearMonthActivity> GetChildYearMonthActivitiesById(int ChildId);
 
-    #endregion
-
-    #region Children operations writing
+public interface IAlmanChildrenWrite
+{
     public AlmanDefinitions.ReturnCode AddNewChildren(IEnumerable<Child> children);
     public AlmanDefinitions.ReturnCode UpdateChildren(IEnumerable<Child> children);
     public AlmanDefinitions.ReturnCode DeleteChildren(IEnumerable<Child> children);
     public AlmanDefinitions.ReturnCode AddActvities(IEnumerable<Activity> actvities);
     public AlmanDefinitions.ReturnCode UpdateActvities(IEnumerable<Activity> updatedActvities);
     public AlmanDefinitions.ReturnCode DeleteActvities(IEnumerable<Activity> actvitiesToDelete);
-    
-    //ty tabulky s temi cizimi klicemi
-    /**Set flag ChildState to false*/
-    //public AlmanDefinitions.ReturnCode DeleteChildById(int ChildId);
 
-
-
-    #endregion
-    //public IEnumerable<OtherActivity> GetOtherActivities();
- 
+    // teoreticky jelikoz je vsechno vazano na dite, nebo aktivitu, tak muzu ty entity menit skrz dite, aktivitu a proto nepotrebuju operace na ty tabulky s cizimi klici??
+    // podle potreby doplnit
 }
 
-public interface IAlmanChildrenRead
+
+public interface IAlmanStaffMemberRead
+{
+    public IEnumerable<StaffMember> GetStaffMembers();
+    public IEnumerable<Position> GetPositions();
+    public IEnumerable<Prepayment> GetPrepaymentsForYearMonth(int month, int year);
+    public IEnumerable<FinalPayment> GetFinalPaymentsForYearMonth(int month, int year);
+    public IEnumerable<StaffActivity> GetStaffActivities();
+    public IEnumerable<YearMonthStaffActivity> GetYearMonthStaffActivitiesById(int month, int year);
+}
+
+
+public interface IAlmanStaffMemeberWrite
 {
 
 }
 
-public interface IAlmanChildrenWrite
+
+public interface IAlmanOtherRead
 {
 
 }
 
-public interface IAlman
+public interface IAlmanOtherWrite
+{
+
+}
