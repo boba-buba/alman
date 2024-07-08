@@ -1,8 +1,12 @@
 ﻿using DatabaseAccess;
 using DbAccess.Models;
 
+
+
+//nekdy nejlip pouzit to filtrovani primo v sql dotazu, protoze temi where to muze z db natahnout spoustu dat, ktere budeme filtrovat zde. Radeji je primo vyfiltrujeme v dbazovem dotazu.
 public interface IAlmanDbAccess
 {
+    // v impl lze pouzit linq
     #region Children operations reading
 
     /* Children table*/
@@ -42,8 +46,14 @@ public interface IAlmanDbAccess
     #endregion
 
     #region Children operations writing
-    //public AlmanDefinitions.ReturnCode AddNewChild(Child child);
-
+    public AlmanDefinitions.ReturnCode AddNewChildren(IEnumerable<Child> children);
+    public AlmanDefinitions.ReturnCode UpdateChildren(IEnumerable<Child> children);
+    public AlmanDefinitions.ReturnCode DeleteChildren(IEnumerable<Child> children);
+    public AlmanDefinitions.ReturnCode AddActvities(IEnumerable<Activity> actvities);
+    public AlmanDefinitions.ReturnCode UpdateActvities(IEnumerable<Activity> updatedActvities);
+    public AlmanDefinitions.ReturnCode DeleteActvities(IEnumerable<Activity> actvitiesToDelete);
+    
+    //ty tabulky s temi cizimi klicemi
     /**Set flag ChildState to false*/
     //public AlmanDefinitions.ReturnCode DeleteChildById(int ChildId);
 
@@ -53,3 +63,15 @@ public interface IAlmanDbAccess
     //public IEnumerable<OtherActivity> GetOtherActivities();
  
 }
+
+public interface IAlmanChildrenRead
+{
+
+}
+
+public interface IAlmanChildrenWrite
+{
+
+}
+
+public interface IAlman

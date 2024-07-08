@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data.Common;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Diagnostics;
 
 using DbAccess.Models;
@@ -11,6 +11,7 @@ namespace DatabaseAccess
     public class DbAccsess //: IAlmanDbAccess
     {
 
+        
         public DbAccsess() { }
 
         private static AlmanContext ConnectToDb()
@@ -18,52 +19,39 @@ namespace DatabaseAccess
             return new AlmanContext();
         }
 
-        private static void EndConnection(AlmanContext ctx)
+        /* Explicit end of connection
+         *
+         */
+        private static void EndConnection(AlmanContext? ctx)
         {
-            ctx.Dispose();
-        }
-
-        public void ExecuteTransaction()
-        {
-            using var ctx = ConnectToDb();
-
-            using var transaction = ctx.Database.BeginTransaction();
-            try
+            if (ctx != null)
             {
-                ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
-                
-                ctx.SaveChanges();
-                throw new Exception();
-                transaction.Commit();
-            } catch (Exception ex)
-            {
-
-                transaction.Rollback();
+                ctx.Dispose();
             }
         }
 
-        private AlmanDefinitions.ReturnCode ExecuteNonQueryTransaction(AlmanContext ctx)
-        {
-            using (var transaction =  ctx.Database.BeginTransaction())
-            {
-                transaction.Commit();
-            }
 
-            return AlmanDefinitions.ReturnCode.OK;
-        }
+        #region Playgound, delete after final impl
+  
+        #endregion
+
+
         public IEnumerable<Child> GetChildren()
         {
-            var connection = ConnectToDb();
-            IEnumerable<Child> children = connection.Children.ToArray();
-            EndConnection(connection);
+            using var connection = ConnectToDb();
+
+            IEnumerable<Child> children = connection.Children.ToList();
             return children;
         }
 
         public static void AddNewChild()
         {
             using var ctx = ConnectToDb();
-            ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
+            using (var transaction = ctx.Database.BeginTransaction())
+            {
 
+            }
+            ctx.Children.Add(new Child { ChildName = "name3", ChildLastName = "lastname2" });
             ctx.SaveChanges();
 
         }
@@ -75,3 +63,12 @@ namespace DatabaseAccess
 
     }
 }
+
+/* Updating 
+ * void UpdateItem(Item item) {
+    using(var db = new ProductsContext()) {
+        db.Items.Update(item);
+        db.SaveChanges();
+    }
+}
+**/
