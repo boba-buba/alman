@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -43,11 +44,19 @@ public partial class AlmanContext : DbContext
     public virtual DbSet<YearMonthStaffActivity> YearMonthStaffActivities { get; set; }
 
     public virtual DbSet<YearSub> YearSubs { get; set; }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite($"Data Source={DbPath}")
-        .LogTo(Console.WriteLine, LogLevel.Information);
+    {
+        var connectionString = new SqliteConnectionStringBuilder();
+
+        connectionString.DataSource = DbPath;
+        connectionString.ForeignKeys = true;
+        connectionString.Pooling = true;
+        
+        string builtString = connectionString.ToString();
+        optionsBuilder.UseSqlite(builtString).LogTo(Console.WriteLine, LogLevel.Information);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -49,17 +49,15 @@ public interface IAlmanChildrenRead
     public IEnumerable<Child> GetChildrenByName(string FirstName, string LastName);
 
     public Child GetChildById(int ChildId);
-    public Precontract GetPrecontractById(int ChildId);
 
-    /* Get all child's activities for month.
-     * 
-     */
+
+    public Precontract GetPrecontractById(int ChildId);
+    /* Get all child's activities for month. */
     public IEnumerable<YearMonthActivity> GetYearMonthActivitiesById(int year, int month, int ChildId);
 
     public YearSub GetChildYearSubById(int year, int ChildId);
 
-    public ContractFee GetContractFeeById(int ChildId);
-
+    public ContractFee GetContractFeeById(int year, int month, int ChildId);
 }
 
 
@@ -68,12 +66,26 @@ public interface IAlmanChildrenWrite
     public AlmanDefinitions.ReturnCode AddNewChildren(IEnumerable<Child> children);
     public AlmanDefinitions.ReturnCode UpdateChildren(IEnumerable<Child> children);
     public AlmanDefinitions.ReturnCode DeleteChildren(IEnumerable<Child> children);
+
     public AlmanDefinitions.ReturnCode AddActvities(IEnumerable<Activity> actvities);
     public AlmanDefinitions.ReturnCode UpdateActvities(IEnumerable<Activity> updatedActvities);
     public AlmanDefinitions.ReturnCode DeleteActvities(IEnumerable<Activity> actvitiesToDelete);
 
-    // teoreticky jelikoz je vsechno vazano na dite, nebo aktivitu, tak muzu ty entity menit skrz dite, aktivitu a proto nepotrebuju operace na ty tabulky s cizimi klici??
-    // podle potreby doplnit
+    public AlmanDefinitions.ReturnCode AddPrecontract(Precontract precontract);
+    public AlmanDefinitions.ReturnCode UpdatePrecontract(Precontract precontract);
+    public AlmanDefinitions.ReturnCode DeletePrecontract(Precontract precontract);
+
+    public AlmanDefinitions.ReturnCode AddYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+    public AlmanDefinitions.ReturnCode UpdateYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+    public AlmanDefinitions.ReturnCode DeleteYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+
+    public AlmanDefinitions.ReturnCode AddYearSubs(IEnumerable<YearSub> yearSub);
+    public AlmanDefinitions.ReturnCode UpdateYearSubs(IEnumerable<YearSub> yearSub);
+    public AlmanDefinitions.ReturnCode DeleteYearSubs(IEnumerable<YearSub> yearSub);
+
+    public AlmanDefinitions.ReturnCode AddContractFees(IEnumerable<ContractFee> contractFees);
+    public AlmanDefinitions.ReturnCode UpdateContractFees(IEnumerable<ContractFee> contractFees);
+    public AlmanDefinitions.ReturnCode DeleteContractFees(IEnumerable<ContractFee> contractFees);
 }
 
 

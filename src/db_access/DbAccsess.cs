@@ -4,17 +4,18 @@ using System.Data.Common;
 using System.Diagnostics;
 
 using DbAccess.Models;
+using System.Security.AccessControl;
 
 namespace DatabaseAccess
 {
     //public delegate AlmanDefinitions.ReturnCode ExectuteNonQueryTransaction()
-    public class DbAccsess //: IAlmanDbAccess
+    public partial class DbAccsess //: IAlmanDbAccess
     {
 
         
         public DbAccsess() { }
 
-        private static AlmanContext ConnectToDb()
+        private AlmanContext ConnectToDb()
         {
             return new AlmanContext("full path");
         }
@@ -30,10 +31,6 @@ namespace DatabaseAccess
             }
         }
 
-
-        #region Playgound, delete after final impl
-  
-        #endregion
 
 
         public ICollection<Child> GetChildren()
@@ -61,18 +58,23 @@ namespace DatabaseAccess
         public void AddNewChild()
         {
             using var ctx = ConnectToDb();
-            using (var transaction = ctx.Database.BeginTransaction())
-            {
-
-            }
             ctx.Children.Add(new Child { ChildName = "name4", ChildLastName = "lastname4" });
             ctx.SaveChanges();
 
         }
 
-        public void RemoveChild()
+        public AlmanDefinitions.ReturnCode DeleteChildren(IEnumerable<Child> children)
         {
-
+            using var ctx = ConnectToDb();
+            ctx.Children.RemoveRange(children);
+            ctx.SaveChanges();
+            return AlmanDefinitions.ReturnCode.OK;
+        }
+        public Child GetChildById(int ChildId)
+        {
+            using var ctx = ConnectToDb();
+            Child child = ctx.Children.Where(c => c.ChildId == ChildId).Single();
+            return child;
         }
 
     }
