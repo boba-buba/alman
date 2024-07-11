@@ -12,23 +12,23 @@ namespace business_log
         {
             var db = new DatabaseAccess.DbAccsess();
             //db.AddNewChild();
-            var children = db.GetChildren();
-            
-            //var ch = db.GetChildById(6);
-            //db.DeleteChildren( new[] { ch });
-            var li = new List<YearSub>();
-            foreach (var child in children)
-            {
-                //child.ChildContract = (int)AlmanDefinitions.ContractType.StaffChild;
-                //child.YearSubs.Add(new DbAccess.Models.YearSub { Yjune = 2000, YjunePayment = (int)AlmanDefinitions.WayOfPaying.Transfer });
-                var yearSub = db.GetChildYearSubById(2025, child.ChildId);
-                yearSub.Yyear = 2026;
-                li.Add(yearSub);
-            }
-            db.UpdateYearSubs(li);
+            /*            var children = db.GetChildren();
 
+                        //var ch = db.GetChildById(6);
+                        //db.DeleteChildren( new[] { ch });
+                        //var li = new List<YearSub>();
+                        foreach (var child in children)
+                        {
+                            //child.ChildContract = (int)AlmanDefinitions.ContractType.StaffChild;
+                            child.YearSubs.Add(new DbAccess.Models.YearSub { Yyear = 2024, Yjune = 2000, YjunePayment = (int)AlmanDefinitions.WayOfPaying.Transfer });
+                            //var yearSub = db.GetChildYearSubById(2025, child.ChildId);
+                            //yearSub.Yyear = 2026;
+                            //li.Add(yearSub);s
+                        }*/
 
+            //db.UpdateYearSubs([]);
 
+            //db.UpdateYearSubsAsync(li);
         }
     }
 }

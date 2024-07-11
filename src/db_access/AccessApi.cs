@@ -30,30 +30,30 @@ public interface IAlmanChildrenRead
 {
 
     /* Children table*/
-    public IEnumerable<Child> GetChildren();
+    public IReadOnlyList<Child> GetChildren();
 
     /* Children activities list **/
-    public IEnumerable<Activity> GetActivities();
+    public IReadOnlyList<Activity> GetActivities();
 
-    public IEnumerable<Precontract> GetPrecontracts(int year);
+    public IReadOnlyList<Precontract> GetPrecontracts(int year);
 
     /* Year Month Table for the month of the year
      * 
      */
-    public IEnumerable<YearMonthActivity> GetYearMonthActivities(int month, int year);
+    public IReadOnlyList<YearMonthActivity> GetYearMonthActivities(int month, int year);
 
-    public IEnumerable<YearSub> GetYearSubs(int year);
+    public IReadOnlyList<YearSub> GetYearSubs(int year);
 
-    public IEnumerable<ContractFee> GetContractFees(int year);
+    public IReadOnlyList<ContractFee> GetContractFees(int year, int month);
 
-    public IEnumerable<Child> GetChildrenByName(string FirstName, string LastName);
+    public IReadOnlyList<Child> GetChildrenByName(string firstName, string lastName);
 
     public Child GetChildById(int ChildId);
 
 
     public Precontract GetPrecontractById(int ChildId);
     /* Get all child's activities for month. */
-    public IEnumerable<YearMonthActivity> GetYearMonthActivitiesById(int year, int month, int ChildId);
+    public IReadOnlyList<YearMonthActivity> GetYearMonthActivitiesById(int year, int month, int ChildId);
 
     public YearSub GetChildYearSubById(int year, int ChildId);
 

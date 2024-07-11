@@ -55,7 +55,7 @@ public partial class AlmanContext : DbContext
         connectionString.Pooling = true;
         
         string builtString = connectionString.ToString();
-        optionsBuilder.UseSqlite(builtString).LogTo(Console.WriteLine, LogLevel.Information);
+        optionsBuilder.UseSqlite(builtString).LogTo(Console.WriteLine, LogLevel.Information).EnableThreadSafetyChecks();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

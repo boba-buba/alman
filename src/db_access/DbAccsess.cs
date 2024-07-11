@@ -33,7 +33,7 @@ namespace DatabaseAccess
 
 
 
-        public ICollection<Child> GetChildren()
+        public IReadOnlyList<Child> GetChildren()
         {
             using var connection = ConnectToDb();
 
@@ -70,6 +70,7 @@ namespace DatabaseAccess
             ctx.SaveChanges();
             return AlmanDefinitions.ReturnCode.OK;
         }
+
         public Child GetChildById(int ChildId)
         {
             using var ctx = ConnectToDb();
