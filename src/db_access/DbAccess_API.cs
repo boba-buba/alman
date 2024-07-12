@@ -4,26 +4,6 @@ using DbAccess.Models;
 
 
 //nekdy nejlip pouzit to filtrovani primo v sql dotazu, protoze temi where to muze z db natahnout spoustu dat, ktere budeme filtrovat zde. Radeji je primo vyfiltrujeme v dbazovem dotazu.
-public interface IAlmanDbAccess
-{
-    // v impl lze pouzit linq
-    #region Children operations reading
-
-    #endregion
-
-    #region Children operations writing
-    
-
-    //ty tabulky s temi cizimi klicemi
-    /** Set flag ChildState to false */
-    //public AlmanDefinitions.ReturnCode DeleteChildById(int ChildId);
-
-
-
-    #endregion
-    //public IEnumerable<OtherActivity> GetOtherActivities();
-
-}
 
 
 public interface IAlmanChildrenRead
@@ -35,7 +15,7 @@ public interface IAlmanChildrenRead
     /* Children activities list **/
     public IReadOnlyList<Activity> GetActivities();
 
-    public IReadOnlyList<Precontract> GetPrecontracts(int year);
+    public IReadOnlyList<Precontract> GetPrecontracts();
 
     /* Year Month Table for the month of the year
      * 
@@ -89,14 +69,17 @@ public interface IAlmanChildrenWrite
 }
 
 
-public interface IAlmanStaffMemberRead
+public interface IAlmanStaffRead
 {
-    public IEnumerable<StaffMember> GetStaffMembers();
-    public IEnumerable<Position> GetPositions();
-    public IEnumerable<Prepayment> GetPrepaymentsForYearMonth(int month, int year);
-    public IEnumerable<FinalPayment> GetFinalPaymentsForYearMonth(int month, int year);
-    public IEnumerable<StaffActivity> GetStaffActivities();
+    public IReadOnlyList<StaffMember> GetStaffMembers();
+    public IReadOnlyList<Position> GetPositions();
+    public IReadOnlyList<Prepayment> GetPrepaymentsForYearMonth(int month, int year);
+    public IReadOnlyList<FinalPayment> GetFinalPaymentsForYearMonth(int month, int year);
+    public IReadOnlyList<StaffActivity> GetStaffActivities();
     public IEnumerable<YearMonthStaffActivity> GetYearMonthStaffActivitiesById(int month, int year);
+
+    public StaffMember GetStaffMemberById(int id);
+    public IReadOnlyList<StaffMember> GetStaffMembersByName(string firstName, string lastName);
 }
 
 
@@ -108,6 +91,8 @@ public interface IAlmanStaffMemeberWrite
 
 public interface IAlmanOtherRead
 {
+    public IReadOnlyList<OtherActivity> GetOtherActivities();
+    public IReadOnlyList<YearMonthOther> GetYearMonthOthers();
 
 }
 

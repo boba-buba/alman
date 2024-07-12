@@ -10,7 +10,7 @@ namespace business_log
     {
         static void Main(string[] args)
         {
-            var db = new DatabaseAccess.DbAccsess();
+            var db = new DatabaseAccess.DbChildren();
             //db.AddNewChild();
             /*            var children = db.GetChildren();
 
@@ -26,7 +26,11 @@ namespace business_log
                             //li.Add(yearSub);s
                         }*/
 
-            //db.UpdateYearSubs([]);
+            var activities = db.GetYearMonthActivities(6, 2024);
+            foreach ( var activity in activities )
+            {
+                Console.WriteLine(activity);
+            }
 
             //db.UpdateYearSubsAsync(li);
         }

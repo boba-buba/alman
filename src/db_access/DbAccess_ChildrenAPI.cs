@@ -49,7 +49,8 @@ public partial class DbAccsess_Draft
             //child.YearSubs.Add(new DbAccess.Models.YearSub { Yyear = 2024, Yjune = 2000, YjunePayment = (int)AlmanDefinitions.WayOfPaying.Transfer });
             //var yearSub = GetChildYearSubById(ctx, 2024, child.ChildId);
             //child.YearSubs.Single().Yyear = 2026;
-            child.YearSubs.Single().YoctoberPayment = (int)AlmanDefinitions.WayOfPaying.Cash;
+            //child.YearSubs.Single().YoctoberPayment = (int)AlmanDefinitions.WayOfPaying.Cash;
+            child.YearSubs.Single().Yoctober = 2000;
             //ctx.YearSubs.Update(yearSub);
             //li.Add(yearSub);s
         }
@@ -85,50 +86,36 @@ public partial class DbAccsess_Draft
 
 
 
-public class DbChildren : IAlmanChildrenRead
+public class DbChildren : DbBase, IAlmanChildrenRead
 {
-    #region HelperFunctions
-    private void WriteExceptionToDebug(Exception exception)
-    {
-        Debug.WriteLine("----Another one----");
-        Debug.Assert(exception != null);
-        Debug.WriteLine(exception.ToString());
-        Debug.WriteLine(exception.Message);
-        Debug.WriteLine(exception.StackTrace);
-        Debug.WriteLine("---------End--------");
-    }
-    #endregion
-    public DbChildren() { }
     
-    private AlmanContext ConnectToDb()
-    {
-        return new AlmanContext("C:\\Users\\ncoro\\source\\repos\\alman\\src\\db_access\\Database\\alman.db");
-    }
-
-    /*
-    private IReadOnlyList<TEntity> GetEntities<TEntities, TEntity>(Func<TEntity, bool> predicate, TEntities entities, AlmanContext ctx) where TEntity : class where TEntities : DbSet<TEntity>
-    {
-        using var db = ConnectToDb();
-        return entities.Where(predicate).ToList();
-    }*/
-
+    #region Children Reading
     public IReadOnlyList<Child> GetChildren()
     {
-        using var db = ConnectToDb();
-        return db.Children.ToList();
+        Func<Child, bool> selector = (child) => { return true; };
+
+        using var db = ConnectToDb(); 
+        
+        return DbAccessUtilities.GetEntities(selector, db.Children);
     }
 
     /* Children activities list **/
     public IReadOnlyList<DbAccess.Models.Activity> GetActivities()
     {
         using var db = ConnectToDb();
-        return db.Activities.ToList();
+
+        Func<DbAccess.Models.Activity, bool> selector = (activity) => { return true; };
+
+        return DbAccessUtilities.GetEntities(selector, db.Activities);
     }
 
-    public IReadOnlyList<Precontract> GetPrecontracts(int year)
+    public IReadOnlyList<Precontract> GetPrecontracts()
     {
         using var db = ConnectToDb();
-        return db.Precontracts.ToList();
+
+        Func<Precontract, bool> selector = (precontract) => { return true; };
+
+        return DbAccessUtilities.GetEntities(selector, db.Precontracts);
     }
 
     /* Year Month Table for the month of the year
@@ -137,52 +124,31 @@ public class DbChildren : IAlmanChildrenRead
     public IReadOnlyList<YearMonthActivity> GetYearMonthActivities(int month, int year)
     {
         using var db = ConnectToDb();
-        return db.YearMonthActivities.Where(ymActivity => ymActivity.Month == month && ymActivity.Year == year).ToList();
+
+        Func<YearMonthActivity, bool> selector = (activity) => { return activity.Month == month && activity.Year == year; };
+
+        return DbAccessUtilities.GetEntities(selector, db.YearMonthActivities);
     }
 
     public IReadOnlyList<YearSub> GetYearSubs(int year)
     {
         using var db = ConnectToDb();
-        return db.YearSubs.Where(ySub => ySub.Yyear == year).ToList();
+        Func<YearSub, bool> selector = (yearSub) => { return yearSub.Yyear == year; };
+        return DbAccessUtilities.GetEntities(selector, db.YearSubs);
     }
 
     public IReadOnlyList<ContractFee> GetContractFees(int year, int month)
     {
         using var db = ConnectToDb();
-        List<ContractFee> contractFees;
-        try
-        {
-            contractFees = db.ContractFees.Where(
-                cFee => 
-                cFee.Cfyear == year && 
-                cFee.Cfmonth == month)
-                .ToList();
-        }catch(Exception ex)
-        {
-            WriteExceptionToDebug(ex);
-            contractFees = new List<ContractFee>();
-        }
-        return contractFees;
+        Func<ContractFee, bool> selector = (contractFee) => { return contractFee.Cfmonth == month && contractFee.Cfyear == year; };
+        return DbAccessUtilities.GetEntities(selector, db.ContractFees);
     }
 
     public IReadOnlyList<Child> GetChildrenByName(string firstName, string lastName)
     {
         using var db = ConnectToDb();
-        List<Child> children;
-        try
-        {
-            children = db.Children.Where(
-                child => 
-                child.ChildName == firstName &&
-                child.ChildLastName == lastName)
-                .ToList();
-        }
-        catch (ArgumentNullException ex)
-        {
-            WriteExceptionToDebug(ex);
-            children = new List<Child>();
-        }
-        return children;
+        Func<Child, bool> selectror = (child) => { return child.ChildName == firstName && child.ChildLastName == lastName; };
+        return DbAccessUtilities.GetEntities(selectror, db.Children);
     }
 
     /*
@@ -197,7 +163,7 @@ public class DbChildren : IAlmanChildrenRead
         }
         catch (Exception ex)
         {
-            WriteExceptionToDebug(ex);
+            DbAccessUtilities.WriteExceptionToDebug(ex);
             child = new Child();
         }
         return child;
@@ -209,11 +175,12 @@ public class DbChildren : IAlmanChildrenRead
         Precontract precontract;
         try
         {
-            precontract = db.Precontracts.Single(pr => pr.PchildId ==  ChildId);
+            //kvuli single by volani te getEntities az tak moc nedavalo smysl, stale je potreba try block
+            precontract = db.Precontracts.Single(pr => pr.PchildId == ChildId);
         }
         catch (Exception ex)
         {
-            WriteExceptionToDebug(ex);
+            DbAccessUtilities.WriteExceptionToDebug(ex);
             precontract = new Precontract();
         }
         return precontract;
@@ -223,16 +190,54 @@ public class DbChildren : IAlmanChildrenRead
     public IReadOnlyList<YearMonthActivity> GetYearMonthActivitiesById(int year, int month, int ChildId)
     {
         using var db = ConnectToDb();
-        
-        return db.YearMonthActivities.Where(
-            ymActivity => 
-            ymActivity.Year == year &&
-            ymActivity.Month == month &&
-            ymActivity.YmchildId == ChildId)
-            .ToList();
+        Func<YearMonthActivity, bool> selector = (activity) => { return activity.Year == year && activity.Month == month && activity.YmchildId == ChildId; };
+        return DbAccessUtilities.GetEntities(selector, db.YearMonthActivities);
     }
 
-    public YearSub GetChildYearSubById(int year, int ChildId);
+    public YearSub GetChildYearSubById(int year, int ChildId)
+    {
+        using var db = ConnectToDb();
+        YearSub ySub;
 
-    public ContractFee GetContractFeeById(int year, int month, int ChildId);
+        try
+        {
+            ySub = db.YearSubs.Single(
+                ySubscription => 
+                ySubscription.Yyear == year && 
+                ySubscription.YchildId == ChildId
+             );
+        }
+        catch (Exception ex)
+        {
+            DbAccessUtilities.WriteExceptionToDebug(ex);
+            ySub = new YearSub();
+        }
+
+        return ySub;
+    }
+
+    public ContractFee GetContractFeeById(int year, int month, int ChildId)
+    {
+        using var db = ConnectToDb();
+        ContractFee contractFee;
+        try
+        {
+            contractFee = db.ContractFees.Single(
+                contFee => 
+                contFee.Cfyear == year && 
+                contFee.Cfmonth == month && 
+                contFee.CfchildId == ChildId
+                );
+        }
+        catch (Exception ex)
+        {
+            DbAccessUtilities.WriteExceptionToDebug(ex);
+            contractFee = new ContractFee();
+        }
+
+        return contractFee;
+    }
+    #endregion
+
+}
 

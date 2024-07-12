@@ -1,16 +1,22 @@
 using DatabaseAccess;
 using DbAccess.Models;
+using System.Xml.Linq;
 
 namespace DbAccessUnitTests
 {
     public class DbAccessModel_UnitTests
     {
+        private AlmanContext InitializeDb(string dbName)
+        {
+            var ctx = new DbAccess.Models.AlmanContext(dbName);
+            ctx.Database.EnsureDeleted();
+            ctx.Database.EnsureCreated();
+            return ctx;
+        }
 
         private void AddChild(string dbName)
         {
-            using var ctx = new DbAccess.Models.AlmanContext(dbName);
-            ctx.Database.EnsureDeleted();
-            ctx.Database.EnsureCreated();
+            using var ctx = InitializeDb(dbName);
             ctx.Add(new Child
             {
                 ChildName = "name",
