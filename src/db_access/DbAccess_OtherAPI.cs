@@ -9,19 +9,60 @@ namespace DatabaseAccess;
 using DbAccess.Models;
 
 
-public class DbOther : DbBase, IAlmanOtherRead
+public class DbOther : DbBase, IAlmanOtherRead, IAlmanOtherWrite
 {
-    public IReadOnlyList<OtherActivity> GetOtherActivities()
+    #region Other reading
+    public IReadOnlyList<OtherActivity> GetOtherActivities(Func<OtherActivity, bool> selector)
     {
         using var db = ConnectToDb();
-        Func<OtherActivity, bool> selector = (activity) => { return true; };
         return DbAccessUtilities.GetEntities(selector, db.OtherActivities);
     }
 
-    public IReadOnlyList<YearMonthOther> GetYearMonthOthers()
+    public IReadOnlyList<YearMonthOther> GetYearMonthOthers(Func<YearMonthOther, bool> selector)
     {
         using var db = ConnectToDb();
-        Func<YearMonthOther, bool> selector = (other) => { return true; };
         return DbAccessUtilities.GetEntities(selector, db.YearMonthOthers);
     }
+    #endregion
+
+    #region Other writing
+
+    public ReturnCode AddOtherActivities(IEnumerable<OtherActivity> activities)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.AddEntities(db.OtherActivities, activities, db);
+    }
+    public ReturnCode UpdateOtherActivities(IEnumerable<OtherActivity> activities)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.UpdateEntities(activities, db);
+    }
+    private void DeleteDependableOnOtherActivitiesRows(AlmanContext db, OtherActivity otherActivity)
+    {
+        db.RemoveRange(db.YearMonthOthers.Where(activity =>activity.OtherActivityId == otherActivity.OtherId).ToList());
+    }
+    public ReturnCode DeleteOtherActivities(IEnumerable<OtherActivity> activities)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.DeleteEntities(activities, db, DeleteDependableOnOtherActivitiesRows);
+    }
+
+    public ReturnCode AddYearMonthOthers(IEnumerable<YearMonthOther> others)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.AddEntities(db.YearMonthOthers, others, db);
+    }
+    public ReturnCode UpdateYearMonthOthers(IEnumerable<YearMonthOther> others)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.UpdateEntities(others, db);
+    }
+    private void DeleteDependableOnYearMonthOtherRows(AlmanContext db, YearMonthOther other) { }
+    public ReturnCode DeleteYearMonthOthers(IEnumerable<YearMonthOther> others)
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.DeleteEntities(others, db, DeleteDependableOnYearMonthOtherRows);
+    }
+    #endregion
+
 }

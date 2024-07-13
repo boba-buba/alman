@@ -21,5 +21,5 @@ public partial class YearMonthOther
 
     public int? FifthWeek { get; set; }
 
-    public virtual StaffMember OtherActivity { get; set; } = null!;
+    public virtual OtherActivity OtherActivity { get; set; } = null!;
 }
