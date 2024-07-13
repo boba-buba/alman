@@ -1,11 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using System.Data.Common;
-using System.Diagnostics;
-
-using DbAccess.Models;
-using System.Security.AccessControl;
-using Azure.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using DbAccess.Models;
 
 namespace DatabaseAccess;
 

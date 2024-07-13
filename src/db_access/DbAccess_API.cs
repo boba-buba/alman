@@ -10,21 +10,21 @@ public interface IAlmanChildrenRead
 {
 
     /* Children table*/
-    public IReadOnlyList<Child> GetChildren();
+    public IReadOnlyList<Child> GetChildren(Func<Child, bool> selector);
 
     /* Children activities list **/
-    public IReadOnlyList<Activity> GetActivities();
+    public IReadOnlyList<Activity> GetActivities(Func<Activity, bool> selector);
 
-    public IReadOnlyList<Precontract> GetPrecontracts();
+    public IReadOnlyList<Precontract> GetPrecontracts(Func<Precontract, bool> selector);
 
     /* Year Month Table for the month of the year
      * 
      */
-    public IReadOnlyList<YearMonthActivity> GetYearMonthActivities(int month, int year);
+    public IReadOnlyList<YearMonthActivity> GetYearMonthActivities(Func<YearMonthActivity, bool> selector);
 
-    public IReadOnlyList<YearSub> GetYearSubs(int year);
+    public IReadOnlyList<YearSub> GetYearSubs(Func<YearSub, bool> selector);
 
-    public IReadOnlyList<ContractFee> GetContractFees(int year, int month);
+    public IReadOnlyList<ContractFee> GetContractFees(Func<ContractFee, bool> selector);
 
     public IReadOnlyList<Child> GetChildrenByName(string firstName, string lastName);
 
@@ -43,29 +43,29 @@ public interface IAlmanChildrenRead
 
 public interface IAlmanChildrenWrite
 {
-    public AlmanDefinitions.ReturnCode AddNewChildren(IEnumerable<Child> children);
-    public AlmanDefinitions.ReturnCode UpdateChildren(IEnumerable<Child> children);
-    public AlmanDefinitions.ReturnCode DeleteChildren(IEnumerable<Child> children);
+    public ReturnCode AddNewChildren(IEnumerable<Child> children);
+    public ReturnCode UpdateChildren(IEnumerable<Child> children);
+    public ReturnCode DeleteChildren(IEnumerable<Child> children);
 
-    public AlmanDefinitions.ReturnCode AddActvities(IEnumerable<Activity> actvities);
-    public AlmanDefinitions.ReturnCode UpdateActvities(IEnumerable<Activity> updatedActvities);
-    public AlmanDefinitions.ReturnCode DeleteActvities(IEnumerable<Activity> actvitiesToDelete);
+    public ReturnCode AddActvities(IEnumerable<Activity> activities);
+    public ReturnCode UpdateActvities(IEnumerable<Activity> activities);
+    public ReturnCode DeleteActvities(IEnumerable<Activity> activities);
 
-    public AlmanDefinitions.ReturnCode AddPrecontract(Precontract precontract);
-    public AlmanDefinitions.ReturnCode UpdatePrecontract(Precontract precontract);
-    public AlmanDefinitions.ReturnCode DeletePrecontract(Precontract precontract);
+    public ReturnCode AddPrecontract(IEnumerable<Precontract> precontract);
+    public ReturnCode UpdatePrecontract(IEnumerable<Precontract> precontract);
+    public ReturnCode DeletePrecontract(IEnumerable<Precontract> precontract);
 
-    public AlmanDefinitions.ReturnCode AddYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
-    public AlmanDefinitions.ReturnCode UpdateYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
-    public AlmanDefinitions.ReturnCode DeleteYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+    public ReturnCode AddYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+    public ReturnCode UpdateYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
+    public ReturnCode DeleteYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
 
-    public AlmanDefinitions.ReturnCode AddYearSubs(IEnumerable<YearSub> yearSub);
-    public AlmanDefinitions.ReturnCode UpdateYearSubs(IEnumerable<YearSub> yearSub);
-    public AlmanDefinitions.ReturnCode DeleteYearSubs(IEnumerable<YearSub> yearSub);
+    public ReturnCode AddYearSubs(IEnumerable<YearSub> yearSubs);
+    public ReturnCode UpdateYearSubs(IEnumerable<YearSub> yearSubs);
+    public ReturnCode DeleteYearSubs(IEnumerable<YearSub> yearSubs);
 
-    public AlmanDefinitions.ReturnCode AddContractFees(IEnumerable<ContractFee> contractFees);
-    public AlmanDefinitions.ReturnCode UpdateContractFees(IEnumerable<ContractFee> contractFees);
-    public AlmanDefinitions.ReturnCode DeleteContractFees(IEnumerable<ContractFee> contractFees);
+    public ReturnCode AddContractFees(IEnumerable<ContractFee> contractFees);
+    public ReturnCode UpdateContractFees(IEnumerable<ContractFee> contractFees);
+    public ReturnCode DeleteContractFees(IEnumerable<ContractFee> contractFees);
 }
 
 

@@ -1,11 +1,14 @@
-﻿using DatabaseAccess;
+﻿namespace DatabaseAccess;
 
 
-public static class AlmanDefinitions
-{
+
     public enum ReturnCode {
         OK = 0,
         NOT_FOUND_IN_DB,
+        SAVE_CTX_ERR,
+        NOT_IMPL,
+        NOT_SUPPORTED,
+
 
     }
 
@@ -46,4 +49,4 @@ public static class AlmanDefinitions
         False = 0,
         True
     }
-} 
+

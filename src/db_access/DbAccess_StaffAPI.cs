@@ -72,7 +72,7 @@ public class DbStaff : DbBase, IAlmanStaffRead
         catch
         (Exception ex)
         {
-            DbAccessUtilities.WriteExceptionToDebug(ex);
+            DebugUtilities.WriteExceptionToDebug(ex);
             staffMember = new StaffMember();
         }
         return staffMember;

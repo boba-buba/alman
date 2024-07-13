@@ -11,28 +11,26 @@ namespace business_log
         static void Main(string[] args)
         {
             var db = new DatabaseAccess.DbChildren();
-            //db.AddNewChild();
-            /*            var children = db.GetChildren();
 
-                        //var ch = db.GetChildById(6);
-                        //db.DeleteChildren( new[] { ch });
-                        //var li = new List<YearSub>();
-                        foreach (var child in children)
-                        {
-                            //child.ChildContract = (int)AlmanDefinitions.ContractType.StaffChild;
-                            child.YearSubs.Add(new DbAccess.Models.YearSub { Yyear = 2024, Yjune = 2000, YjunePayment = (int)AlmanDefinitions.WayOfPaying.Transfer });
-                            //var yearSub = db.GetChildYearSubById(2025, child.ChildId);
-                            //yearSub.Yyear = 2026;
-                            //li.Add(yearSub);s
-                        }*/
-
-            var activities = db.GetYearMonthActivities(6, 2024);
-            foreach ( var activity in activities )
+/*            var children = db.GetChildren();
+            foreach ( var child in children )
             {
-                Console.WriteLine(activity);
+                child.YearMonthActivities.Add(new YearMonthActivity { YmactivityId = 1, YmactivitySum = 300, Month = 6, Year = 2024, YmwayOfPaying = (int)WayOfPaingForActivity.EveryLesson, YmwasPaid = 1 });
             }
+            db.UpdateChildren( children );*/
 
-            //db.UpdateYearSubsAsync(li);
+/*            var childrenToDel = db.GetChildren(ch => ch.ChildId == 5);
+            db.DeleteChildren(childrenToDel);*/
+
+            //db.AddNewChildren(new Child[] {new Child { ChildName = "Name6", ChildLastName = "LastName6", ChildGroup = 2, ChildContract = (int)ContractType.MotherCapital},
+            //                               new Child { ChildName = "Name7", ChildLastName = "LastName7", ChildGroup = 2, ChildContract = (int)ContractType.MotherCapital}});
+
+            var children = db.GetChildren(ch => true);
+           /* foreach (var child in children)
+            {
+                child.YearMonthActivities.Remove(child.YearMonthActivities.First());
+            }*/
+            db.DeleteChildren(children);
         }
     }
 }

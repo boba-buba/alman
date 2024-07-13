@@ -24,8 +24,8 @@ namespace DbAccessUnitTests
                 ChildStartMonth = 5,
                 ChildStartYear = 2023,
                 ChildGroup = 1,
-                ChildContract = (int)AlmanDefinitions.ContractType.Precontract,
-                ChildState = (int)AlmanDefinitions.ChildState.Active
+                ChildContract = (int)ContractType.Precontract,
+                ChildState = (int)ChildState.Active
             });
             ctx.SaveChanges();
 
@@ -46,8 +46,8 @@ namespace DbAccessUnitTests
                 ChildStartMonth = 5, 
                 ChildStartYear = 2023, 
                 ChildGroup = 1, 
-                ChildContract = (int)AlmanDefinitions.ContractType.Precontract, 
-                ChildState = (int)AlmanDefinitions.ChildState.Active });
+                ChildContract = (int)ContractType.Precontract, 
+                ChildState = (int)ChildState.Active });
             // Act
             ctx.SaveChanges();
 
@@ -68,12 +68,12 @@ namespace DbAccessUnitTests
             AddChild(testDb);
             //Act
             Child ch = ctx.Children.Where(ch => ch.ChildLastName == "LastName").Single();
-            ch.ChildState = (int)AlmanDefinitions.ChildState.Inactive;
+            ch.ChildState = (int)ChildState.Inactive;
             ctx.SaveChanges();
             //Assert
             var child = ctx.Children.Where(ch => ch.ChildLastName == "LastName").Single();
             Assert.NotNull(child);
-            Assert.Equal(child.ChildState, (int)AlmanDefinitions.ChildState.Inactive);
+            Assert.Equal(child.ChildState, (int)ChildState.Inactive);
 
         }
     }

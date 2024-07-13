@@ -53,9 +53,9 @@ public partial class AlmanContext : DbContext
         connectionString.DataSource = DbPath;
         connectionString.ForeignKeys = true;
         connectionString.Pooling = true;
-        
+
         string builtString = connectionString.ToString();
-        optionsBuilder.UseSqlite(builtString).LogTo(Console.WriteLine, LogLevel.Information).EnableThreadSafetyChecks();
+        optionsBuilder.UseSqlite(builtString).LogTo(Console.WriteLine, LogLevel.Information).EnableThreadSafetyChecks().EnableSensitiveDataLogging();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -79,7 +79,7 @@ public partial class AlmanContext : DbContext
 
             entity.HasOne(d => d.Cfchild).WithMany(p => p.ContractFees)
                 .HasForeignKey(d => d.CfchildId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<FinalPayment>(entity =>
@@ -113,7 +113,7 @@ public partial class AlmanContext : DbContext
 
             entity.HasOne(d => d.Pchild).WithMany(p => p.Precontracts)
                 .HasForeignKey(d => d.PchildId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Prepayment>(entity =>
@@ -149,11 +149,11 @@ public partial class AlmanContext : DbContext
 
             entity.HasOne(d => d.Ymactivity).WithMany(p => p.YearMonthActivities)
                 .HasForeignKey(d => d.YmactivityId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Ymchild).WithMany(p => p.YearMonthActivities)
                 .HasForeignKey(d => d.YmchildId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<YearMonthOther>(entity =>
@@ -215,7 +215,7 @@ public partial class AlmanContext : DbContext
 
             entity.HasOne(d => d.Ychild).WithMany(p => p.YearSubs)
                 .HasForeignKey(d => d.YchildId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);
