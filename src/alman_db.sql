@@ -1,5 +1,4 @@
-CREATE schema [Alman_db]
-	Authorization [dbo];
+-- CREATE schema [Alman_db] Authorization [dbo];
 
 create table [alman_db].[Child] (
 	ChildID int IDENTITY(1, 1) PRIMARY KEY,

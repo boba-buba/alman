@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\alman",
-    "\\src\\business_log",
-    "\\src\\db_client"
+    ""
   ],
-  "SelectedNode": "\\src\\db_client\\Program.cs",
+  "SelectedNode": "\\alman.sln",
   "PreviewInSolutionExplorer": false
 }
