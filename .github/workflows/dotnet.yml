@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build src/db_access/DbAccess.csproj
     # no testing for now as the tests are in non master branch
-    # - name: Test
-       # run: |
-       #    cd ../../test/DbAccessUnitTests
-       #    dotnet test --verbosity normal
+    - name: Test
+      run: |
+        cd /home/runner/work/alman/alman/test/DbAccessUnitTests
+        dotnet test --verbosity normal
