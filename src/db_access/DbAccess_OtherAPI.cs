@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.Diagnostics;
 using System.Security.AccessControl;
-using Azure.Identity;
+//using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess;
