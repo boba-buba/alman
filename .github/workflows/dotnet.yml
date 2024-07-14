@@ -26,6 +26,7 @@ jobs:
     #   run: dotnet restore
     - name: Install dependencies
       run: |
+        cd /home/runner/work/alman/alman/src/db_access
         dotnet add package Microsoft.Data.Sqlite.Core --version 8.0.7
         dotnet add package Microsoft.EntityFrameworkCore --version 8.0.7
         dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.7
@@ -35,7 +36,7 @@ jobs:
 
     # build of the db as access level
     - name: Build
-      run: dotnet build ../../src/db_access/DbAccess.csproj
+      run: dotnet build src/db_access/DbAccess.csproj
     # no testing for now as the tests are in non master branch
     # - name: Test
        # run: |
