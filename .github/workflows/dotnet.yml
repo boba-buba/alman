@@ -24,13 +24,13 @@ jobs:
         #cache-dependency-path: /home/runner/work/alman/alman/packages.lock.json
     # - name: Restore dependencies
     #   run: dotnet restore
-    # - name: Install dependencies
-    #   run: |
-    #     dotnet add package Microsoft.Data.Sqlite.Core --version 8.0.7
-    #     dotnet add package Microsoft.EntityFrameworkCore --version 8.0.7
-    #     dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.7
-    #     dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 8.0.7
-    #     dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.7
+    - name: Install dependencies
+      run: |
+        dotnet add package Microsoft.Data.Sqlite.Core --version 8.0.7
+        dotnet add package Microsoft.EntityFrameworkCore --version 8.0.7
+        dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.7
+        dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 8.0.7
+        dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.7
 
 
     # build of the db as access level
