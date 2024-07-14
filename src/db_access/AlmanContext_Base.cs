@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 public partial class AlmanContext : DbContext
 {
-    public string DbPath { get; } = ".\\Database\\alman.db";
+    public string DbPath { get; } = "";
     public AlmanContext(string path)
     {
         this.DbPath = path;

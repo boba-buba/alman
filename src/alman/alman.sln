@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmanUI", "..\AlmanUI\Alman
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmanUI.Desktop", "..\AlmanUI.Desktop\AlmanUI.Desktop.csproj", "{72E68EF1-F064-4A3B-9BCD-FD4EFA76E107}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccessUnitTests", "..\DbAccessUnitTests\DbAccessUnitTests.csproj", "{96C45E50-0C59-4F68-8821-26DF581200DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccessUnitTests", "..\..\test\DbAccessUnitTests\DbAccessUnitTests.csproj", "{96C45E50-0C59-4F68-8821-26DF581200DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,6 +6,12 @@ namespace DatabaseAccess;
 
 public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 {
+    public DbChildren(string dbPath)
+    {
+        DbPath = dbPath;
+    }
+    
+    public DbChildren() { }
 
     #region Children Reading
 
@@ -154,7 +160,7 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 
     //Tables that have foreign keys: rows can be added through children, but not updated  
     #region Children writing
-    public ReturnCode AddNewChildren(IEnumerable<Child> children)
+    public ReturnCode AddChildren(IEnumerable<Child> children)
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.AddEntities(db.Children, children, db);

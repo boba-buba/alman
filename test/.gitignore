@@ -455,8 +455,4 @@ $RECYCLE.BIN/
 
 ../../.vs/*
 
-db_access/Database/*
-db_access/AlmanCtxModelBase.cs
-db_access/Database/alman.db
 
-../.vs

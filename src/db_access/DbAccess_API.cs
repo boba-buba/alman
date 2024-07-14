@@ -43,7 +43,7 @@ public interface IAlmanChildrenRead
 
 public interface IAlmanChildrenWrite
 {
-    public ReturnCode AddNewChildren(IEnumerable<Child> children);
+    public ReturnCode AddChildren(IEnumerable<Child> children);
     public ReturnCode UpdateChildren(IEnumerable<Child> children);
     public ReturnCode DeleteChildren(IEnumerable<Child> children);
 

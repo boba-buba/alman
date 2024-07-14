@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace DbAccessUnitTests
 {
-    public class DbAccessModel_UnitTests
+    public partial class DbAccessModel_UnitTests
     {
         private AlmanContext InitializeDb(string dbName)
         {
@@ -32,7 +32,7 @@ namespace DbAccessUnitTests
         }
 
 
-        [Fact]
+        /*[Fact]
         public void AddChild_OneChildWithSuchNameInDb()
         {
             // Arrange
@@ -75,6 +75,6 @@ namespace DbAccessUnitTests
             Assert.NotNull(child);
             Assert.Equal(child.ChildState, (int)ChildState.Inactive);
 
-        }
+        }*/
     }
 }

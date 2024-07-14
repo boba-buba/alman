@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\db_access\DbAccess.csproj" />
+    <ProjectReference Include="..\..\src\db_access\DbAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
