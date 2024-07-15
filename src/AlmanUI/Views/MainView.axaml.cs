@@ -13,6 +13,7 @@ public partial class MainView : UserControl
 
     public void LogInButtonClicked(object source, RoutedEventArgs args)
     {
+
         Debug.Write("Click");
     }
 }

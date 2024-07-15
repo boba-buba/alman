@@ -6,7 +6,8 @@
         xmlns:views="clr-namespace:AlmanUI.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AlmanUI.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+		x:CompileBindings="True"
+		Icon="/Assets/avalonia-logo.ico"
         Title="AlmanApp">
 
 	    <views:MainView />
