@@ -1,4 +1,4 @@
-﻿namespace alman
+﻿namespace Alman
 {
     internal class Program
     {

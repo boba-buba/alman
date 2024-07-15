@@ -2,7 +2,7 @@
 using System.Collections;
 using DatabaseAccess;
 using DbAccess.Models;
-
+using Microsoft.Extensions.Logging;
 
 namespace business_log
 {
@@ -26,10 +26,10 @@ namespace business_log
             //                               new Child { ChildName = "Name7", ChildLastName = "LastName7", ChildGroup = 2, ChildContract = (int)ContractType.MotherCapital}});
 
             var children = db.GetChildren(ch => true);
-           /* foreach (var child in children)
-            {
-                child.YearMonthActivities.Remove(child.YearMonthActivities.First());
-            }*/
+            /* foreach (var child in children)
+             {
+                 child.YearMonthActivities.Remove(child.YearMonthActivities.First());
+             }*/
             db.DeleteChildren(children);
         }
     }

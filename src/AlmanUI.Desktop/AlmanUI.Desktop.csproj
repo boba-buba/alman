@@ -16,5 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AlmanUI\AlmanUI.csproj" />
+    <ProjectReference Include="..\alman\alman.csproj" />
   </ItemGroup>
 </Project>
