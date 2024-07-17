@@ -51,9 +51,9 @@ public interface IAlmanChildrenWrite
     public ReturnCode UpdateActvities(IEnumerable<Activity> activities);
     public ReturnCode DeleteActvities(IEnumerable<Activity> activities);
 
-    public ReturnCode AddPrecontract(IEnumerable<Precontract> precontract);
-    public ReturnCode UpdatePrecontract(IEnumerable<Precontract> precontract);
-    public ReturnCode DeletePrecontract(IEnumerable<Precontract> precontract);
+    public ReturnCode AddPrecontracts(IEnumerable<Precontract> precontract);
+    public ReturnCode UpdatePrecontracts(IEnumerable<Precontract> precontract);
+    public ReturnCode DeletePrecontracts(IEnumerable<Precontract> precontract);
 
     public ReturnCode AddYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
     public ReturnCode UpdateYearMonthActivities(IEnumerable<YearMonthActivity> yearMonthActivities);
