@@ -109,9 +109,10 @@ public partial class DbAccessModel_UnitTests
         //Act update
         var childFromDbToChange = db.GetChildren(ch => true).First();
         childFromDb.ChildContract = (int)newContract;
-        db.UpdateChildren([childFromDb]);
+        var ret_code = db.UpdateChildren([childFromDb]);
 
         //Assert update
+        Assert.Equal(ret_code, ReturnCode.OK);
         Assert.Equal((int)newContract, db.GetChildById(1).ChildContract);
 
     }
@@ -197,6 +198,7 @@ public partial class DbAccessModel_UnitTests
         Assert.Equal(price, actvitiesFromDb.First().ActivityPrice);
     }
 
+
     [Theory]
     [InlineData("AddTwoActvities_ReadTwoActivities_MustPass_1.db", "Name", "SecondName")]
     [InlineData("AddTwoActvities_ReadTwoActivities_MustPass_2.db", "Имя", "Имя2")]
@@ -215,6 +217,7 @@ public partial class DbAccessModel_UnitTests
         //Assert
         Assert.Equal(expectedCount, activitiesFromDb.Count);
     }
+
 
     [Theory]
     [InlineData("GetActivitiesWithFilter_MustPass_1.db", "FirstName", "SecondFirstName")]
@@ -254,7 +257,7 @@ public partial class DbAccessModel_UnitTests
         Assert.Equal(oldPrice, activityFromDb.ActivityPrice);
 
         //Act update
-        var activityFromDbToChange = db.GetActivities(act => true).First();
+        //var activityFromDbToChange = db.GetActivities(act => true).First();
         activityFromDb.ActivityPrice = newPrice;
         db.UpdateActvities([activityFromDb]);
 
@@ -284,7 +287,6 @@ public partial class DbAccessModel_UnitTests
         //Assert
         Assert.Equal(expectedCount, db.GetActivities(act => true).Count);
     }
-
 
 
     [Theory]
@@ -331,8 +333,161 @@ public partial class DbAccessModel_UnitTests
     #endregion
 
     #region PreContracts
-    
-    
+    [Theory]
+    [InlineData("AddPrecontract_ReadPrecontract_MustPass_1.db", 19)]
+    [InlineData("AddPrecontract_ReadPrecontract_MustPass_2.db", 1000)]
+    public void AddPrecontract_ReadPrecontract_MustPass(string dbName, int sum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        
+        var precontract = new Precontract { PchildId = 1, Psum  = sum };
+        db.AddChildren([child]);
+        db.AddPrecontracts([precontract]);
+
+        var precontractsFromDb = db.GetPrecontracts(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, precontractsFromDb.Count);
+        Assert.Equal(precontract.PchildId, precontractsFromDb.First().PchildId);
+    }
+
+
+    [Theory]
+    [InlineData("AddTwoPrecontracts_ReadTwoPrecontracts_MustPass_1.db", 19, 200)]
+    [InlineData("AddTwoPrecontracts_ReadTwoPrecontracts_MustPass_2.db", 1000, 600)]
+    public void AddTwoPrecontracts_ReadTwoPrecontracts_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 2;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var precontract = new Precontract { PchildId = 1, Psum = firstSum };
+        var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddPrecontracts([precontract, secondPrecontract]);
+
+        var precontractsFromDb = db.GetPrecontracts(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, precontractsFromDb.Count);
+        Assert.Equal(precontract.PchildId, precontractsFromDb.First().PchildId);
+        Assert.Equal(secondPrecontract.PchildId, precontractsFromDb.Last().PchildId);
+    }
+
+
+    [Theory]
+    [InlineData("GetPrecontractsWithFilter_MustPass_1.db", 500, 700, 500)]
+    [InlineData("GetPrecontractsWithFilter_MustPass_2.db", 200, 800, 600)]
+    public void GetPrecontractsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var precontract = new Precontract { PchildId = 1, Psum = firstSum };
+        var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddPrecontracts([precontract, secondPrecontract]);
+
+        var precontractsFromDb = db.GetPrecontracts(pr => pr.Psum > condition);
+        //Assert
+        Assert.Equal(expectedCount, precontractsFromDb.Count);
+        Assert.Equal(secondSum, precontractsFromDb.First().Psum);
+    }
+
+    // originally it was PSum that i wanted to change, but parts of primary key cannot be changed unless you delete the constraint
+    [Theory]
+    [InlineData("ChangePrecontractSum_MustPass_1.db", "Comment1", "Comment2")]
+    [InlineData("ChangePrecontractSum_MustPass_2.db", "Коментарий1", "Коментарий2")]
+    public void ChangePrecontractComment_MustPass(string dbName, string firstComment, string secondComment)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        //Act
+        var child = new Child { ChildLastName = "second", ChildName = "First" };
+        child.Precontracts.Add(new Precontract { Psum = 900, Pcomment = firstComment });
+
+        db.AddChildren([child]);
+        //Assert
+        Assert.Equal(1, db.GetChildren(ch => true).Count);
+        Assert.Equal(1, db.GetPrecontracts(pr => true).Count);
+
+        //Act update
+        var precontract = db.GetPrecontracts(pr => pr.PchildId == 1).Single();
+        precontract.Pcomment = secondComment;
+        var ret_code = db.UpdatePrecontracts([precontract]);
+
+        //Aassert
+        Assert.Equal(ReturnCode.OK, ret_code);
+        Assert.Equal(secondComment, db.GetPrecontracts(pr => true).Single().Pcomment);
+    }
+
+    [Theory]
+    [InlineData("DeletePrecontracts_MustPass_1.db", 19, 200)]
+    [InlineData("DeletePrecontracts_MustPass_2.db", 1000, 600)]
+    public void DeletePrecontracts_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 0;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var precontract = new Precontract { PchildId = 1, Psum = firstSum };
+        var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddPrecontracts([precontract, secondPrecontract]);
+
+        var precontracts = db.GetPrecontracts(pr => true);
+        db.DeletePrecontracts(precontracts);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetPrecontracts(pr => true).Count);
+    }
+
+    [Theory]
+    [InlineData("DeletePrecontracts_WithFilter_MustPass_1.db", 19, 200)]
+    [InlineData("DeletePrecontracts_WithFilter_MustPass_2.db", 600, 1000)]
+    public void DeletePrecontracts_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var precontract = new Precontract { PchildId = 1, Psum = firstSum };
+        var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddPrecontracts([precontract, secondPrecontract]);
+
+        var precontracts = db.GetPrecontracts(pr => pr.Psum > firstSum);
+        db.DeletePrecontracts(precontracts);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetPrecontracts(pr => true).Count);
+    }
+
     #endregion
 
     #region ContractFees

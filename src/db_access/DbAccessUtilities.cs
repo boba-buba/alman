@@ -17,9 +17,9 @@ public static class DebugUtilities
         Debug.Assert(exception != null);
 
         Debug.WriteLine("----Another one----");
-        Debug.Write("  Exception description: "); Debug.WriteLine(exception.ToString());
-        Debug.Write("  Exception message: "); Debug.WriteLine(exception.Message);
-        Debug.Write("  Exception stack trace: "); Debug.WriteLine(exception.StackTrace);
+        //Debug.Write("  Exception description: "); Debug.WriteLine(exception.ToString());
+        Debug.WriteLine("  Exception message: "); Debug.WriteLine(exception.Message);
+        Debug.WriteLine("  Exception stack trace: "); Debug.WriteLine(exception.StackTrace);
         Debug.WriteLine("---------End--------");
     }
 
@@ -71,6 +71,7 @@ public static class DbAccessUtilities
         where TEntity : class
         where TDbContext : DbContext
     {
+        int changesCount;
         try
         {
             foreach (var entity in changedEntities)
@@ -78,7 +79,7 @@ public static class DbAccessUtilities
                 db.Update(entity);
             }
 
-            int changesCount = db.SaveChanges();
+            changesCount = db.SaveChanges();
         }
         catch (Exception ex)
         {
