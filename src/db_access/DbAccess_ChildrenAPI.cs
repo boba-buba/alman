@@ -211,20 +211,21 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 
 
 
-    public ReturnCode AddPrecontract(IEnumerable<Precontract> precontracts)
+    public ReturnCode AddPrecontracts(IEnumerable<Precontract> precontracts)
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.AddEntities(db.Precontracts, precontracts, db);
     }
 
-    public ReturnCode UpdatePrecontract(IEnumerable<Precontract> precontracts)
+    public ReturnCode UpdatePrecontracts(IEnumerable<Precontract> precontracts)
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.UpdateEntities(precontracts, db);
     }
 
+
     private void DeleteDependableOnPrecontractRows(AlmanContext db, Precontract precontract) { }
-    public ReturnCode DeletePrecontract(IEnumerable<Precontract> precontracts)
+    public ReturnCode DeletePrecontracts(IEnumerable<Precontract> precontracts)
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.DeleteEntities(precontracts, db, DeleteDependableOnPrecontractRows);
