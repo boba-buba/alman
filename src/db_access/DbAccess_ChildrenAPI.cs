@@ -1,8 +1,5 @@
-﻿using DbAccess.Models;
-using Microsoft.EntityFrameworkCore;
-//using System.Diagnostics;
-
-namespace DatabaseAccess;
+﻿using Alman.Models;
+namespace DbAccess.Models;
 
 public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 {
@@ -26,7 +23,7 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
     }
 
     /* Children activities list **/
-    public IReadOnlyList<DbAccess.Models.Activity> GetActivities(Func<Activity, bool> selector)
+    public IReadOnlyList<Alman.Models.Activity> GetActivities(Func<Activity, bool> selector)
     {
         using var db = ConnectToDb();
 

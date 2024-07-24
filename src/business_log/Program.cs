@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-using DatabaseAccess;
 using DbAccess.Models;
+using Alman.Models;
 using Microsoft.Extensions.Logging;
 using System.Xml.Linq;
 
-namespace business_log
+namespace Business
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var dbName = "ChangePrecontractSum_MustPass_2.db";
+            /*var dbName = "ChangePrecontractSum_MustPass_2.db";
             var firstSum = 800;
             var secondSum = 200;
             var db = new DbChildren(dbName);
@@ -32,7 +32,7 @@ namespace business_log
             var ret_code = db.UpdatePrecontracts([precontract]);
 
             Console.WriteLine(ret_code);
-            //Aassert
+            //Aassert*/
         }
     }
 }

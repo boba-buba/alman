@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DbAccess.Models;
+namespace Alman.Models;
 
 public partial class Precontract
 {

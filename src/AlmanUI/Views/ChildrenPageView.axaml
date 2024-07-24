@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
+			 xmlns:Models="using:Alman.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AlmanUI.Views.ChildrenPageView"
+			 x:DataType="ViewModels:ChildrenPageViewModel">
+	<Grid RowDefinitions="Auto, *, Auto">
+		<Border Grid.Row="0" Height="150">
+			<TextBlock Text="Children" HorizontalAlignment="Center" Margin="10"/>
+		</Border>
+		<DataGrid Grid.Row="1" CornerRadius="0 0 12 12"
+				  Margin="10" ItemsSource="{Binding Children}"
+				  SelectedItem="{Binding SelectedChild}"
+				  IsReadOnly="False"
+				  GridLinesVisibility="All"
+				  CanUserSortColumns="True"
+				  BorderThickness="4" BorderBrush="Gray">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="First name" Binding="{Binding ChildName}"/>
+				<DataGridTextColumn Header="Second name" Binding="{Binding ChildLastName}" />
+				<DataGridTextColumn Header="Child Group" Binding="{Binding ChildGroup}" />
+				<DataGridCheckBoxColumn Header="State" Binding="{Binding ChildState}" />
+				<DataGridTemplateColumn Header="Start Year">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="Models:Child">
+							<TextBlock Text="{Binding ChildStartYear, StringFormat='{}{0} year'}"
+							  VerticalAlignment="Center" HorizontalAlignment="Center" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+					<DataGridTemplateColumn.CellEditingTemplate>
+						<DataTemplate DataType="Models:Child">
+							<NumericUpDown Value="{Binding ChildStartYear}"
+							   FormatString="N0" Minimum="2000" Maximum="2100"
+							   HorizontalAlignment="Stretch"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellEditingTemplate>
+				</DataGridTemplateColumn>
+
+				<DataGridTemplateColumn Header="Start Month">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="Models:Child">
+							<TextBlock Text="{Binding ChildStartMonth, StringFormat='{}{0}'}"
+							  VerticalAlignment="Center" HorizontalAlignment="Center" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+					<DataGridTemplateColumn.CellEditingTemplate>
+						<DataTemplate DataType="Models:Child">
+							<NumericUpDown Value="{Binding ChildStartMonth}"
+							   FormatString="N0" Minimum="1" Maximum="12"
+							   HorizontalAlignment="Stretch"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellEditingTemplate>
+				</DataGridTemplateColumn>
+
+				<!-- Contract-->
+				
+			</DataGrid.Columns>
+			
+		</DataGrid>
+		<StackPanel Grid.Row="2" Margin="10">
+			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewChildCommand}">ADD NEW CHILD</Button>
+			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveChildCommand}">REMOVE CHILD</Button>
+			
+		</StackPanel>
+	</Grid>
+	
+</UserControl>

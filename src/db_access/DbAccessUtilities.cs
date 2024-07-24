@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 
-using DbAccess.Models;
+using Alman.Models;
 using System.Security.AccessControl;
 //using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseAccess;
+namespace DbAccess.Models;
 
 
 public static class DebugUtilities
