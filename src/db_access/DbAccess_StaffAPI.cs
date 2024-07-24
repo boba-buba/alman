@@ -2,13 +2,13 @@
 using System.Data.Common;
 using System.Diagnostics;
 
-using DbAccess.Models;
+using Alman.Models;
 using System.Security.AccessControl;
 //using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
-namespace DatabaseAccess;
+namespace DbAccess.Models;
 
 
 public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite

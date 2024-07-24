@@ -1,11 +1,13 @@
-using DatabaseAccess;
 using DbAccess.Models;
+
+using Alman.Models;
 using System.Xml.Linq;
 
 namespace DbAccessUnitTests
 {
     public partial class DbAccessModel_UnitTests
     {
+        /*
         private AlmanContext InitializeDb(string dbName)
         {
             var ctx = new DbAccess.Models.AlmanContext(dbName);
@@ -30,7 +32,7 @@ namespace DbAccessUnitTests
             ctx.SaveChanges();
 
         }
-
+*/
 
         /*[Fact]
         public void AddChild_OneChildWithSuchNameInDb()

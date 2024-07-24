@@ -1,11 +1,11 @@
-﻿using DbAccess.Models;
+﻿namespace DbAccess.Models;
 
-namespace DatabaseAccess;
+//namespace DatabaseAccess;
 
 public abstract class DbBase
 {
 
-    protected string DbPath { get; init; } = "";
+    protected string DbPath { get; init; } = "C:\\Users\\ncoro\\source\\repos\\alman\\src\\db_access\\Database\\alman.db";
     protected virtual AlmanContext ConnectToDb()
     {
         if (string.IsNullOrWhiteSpace(DbPath))
