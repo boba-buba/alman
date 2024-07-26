@@ -8,8 +8,8 @@
              x:Class="AlmanUI.Views.ChildrenPageView"
 			 x:DataType="ViewModels:ChildrenPageViewModel">
 	<Grid RowDefinitions="Auto, *, Auto">
-		<Border Grid.Row="0" Height="150">
-			<TextBlock Text="Children" HorizontalAlignment="Center" Margin="10"/>
+		<Border Grid.Row="0" Height="100">
+			<TextBlock Text="Children" HorizontalAlignment="Center" FontSize="40" Margin="20"/>
 		</Border>
 		<DataGrid Grid.Row="1" CornerRadius="0 0 12 12"
 				  Margin="10" ItemsSource="{Binding Children}"
@@ -40,12 +40,14 @@
 				</DataGridTemplateColumn>
 
 				<DataGridTemplateColumn Header="Start Month">
+					
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="Models:Child">
 							<TextBlock Text="{Binding ChildStartMonth, StringFormat='{}{0}'}"
 							  VerticalAlignment="Center" HorizontalAlignment="Center" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
+					
 					<DataGridTemplateColumn.CellEditingTemplate>
 						<DataTemplate DataType="Models:Child">
 							<NumericUpDown Value="{Binding ChildStartMonth}"
@@ -54,17 +56,21 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
-
+				
+				
 				<!-- Contract-->
 				
 			</DataGrid.Columns>
 			
 		</DataGrid>
 		<StackPanel Grid.Row="2" Margin="10">
-			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
-			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewChildCommand}">ADD NEW CHILD</Button>
-			<Button Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveChildCommand}">REMOVE CHILD</Button>
-			
+			<Grid ColumnDefinitions="Auto, Auto, Auto">
+			<Button Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+			<Button Grid.Column="1" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewChildCommand}">ADD NEW CHILD</Button>
+			<Button Grid.Column="2" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveChildCommand}">REMOVE CHILD</Button>
+
+			</Grid>
+						
 		</StackPanel>
 	</Grid>
 	

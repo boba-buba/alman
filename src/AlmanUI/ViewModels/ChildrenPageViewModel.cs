@@ -74,6 +74,11 @@ namespace AlmanUI.ViewModels
             //business log
         }
 
+        public void ChooseChildContractType(string contractType)
+        {
+
+        }
+
     }
     
 }
