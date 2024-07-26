@@ -1,6 +1,6 @@
-﻿namespace DbAccess.Models;
+﻿using DbAccess.Models;
 
-//namespace DatabaseAccess;
+namespace DatabaseAccess;
 
 public abstract class DbBase
 {

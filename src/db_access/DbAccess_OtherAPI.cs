@@ -2,10 +2,11 @@
 using System.Data.Common;
 using System.Diagnostics;
 using System.Security.AccessControl;
+//using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.Models;
-using Alman.Models;
+namespace DatabaseAccess;
+using DbAccess.Models;
 
 
 public class DbOther : DbBase, IAlmanOtherRead, IAlmanOtherWrite

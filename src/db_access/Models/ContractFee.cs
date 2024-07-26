@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Alman.Models;
+namespace DbAccess.Models;
 
 public partial class ContractFee
 {

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Alman.SharedModels;
+using System;
 using System.Collections.Generic;
 
-namespace Alman.Models;
+namespace DbAccess.Models;
 
-public partial class Child
+public partial class Child : IChildBase
 {
     public int ChildId { get; set; }
 

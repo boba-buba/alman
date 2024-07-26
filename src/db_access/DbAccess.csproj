@@ -25,11 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\alman\alman.csproj" />
+    <Folder Include="Database\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\" />
+    <ProjectReference Include="..\alman\alman.csproj" />
   </ItemGroup>
 
 </Project>

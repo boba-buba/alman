@@ -4,7 +4,6 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Alman.Models;
 namespace DbAccess.Models;
 
 public partial class AlmanContext : DbContext

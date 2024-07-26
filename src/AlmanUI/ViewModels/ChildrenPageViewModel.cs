@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Alman.Models;
+using Alman.SharedDefinitions;
+using AlmanUI.Models;
 using Avalonia;
 using Business;
 using System.Diagnostics;
+using Alman.SharedModels;
 
 namespace AlmanUI.ViewModels
 {
@@ -19,14 +21,14 @@ namespace AlmanUI.ViewModels
         [ObservableProperty]
         private bool _isChanged = false;
 
-        public ObservableCollection<Child>  Children { get; }
+        public ObservableCollection<IChildBase> Children { get; }
         
         [ObservableProperty]
-        private Child? _selectedChild = null;
+        private IChildBase? _selectedChild = null;
         public ChildrenPageViewModel()
         {
             var children = BusinessChildrenAPI.GetChildren();
-            Children = new ObservableCollection<Child>(children);
+            Children = new ObservableCollection<IChildBase>(children);
         }
 
         /*partial void OnSelectedChildChanged(Child? value)
@@ -34,7 +36,7 @@ namespace AlmanUI.ViewModels
             throw new NotImplementedException();
         }*/
 
-        public string GetContractNameByChild(Child child)
+        public string GetContractNameByChild(ChildUI child)
         {
             ContractType type = (ContractType)child.ChildContract;
             switch (type)
@@ -56,12 +58,15 @@ namespace AlmanUI.ViewModels
         public void TriggerSaveCommand()
         {
             //call save command
+            BusinessChildrenAPI.SaveChildren(Children);
+
             IsChanged = false;
         }
 
         public void TriggerAddNewChildCommand()
         {
-
+            IChildBase child = (IChildBase)new ChildUI();
+            Children.Add(child);
         }
 
         public void TriggerRemoveChildCommand()
@@ -69,6 +74,10 @@ namespace AlmanUI.ViewModels
             if (SelectedChild == null)
             {
                 return;
+            }
+            if (SelectedChild.ChildId == 0)
+            {
+                Children.Remove(SelectedChild);
             }
             Debug.WriteLine(SelectedChild.ChildId);
             //business log

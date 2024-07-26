@@ -1,4 +1,4 @@
-﻿namespace Alman.Models;
+﻿namespace Alman.SharedDefinitions;
 
 public enum ContractType
 {
