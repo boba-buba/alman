@@ -1,5 +1,7 @@
-﻿namespace DbAccess.Models;
-using Alman.Models;
+﻿using DatabaseAccess;
+using DbAccess.Models;
+
+
 
 //nekdy nejlip pouzit to filtrovani primo v sql dotazu, protoze temi where to muze z db natahnout spoustu dat, ktere budeme filtrovat zde. Radeji je primo vyfiltrujeme v dbazovem dotazu.
 

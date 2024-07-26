@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
-			 xmlns:Models="using:Alman.Models"
+			 xmlns:Models="using:AlmanUI.Models"
+			 xmlns:SharedModels="using:Alman.SharedModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.ChildrenPageView"
 			 x:DataType="ViewModels:ChildrenPageViewModel">
@@ -25,13 +26,13 @@
 				<DataGridCheckBoxColumn Header="State" Binding="{Binding ChildState}" />
 				<DataGridTemplateColumn Header="Start Year">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate DataType="Models:Child">
+						<DataTemplate DataType="SharedModels:IChildBase">
 							<TextBlock Text="{Binding ChildStartYear, StringFormat='{}{0} year'}"
 							  VerticalAlignment="Center" HorizontalAlignment="Center" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate DataType="Models:Child">
+						<DataTemplate DataType="SharedModels:IChildBase">
 							<NumericUpDown Value="{Binding ChildStartYear}"
 							   FormatString="N0" Minimum="2000" Maximum="2100"
 							   HorizontalAlignment="Stretch"/>
@@ -42,14 +43,14 @@
 				<DataGridTemplateColumn Header="Start Month">
 					
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate DataType="Models:Child">
+						<DataTemplate DataType="SharedModels:IChildBase">
 							<TextBlock Text="{Binding ChildStartMonth, StringFormat='{}{0}'}"
 							  VerticalAlignment="Center" HorizontalAlignment="Center" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 					
 					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate DataType="Models:Child">
+						<DataTemplate DataType="SharedModels:IChildBase">
 							<NumericUpDown Value="{Binding ChildStartMonth}"
 							   FormatString="N0" Minimum="1" Maximum="12"
 							   HorizontalAlignment="Stretch"/>
