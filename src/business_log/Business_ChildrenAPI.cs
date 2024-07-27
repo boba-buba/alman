@@ -18,8 +18,8 @@ public static class BusinessChildrenAPI
         foreach (var child in childrenToAdd)
         {
             newChildren.Add(new Child { 
-                ChildName=child.ChildName, 
-                ChildLastName=child.ChildLastName, 
+                ChildName = child.ChildName, 
+                ChildLastName = child.ChildLastName, 
                 ChildContract = child.ChildContract, 
                 ChildGroup = child.ChildGroup,
                 ChildState = child.ChildState,

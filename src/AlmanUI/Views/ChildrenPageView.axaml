@@ -5,9 +5,14 @@
 			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 			 xmlns:Models="using:AlmanUI.Models"
 			 xmlns:SharedModels="using:Alman.SharedModels"
+			 xmlns:SharedDefs="using:Alman.SharedDefinitions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.ChildrenPageView"
 			 x:DataType="ViewModels:ChildrenPageViewModel">
+	<UserControl.Resources>
+		<ViewModels:ChildrenContractConverter x:Key="ChildrenContractConverter"/>
+    </UserControl.Resources>
+	
 	<Grid RowDefinitions="Auto, *, Auto">
 		<Border Grid.Row="0" Height="100">
 			<TextBlock Text="Children" HorizontalAlignment="Center" FontSize="40" Margin="20"/>
@@ -18,13 +23,14 @@
 				  IsReadOnly="False"
 				  GridLinesVisibility="All"
 				  CanUserSortColumns="True"
+				  CanUserResizeColumns="True"
 				  BorderThickness="4" BorderBrush="Gray">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="First name" Binding="{Binding ChildName}"/>
-				<DataGridTextColumn Header="Second name" Binding="{Binding ChildLastName}" />
-				<DataGridTextColumn Header="Child Group" Binding="{Binding ChildGroup}" />
-				<DataGridCheckBoxColumn Header="State" Binding="{Binding ChildState}" />
-				<DataGridTemplateColumn Header="Start Year">
+				<DataGridTextColumn Header="First name" Binding="{Binding ChildName}" Width="*"/>
+				<DataGridTextColumn Header="Second name" Binding="{Binding ChildLastName}" Width="*" />
+				<DataGridTextColumn Header="Child Group" Binding="{Binding ChildGroup}" Width="*" />
+				<DataGridCheckBoxColumn Header="State" Binding="{Binding ChildState}" Width="*" />
+				<DataGridTemplateColumn Header="Start Year" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="SharedModels:IChildBase">
 							<TextBlock Text="{Binding ChildStartYear, StringFormat='{}{0} year'}"
@@ -40,7 +46,7 @@
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
 
-				<DataGridTemplateColumn Header="Start Month">
+				<DataGridTemplateColumn Header="Start Month" Width="*">
 					
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate DataType="SharedModels:IChildBase">
@@ -57,15 +63,25 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
-				
-				
 				<!-- Contract-->
+				<DataGridTemplateColumn Header="Contract Type" Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="SharedModels:IChildBase">
+							<TextBlock Text="{Binding ChildContract, Converter={StaticResource ChildrenContractConverter}}"></TextBlock>
+						</DataTemplate>				
+					</DataGridTemplateColumn.CellTemplate>
+					
+					
+				
+				</DataGridTemplateColumn>
+				
+				
 				
 			</DataGrid.Columns>
 			
 		</DataGrid>
 		<StackPanel Grid.Row="2" Margin="10">
-			<Grid ColumnDefinitions="Auto, Auto, Auto">
+			<Grid ColumnDefinitions="Auto, Auto, Auto" HorizontalAlignment="Center">
 			<Button Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
 			<Button Grid.Column="1" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewChildCommand}">ADD NEW CHILD</Button>
 			<Button Grid.Column="2" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveChildCommand}">REMOVE CHILD</Button>

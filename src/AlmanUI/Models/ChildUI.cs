@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Alman.SharedModels;
+﻿using Alman.SharedModels;
 namespace AlmanUI.Models;
 
 public partial class ChildUI : IChildBase
@@ -20,6 +18,5 @@ public partial class ChildUI : IChildBase
     public int? ChildStartYear { get; set; }
 
     public int? ChildStartMonth { get; set; }
-
     
 }

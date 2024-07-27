@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess;
 using DbAccess.Models;
-
+using Alman.SharedDefinitions;
 
 public class DbOther : DbBase, IAlmanOtherRead, IAlmanOtherWrite
 {
