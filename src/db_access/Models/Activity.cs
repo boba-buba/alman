@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Alman.SharedModels;
 namespace DbAccess.Models;
 
-public partial class Activity
+public partial class Activity : IActivityBase
 {
     public int ActivityId { get; set; }
 

@@ -48,6 +48,7 @@ namespace AlmanUI.ViewModels
             new ListItemTemplate(typeof(ChildrenPageViewModel),  MaterialIconKind.BabyFaceOutline),
             new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline),
             new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
+            new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
         };
 
 

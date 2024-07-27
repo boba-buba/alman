@@ -1,10 +1,7 @@
 ﻿using Alman.SharedModels;
-using System;
-using System.Collections.Generic;
+namespace AlmanUI.Models;
 
-namespace DbAccess.Models;
-
-public partial class YearMonthActivity : IYearMonthActivity
+public class YearMonthActivityUI : IYearMonthActivity
 {
     public int YmchildId { get; set; }
 
@@ -20,7 +17,8 @@ public partial class YearMonthActivity : IYearMonthActivity
 
     public int YmwasPaid { get; set; }
 
-    public virtual Activity Ymactivity { get; set; } = null!;
+    public string ChildName { get; set; }
+    public string ChildLastName { get; set; }
 
-    public virtual Child Ymchild { get; set; } = null!;
+    public string ActivityName { get; set; }
 }

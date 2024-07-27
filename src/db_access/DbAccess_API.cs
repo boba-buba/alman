@@ -1,6 +1,6 @@
 ﻿using DatabaseAccess;
 using DbAccess.Models;
-
+using Alman.SharedDefinitions;
 
 
 //nekdy nejlip pouzit to filtrovani primo v sql dotazu, protoze temi where to muze z db natahnout spoustu dat, ktere budeme filtrovat zde. Radeji je primo vyfiltrujeme v dbazovem dotazu.
