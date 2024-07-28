@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
-public partial class YearMonthActivity : IYearMonthActivity
+public partial class YearMonthActivity : IYearMonthActivityBase
 {
     public int YmchildId { get; set; }
 

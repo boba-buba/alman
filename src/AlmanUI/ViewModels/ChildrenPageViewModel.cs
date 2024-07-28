@@ -76,7 +76,7 @@ namespace AlmanUI.ViewModels
 
         public void TriggerAddNewChildCommand()
         {
-            IChildBase child = (IChildBase)new ChildUI { ChildState = 1, ChildContract = 1, ChildGroup = 1, ChildStartYear = DateTime.Now.Year, ChildStartMonth = DateTime.Now.Month};
+            IChildBase child = new ChildUI { ChildState = 1, ChildContract = 1, ChildGroup = 1, ChildStartYear = DateTime.Now.Year, ChildStartMonth = DateTime.Now.Month};
             Children.Add(child);
         }
 

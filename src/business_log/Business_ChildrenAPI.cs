@@ -12,6 +12,13 @@ public static class BusinessChildrenAPI
         return db.GetChildren(ch => true);
     }
 
+    public static IReadOnlyList<IChildBase> GetChildrenOnCondition(Func<IChildBase, bool> selector)
+    {
+        var db = new DbChildren();
+        return db.GetChildren(selector);
+    }
+    
+
     public static void AddChildren(IReadOnlyList<IChildBase> childrenToAdd)
     {
         List<Child> newChildren = new List<Child>();

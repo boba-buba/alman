@@ -2,7 +2,6 @@
 using DatabaseAccess;
 using Alman.SharedModels;
 using Alman.SharedDefinitions;
-using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 namespace Business;
 
