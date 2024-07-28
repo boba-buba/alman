@@ -1,7 +1,7 @@
 ﻿using Alman.SharedModels;
 namespace AlmanUI.Models;
 
-public class YearMonthActivityUI : IYearMonthActivity
+public class YearMonthActivityUI : IYearMonthActivityBase
 {
     public int YmchildId { get; set; }
 
@@ -17,8 +17,4 @@ public class YearMonthActivityUI : IYearMonthActivity
 
     public int YmwasPaid { get; set; }
 
-    public string ChildName { get; set; }
-    public string ChildLastName { get; set; }
-
-    public string ActivityName { get; set; }
 }

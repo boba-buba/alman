@@ -19,22 +19,18 @@
 			</Grid>
 		</Border>
 		
-		<DataGrid Grid.Row="1" CornerRadius="0 0 12 12"
-				  Margin="10" ItemsSource="{Binding }"
-				  SelectedItem="{Binding }"
+		<DataGrid Name="MainDataGrid" Grid.Row="1" CornerRadius="0 0 12 12"
+				  Margin="10"
 				  IsReadOnly="False"
 				  GridLinesVisibility="All"
 				  CanUserSortColumns="True"
 				  CanUserResizeColumns="True"
 				  BorderThickness="4" BorderBrush="Gray">
-			<DataGrid.Columns>
-				
-			</DataGrid.Columns>
 		</DataGrid>
 
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
-				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+				<Button Name="SaveMonthActivitiesButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
 			</Grid>
 
 		</StackPanel>
