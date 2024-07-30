@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AlmanUI.Views;
 using System.Diagnostics;
+using AlmanUI.Mediator;
 
 namespace AlmanUI.ViewModels;
 
@@ -35,17 +36,37 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
         _children = activeChildren;
     }
 
+
     [RelayCommand]
     public void TriggerPrevMonthCommand()
     {
+        if (CurrentMonth == 1)
+        {
+            CurrentMonth = 12;
+            CurrentYear = CurrentYear - 1;
+        }
+        else
+        {
+            CurrentMonth = CurrentMonth - 1;
+        }
 
+        Mediator.Mediator.Instance.Send("UpdateDataGrid");
     }
 
 
     [RelayCommand]
     public void TriggerNextMonthCommand()
     {
-
+        if (CurrentMonth == 12)
+        {
+            CurrentMonth = 1;
+            CurrentYear = CurrentYear + 1;
+        }
+        else
+        {
+            CurrentMonth = CurrentMonth + 1;
+        }
+        Mediator.Mediator.Instance.Send("UpdateDataGrid");
     }
 
     [RelayCommand]
