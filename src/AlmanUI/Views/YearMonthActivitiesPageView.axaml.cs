@@ -1,12 +1,16 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
+using AlmanUI.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlmanUI.Mediator;
+
+
 namespace AlmanUI.Views;
 
 public partial class YearMonthActivitiesPageView : UserControl
@@ -15,13 +19,16 @@ public partial class YearMonthActivitiesPageView : UserControl
     private IReadOnlyList<IActivityBase> _activitiesTable;
     private IReadOnlyList<IChildBase> _childrenTable;
 
+
     private IReadOnlyList<CompositeItem> _yearMonthActivities { get; set; }
     public YearMonthActivitiesPageView()
     {
-        var year = DateTime.Now.Year;
-        var month = DateTime.Now.Month;
 
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(year, month);
+        DataContext = new YearMonthActivitiesPageViewModel();;
+
+        var dc = (YearMonthActivitiesPageViewModel)DataContext;
+        
+        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(dc.CurrentYear, dc.CurrentMonth);
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActvitiesControl.GetActivities();
         _activitiesTable = activities;
@@ -43,7 +50,30 @@ public partial class YearMonthActivitiesPageView : UserControl
         
         InitializeComponent();
         InitDataGrid();
+        Mediator.Mediator.Instance.Notify += OnNotify;
     }
+
+    private void OnNotify(string message)
+    {
+        if (message == "UpdateDataGrid")
+        {
+            UpdateDataGrid();
+        }
+    }
+
+    private void UpdateDataGrid()
+    {
+        var dc = (YearMonthActivitiesPageViewModel)DataContext;
+        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(dc.CurrentYear, dc.CurrentMonth);
+        _yearMonthActivitiesTable = yearMonthActivities;
+        var activities = ActvitiesControl.GetActivities();
+        _activitiesTable = activities;
+        var activeChildren = ChildrenControl.GetChildrenOnCondition(ch => ch.ChildState == 1);
+        _childrenTable = activeChildren;
+
+        InitDataGrid();
+    }
+
 
     private void InitDataGrid()
     {
