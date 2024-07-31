@@ -3,6 +3,7 @@ using DatabaseAccess;
 using Alman.SharedDefinitions;
 //using Alman.Models;
 using System.Xml.Linq;
+using Microsoft.VisualBasic;
 
 namespace DbAccessUnitTests;
 
@@ -109,12 +110,11 @@ public partial class DbAccessModel_UnitTests
         Assert.Equal((int)oldContract, childFromDb.ChildContract);
 
         //Act update
-        var childFromDbToChange = db.GetChildren(ch => true).First();
         childFromDb.ChildContract = (int)newContract;
         var ret_code = db.UpdateChildren([childFromDb]);
 
         //Assert update
-        Assert.Equal(ret_code, ReturnCode.OK);
+        Assert.Equal(ReturnCode.OK, ret_code);
         Assert.Equal((int)newContract, db.GetChildById(1).ChildContract);
 
     }
@@ -134,7 +134,6 @@ public partial class DbAccessModel_UnitTests
         var children = new Child[] { new Child { ChildName = firstName, ChildLastName = lastName }, new Child { ChildName = secondFirstName, ChildLastName = secondLastName } };
         db.AddChildren(children);
 
-        var childrenFromDb = db.GetChildren(ch => true);
         db.DeleteChildren(children);
 
         //Assert
@@ -195,7 +194,7 @@ public partial class DbAccessModel_UnitTests
         var actvitiesFromDb = db.GetActivities(act => true);
         //Assert
         Assert.Equal(expectedCount, actvitiesFromDb.Count);
-        Assert.Equal(expectedId, actvitiesFromDb.First().ActivityId);
+        Assert.Equal(expectedId, actvitiesFromDb[0].ActivityId);
         Assert.Equal(name, actvitiesFromDb.First().ActivityName);
         Assert.Equal(price, actvitiesFromDb.First().ActivityPrice);
     }
@@ -493,12 +492,579 @@ public partial class DbAccessModel_UnitTests
     #endregion
 
     #region ContractFees
+    [Theory]
+    [InlineData("AddContractFee_ReadContractFee_MustPass_1.db", -19)]
+    [InlineData("AddContractFee_ReadContractFee_MustPass_2.db", 1000)]
+    public void AddContractFee_REadContractFee_MustPass(string dbName, int sum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = sum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year};
+        db.AddChildren([child]);
+        db.AddContractFees([contractFee]);
+
+        var contractsFromDb = db.GetContractFees(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, contractsFromDb.Count);
+        Assert.Equal(contractFee.CfchildId, contractsFromDb[0].CfchildId);
+        Assert.Equal(contractFee.CfsumPaid, contractsFromDb[0].CfsumPaid);
+    }
+
+
+    [Theory]
+    [InlineData("AddTwoContractFees_ReadTwoContractFees_MustPass_1.db", 19, 200)]
+    [InlineData("AddTwoContractFees_ReadTwoContractFees_MustPass_2.db", 1000, 600)]
+    public void AddTwoContractFees_ReadTwoContractFees_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 2;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+
+        db.AddChildren([child, child2]);
+        db.AddContractFees([contractFee, secondContractFee]);
+
+        var contractsFromDb = db.GetContractFees(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, contractsFromDb.Count);
+        Assert.Equal(contractFee.CfchildId, contractsFromDb[0].CfchildId);
+        Assert.Equal(secondContractFee.CfchildId, contractsFromDb[1].CfchildId);
+    }
+
+    [Theory]
+    [InlineData("GetContractFeesWithFilter_MustPass_1.db", 500, 700, 500)]
+    [InlineData("GetContractFeesWithFilter_MustPass_2.db", 200, 800, 600)]
+    public void GetContractFeesWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+
+        db.AddChildren([child, child2]);
+        db.AddContractFees([contractFee, secondContractFee]);
+
+        var contractsFromDb = db.GetContractFees(pr => pr.CfsumPaid > condition);
+        //Assert
+        Assert.Equal(expectedCount, contractsFromDb.Count);
+        Assert.Equal(secondSum, contractsFromDb[0].CfsumPaid);
+    }
+
+
+    [Theory]
+    [InlineData("ChangeContractFeeSum_MustPass_1.db", 400, 700)]
+    [InlineData("ChangeContractFeeSum_MustPass_2.db", 500, 600)]
+    public void ChangeContractFeeSum_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        //Act
+        var child = new Child { ChildLastName = "second", ChildName = "First" };
+        child.ContractFees.Add(new ContractFee { CfsumPaid = firstSum, Cfyear = DateTime.Now.Year, Cfmonth = DateTime.Now.Month });
+            
+        db.AddChildren([child]);
+        //Assert
+        Assert.Equal(1, db.GetChildren(ch => true).Count);
+        Assert.Equal(1, db.GetContractFees(pr => true).Count);
+
+        //Act update
+        var contractFee = db.GetContractFees(pr => pr.CfchildId == 1).Single();
+        contractFee.CfsumPaid = secondSum;
+        var ret_code = db.UpdateContractFees([contractFee]);
+
+        //Aassert
+        Assert.Equal(ReturnCode.OK, ret_code);
+        Assert.Equal(secondSum, db.GetContractFees(pr => true).Single().CfsumPaid);
+    }
+
+    [Theory]
+    [InlineData("DeleteContractFees_MustPass_1.db", 19, 200)]
+    [InlineData("DeleteContractFees_MustPass_2.db", 1000, 600)]
+    public void DeleteContractFees_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 0;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+
+        db.AddChildren([child, child2]);
+        db.AddContractFees([contractFee, secondContractFee]);
+
+        var contractFees = db.GetContractFees(pr => true);
+        db.DeleteContractFees(contractFees);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetContractFees(pr => true).Count);
+    }
+
+
+    [Theory]
+    [InlineData("DeleteContractFees_WithFilter_MustPass_1.db", 19, 200)]
+    [InlineData("DeleteContractFees_WithFilter_MustPass_2.db", 600, 1000)]
+    public void DeleteContractFees_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+
+        db.AddChildren([child, child2]);
+        db.AddContractFees([contractFee, secondContractFee]);
+
+        var contarctFeesFromDb = db.GetContractFees(pr => pr.CfsumPaid > firstSum);
+        db.DeleteContractFees(contarctFeesFromDb);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetContractFees(pr => true).Count);
+    }
+
+    [Theory]
+    [InlineData("DeleteContractFees_WithFilter_MustPass_1.db")]
+    public void AddContract_GetContractById_MustPass(string dbName)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = 800, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        db.AddChildren([child]);
+        db.AddContractFees([contractFee]);
+
+        var contractFeeFromDb = db.GetContractFeeById(DateTime.Now.Year, DateTime.Now.Month, 1);
+        //Assert 
+        Assert.Equal(contractFee.CfsumPaid, contractFeeFromDb.CfsumPaid);
+    }
+
     #endregion
 
     #region YearMonthActvities
+    [Theory]
+    [InlineData("AddYearMonthAct_ReadYearMonthAct_MustPass_1.db", 19)]
+    [InlineData("AddYearMonthAct_ReadYearMonthAct_MustPass_2.db", 1000)]
+    public void AddYearMonthAct_ReadYearMonthAct_MustPass(string dbName, int sum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = sum };
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = sum };
+
+        db.AddChildren([child]);
+        db.AddActvities([activity]);
+        db.AddYearMonthActivities([yearMonthActivity]);
+
+        var yearMonthACtivitiesFromDb = db.GetYearMonthActivities(act => true);
+        //Assert
+
+        Assert.Equal(expectedCount, yearMonthACtivitiesFromDb.Count);
+        Assert.Equal(yearMonthActivity.YmchildId, yearMonthACtivitiesFromDb[0].YmchildId);
+        Assert.Equal(yearMonthActivity.YmactivitySum, yearMonthACtivitiesFromDb[0].YmactivitySum);
+    }
+
+
+    [Theory]
+    [InlineData("AddTwoYearMonthActs_ReadTwoYearMonthActs_MustPass_1.db", 19, 200)]
+    [InlineData("AddTwoYearMonthActs_ReadTwoYearMonthActs_MustPass_2.db", 1000, 600)]
+    public void AddTwoYearMonthActs_ReadTwoYearMonthActs_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 2;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
+
+        var activity2 = new Activity { ActivityName = "Doctor2", ActivityPrice = secondSum };
+        var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 2, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddActvities([activity, activity2]);
+        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+
+
+        var ymaFromDb = db.GetYearMonthActivities(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, ymaFromDb.Count);
+        Assert.Equal(yearMonthActivity.YmchildId, ymaFromDb[0].YmchildId);
+        Assert.Equal(yearMonthActivity2.YmchildId, ymaFromDb[1].YmchildId);
+        Assert.Equal(yearMonthActivity.YmactivityId, ymaFromDb[0].YmactivityId);
+        Assert.Equal(yearMonthActivity2.YmactivityId, ymaFromDb[1].YmactivityId);
+    }
+
+    [Theory]
+    [InlineData("GetYearMonthActsWithFilter_MustPass_1.db", 500, 700, 500)]
+    [InlineData("GetYearMonthActsWithFilter_MustPass_2.db", 200, 800, 600)]
+    public void GetYearMonthActsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
+
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
+        var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddActvities([activity]);
+        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+
+        var ymActsFromDb = db.GetYearMonthActivities(pr => pr.YmactivitySum > condition);
+        //Assert
+        Assert.Equal(expectedCount, ymActsFromDb.Count);
+        Assert.Equal(secondSum, ymActsFromDb[0].YmactivitySum);
+    }
+
+    [Theory]
+    [InlineData("ChangeYearMonthActivitySum_MustPass_1.db", 400, 700)]
+    [InlineData("ChangeYearMonthActivitySum_MustPass_2.db", 500, 600)]
+    public void ChangeYearMonthActivitySum_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
+        db.AddActvities([activity]);
+        //Act
+
+        var child = new Child { ChildLastName = "second", ChildName = "First" };
+        child.YearMonthActivities.Add(new YearMonthActivity { Year = DateTime.Now.Year, Month = DateTime.Now.Month, YmactivityId = 1, YmwasPaid = firstSum });
+
+        db.AddChildren([child]);
+        //Assert
+        Assert.Equal(1, db.GetChildren(ch => true).Count);
+        Assert.Equal(1, db.GetYearMonthActivities(pr => true).Count);
+
+        //Act update
+        var ymAct = db.GetYearMonthActivities(pr => pr.YmchildId == 1).Single();
+        ymAct.YmactivitySum = secondSum;
+        var ret_code = db.UpdateYearMonthActivities([ymAct]);
+
+        //Aassert
+        Assert.Equal(ReturnCode.OK, ret_code);
+        Assert.Equal(secondSum, db.GetYearMonthActivities(pr => true).Single().YmactivitySum);
+    }
+
+    [Theory]
+    [InlineData("DeleteYearMonthActivities_MustPass_1.db", 19, 200)]
+    [InlineData("DeleteYearMonthActivities_MustPass_2.db", 1000, 600)]
+    public void DeleteYearMonthActivities_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 0;
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
+        db.AddActvities([activity]);
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
+        var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+
+        var ymActsFromDb = db.GetYearMonthActivities(pr => true);
+        db.DeleteYearMonthActivities(ymActsFromDb);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetYearMonthActivities(pr => true).Count);
+    }
+
+
+    [Theory]
+    [InlineData("DeleteYearMonthActivities_WithFilter_MustPass_1.db", 19, 200)]
+    [InlineData("DeleteYearMonthActivities_WithFilter_MustPass_2.db", 600, 1000)]
+    public void DeleteYearMonthActivities_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
+        db.AddActvities([activity]);
+
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
+        var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
+
+        db.AddChildren([child, child2]);
+        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+
+        var ymActsFromDb = db.GetYearMonthActivities(pr => pr.YmactivitySum > firstSum);
+        db.DeleteYearMonthActivities(ymActsFromDb);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetYearMonthActivities(pr => true).Count);
+    }
+
+    [Theory]
+    [InlineData("DeleteContractFees_WithFilter_MustPass_1.db")]
+    public void AddYearMonthACtivity_GetYearMonthActivityById_MustPass(string dbName)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectdCount = 1;
+        var activity = new Activity { ActivityName = "Doctor", ActivityPrice = 700 };
+        db.AddActvities([activity]);
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+
+        var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = 800 };
+        db.AddChildren([child]);
+        db.AddYearMonthActivities([yearMonthActivity]);
+
+        var ymActsFromDb = db.GetYearMonthActivitiesById(DateTime.Now.Year, DateTime.Now.Month, 1);
+        //Assert 
+        Assert.Equal(expectdCount, ymActsFromDb.Count);
+        Assert.Equal(yearMonthActivity.YmactivitySum, ymActsFromDb[0].YmactivitySum);
+    }
+
     #endregion
 
     #region YearSubs
+    [Theory]
+    [InlineData("AddYearSub_ReadYearSub_MustPass_1.db")]
+    public void AddYearSub_ReadYearSub_MustPass(string dbName)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var yearSub = new YearSub { YchildId = 1 , Yyear = DateTime.Now.Year };
+
+        db.AddChildren([child]);
+        db.AddYearSubs([yearSub]);
+
+        var yearSubsFromDb = db.GetYearSubs(act => true);
+        //Assert
+
+        Assert.Equal(expectedCount, yearSubsFromDb.Count);
+        Assert.Equal(yearSub.YchildId, yearSubsFromDb[0].YchildId);
+        Assert.Equal(yearSub.Yyear, yearSubsFromDb[0].Yyear);
+    }
+
+    [Theory]
+    [InlineData("AddTwoYearSubs_ReadTwoYearSubs_MustPass_1.db", 2024, 2023)]
+    [InlineData("AddTwoYearSubs_ReadTwoYearSubs_MustPass_2.db", 2025, 2000)]
+    public void AddTwoYearSubs_ReadTwoYearSubs_MustPass(string dbName, int firstYear, int secondYear)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 2;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
+        var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
+      
+        db.AddChildren([child, child2]);
+        db.AddYearSubs([yearSub, yearSub2]);
+
+
+        var ymaFromDb = db.GetYearSubs(pr => true);
+        //Assert
+        Assert.Equal(expectedCount, ymaFromDb.Count);
+        Assert.Equal(yearSub.YchildId, ymaFromDb[0].YchildId);
+        Assert.Equal(yearSub2.YchildId, ymaFromDb[1].YchildId);
+        Assert.Equal(yearSub.Yyear, ymaFromDb[0].Yyear);
+        Assert.Equal(yearSub2.Yyear, ymaFromDb[1].Yyear);
+    }
+
+
+    [Theory]
+    [InlineData("GetYearSubsWithFilter_MustPass_1.db", 2019, 2028, 2020)]
+    [InlineData("GetYearSubsWithFilter_MustPass_2.db", 2002, 2010, 2007)]
+    public void GetYearSubsWithFilter_MustPass(string dbName, int firstYear, int secondYear, int condition)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
+        var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
+
+        db.AddChildren([child, child2]);
+        db.AddYearSubs([yearSub, yearSub2]);
+
+
+        var ymActsFromDb = db.GetYearSubs(pr => pr.Yyear > condition);
+        //Assert
+        Assert.Equal(expectedCount, ymActsFromDb.Count);
+        Assert.Equal(secondYear, ymActsFromDb[0].Yyear);
+    }
+
+
+    [Theory]
+    [InlineData("ChangeYearSub_MustPass_1.db", 400, 700)]
+    [InlineData("ChangeYearSub_MustPass_2.db", 500, 600)]
+    public void ChangeYearSub_MustPass(string dbName, int firstSum, int secondSum)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+      
+        //Act
+
+        var child = new Child { ChildLastName = "second", ChildName = "First" };
+        child.YearSubs.Add(new YearSub { Yyear = DateTime.Now.Year, Yapril = firstSum, YaprilPayment = 1 });
+
+        db.AddChildren([child]);
+        //Assert
+        Assert.Equal(1, db.GetChildren(ch => true).Count);
+        Assert.Equal(1, db.GetYearSubs(pr => true).Count);
+
+        //Act update
+        var ymAct = db.GetYearSubs(pr => pr.YchildId == 1).Single();
+        ymAct.Yapril = secondSum;
+        var ret_code = db.UpdateYearSubs([ymAct]);
+
+        //Aassert
+        Assert.Equal(ReturnCode.OK, ret_code);
+        Assert.Equal(secondSum, db.GetYearSubs(pr => true).Single().Yapril);
+    }
+
+
+    [Theory]
+    [InlineData("DeleteYearSubs_MustPass_1.db", 19, 200)]
+    [InlineData("DeleteYearSubs_MustPass_2.db", 1000, 600)]
+    public void DeleteYearSubs_MustPass(string dbName, int firstYear, int secondYear)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 0;
+        
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
+        var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
+
+
+        db.AddChildren([child, child2]);
+        db.AddYearSubs([yearSub, yearSub2]);
+
+
+        var ymActsFromDb = db.GetYearSubs(pr => true);
+        db.DeleteYearSubs(ymActsFromDb);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetYearSubs(pr => true).Count);
+    }
+
+
+    [Theory]
+    [InlineData("DeleteYearSubs_WithFilter_MustPass_1.db", 2003, 2006)]
+    [InlineData("DeleteYearSubs_WithFilter_MustPass_2.db", 2006, 2023)]
+    public void DeleteYearSubs_WithFilter_MustPass(string dbName, int firstYear, int secondYear)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+        int expectedCount = 1;
+       
+        
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+        var child2 = new Child { ChildLastName = "name", ChildName = "second" };
+
+        var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
+        var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
+
+        
+        db.AddChildren([child, child2]);
+        db.AddYearSubs([yearSub, yearSub2]);
+
+        var ymActsFromDb = db.GetYearSubs(pr => pr.Yyear > firstYear);
+        db.DeleteYearSubs(ymActsFromDb);
+
+        //Assert
+        Assert.Equal(expectedCount, db.GetYearSubs(pr => true).Count);
+        Assert.Equal(firstYear, db.GetYearSubs(pr => true)[0].Yyear);
+    }
+
+
+    [Theory]
+    [InlineData("DeleteContractFees_WithFilter_MustPass_1.db")]
+    public void AddYearSub_GetYearSubById_MustPass(string dbName)
+    {
+        //Arrange
+        var db = new DbChildren(dbName);
+        db.DeleteDb(dbName);
+       
+        //Act
+        var child = new Child { ChildLastName = "name", ChildName = "first" };
+
+        var yearSub = new YearSub { YchildId = 1, Yyear = 2024 };
+        var yearSub2 = new YearSub { YchildId = 1, Yyear = 2023 };
+
+        db.AddChildren([child]);
+        db.AddYearSubs([yearSub, yearSub2]);
+
+        var ymActsFromDb = db.GetChildYearSubById(2024, 1);
+        //Assert 
+        Assert.Equal(yearSub.Yyear, ymActsFromDb.Yyear);
+    }
+
     #endregion
 
 
