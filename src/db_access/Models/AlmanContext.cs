@@ -139,7 +139,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthActivity>(entity =>
         {
-            entity.HasKey(e => new { e.YmchildId, e.YmactivityId, e.YmactivitySum, e.Month, e.Year });
+            entity.HasKey(e => new { e.YmchildId, e.YmactivityId, e.Month, e.Year });
 
             entity.Property(e => e.YmchildId).HasColumnName("YMChildId");
             entity.Property(e => e.YmactivityId).HasColumnName("YMActivityId");
