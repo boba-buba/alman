@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace Business;
 
 
-public static class BusinessActivitiesAPI
+public static class BusinessActivitiesApi
 {
     public static IReadOnlyList<IActivityBase> GetActivities()
     {

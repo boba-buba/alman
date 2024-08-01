@@ -18,17 +18,12 @@ public partial class YearMonthActivitiesPageView : UserControl
     private IReadOnlyList<IYearMonthActivityBase> _yearMonthActivitiesTable;
     private IReadOnlyList<IActivityBase> _activitiesTable;
     private IReadOnlyList<IChildBase> _childrenTable;
-
-
     private IReadOnlyList<CompositeItem> _yearMonthActivities { get; set; }
+
+
     public YearMonthActivitiesPageView()
-    {
-
-        DataContext = new YearMonthActivitiesPageViewModel();;
-
-        var dc = (YearMonthActivitiesPageViewModel)DataContext;
-        
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(dc.CurrentYear, dc.CurrentMonth);
+    {   
+        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(DateTime.Now.Year, DateTime.Now.Month);
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActvitiesControl.GetActivities();
         _activitiesTable = activities;
@@ -50,27 +45,41 @@ public partial class YearMonthActivitiesPageView : UserControl
         
         InitializeComponent();
         InitDataGrid();
-        Mediator.Mediator.Instance.Notify += OnNotify;
+        Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
     }
 
-    private void OnNotify(string message)
+
+    private void OnNotifyWithParams(string message, int year, int  month)
     {
         if (message == "UpdateDataGrid")
         {
-            UpdateDataGrid();
+            UpdateDataGrid(year, month);
         }
     }
 
-    private void UpdateDataGrid()
+
+    private void UpdateDataGrid(int year, int month)
     {
-        var dc = (YearMonthActivitiesPageViewModel)DataContext;
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(dc.CurrentYear, dc.CurrentMonth);
+        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(year, month);
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActvitiesControl.GetActivities();
         _activitiesTable = activities;
         var activeChildren = ChildrenControl.GetChildrenOnCondition(ch => ch.ChildState == 1);
         _childrenTable = activeChildren;
 
+        var compositeItems = new List<CompositeItem>();
+        foreach (var child in _childrenTable)
+        {
+            var newItem = new CompositeItem { YMChild = child };
+            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.ChildId).ToList();
+            newItem.YMActivities = childActivities;
+
+            compositeItems.Add(newItem);
+        }
+
+        _yearMonthActivities = compositeItems;
+
+        MainDataGrid.Columns.Clear();
         InitDataGrid();
     }
 
@@ -152,7 +161,6 @@ public partial class YearMonthActivitiesPageView : UserControl
 
 public class CompositeItem
 {
-
-    public IChildBase YMChild { get; set; }
-    public IList<IYearMonthActivityBase> YMActivities { get; set; }
+    public IChildBase? YMChild { get; set; }
+    public IList<IYearMonthActivityBase>? YMActivities { get; set; }
 }
