@@ -1,5 +1,6 @@
 ﻿using Alman.SharedModels;
 using AlmanUI.Controls;
+using Alman.SharedDefinitions;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using AlmanUI.Views;
 using System.Diagnostics;
 using AlmanUI.Mediator;
+using AlmanUI.Models;
 
 namespace AlmanUI.ViewModels;
 
@@ -23,18 +25,8 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
-    private IReadOnlyList<IYearMonthActivityBase> _yearMonthActivities;
-    private IReadOnlyList<IActivityBase> _activities;
-    private IReadOnlyList<IChildBase> _children;
-    public YearMonthActivitiesPageViewModel()
-    {
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(CurrentYear, CurrentMonth);
-        _yearMonthActivities = yearMonthActivities;
-        var activities = ActvitiesControl.GetActivities();
-        _activities = activities;
-        var activeChildren = ChildrenControl.GetChildrenOnCondition(ch => ch.ChildState == 1);
-        _children = activeChildren;
-    }
+    
+    public YearMonthActivitiesPageViewModel() {}
 
 
     [RelayCommand]
@@ -50,7 +42,7 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             CurrentMonth = CurrentMonth - 1;
         }
 
-        Mediator.Mediator.Instance.Send("UpdateDataGrid");
+        Mediator.Mediator.Instance.SendWithParams("UpdateDataGrid", CurrentYear, CurrentMonth);
     }
 
 
@@ -66,21 +58,41 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
         {
             CurrentMonth = CurrentMonth + 1;
         }
-        Mediator.Mediator.Instance.Send("UpdateDataGrid");
+        Mediator.Mediator.Instance.SendWithParams("UpdateDataGrid", CurrentYear, CurrentMonth);
     }
+
 
     [RelayCommand]
     public void TriggerSaveCommand(IReadOnlyList<CompositeItem> items)
     {
        
+        List<YearMonthActivityUI> yearMonthActivities = new List<YearMonthActivityUI>();
+
         foreach (var item in items)
         {
+            if (item.YMActivities == null || item.YMChild == null)
+            {
+                Debug.WriteLine($"Null {nameof(item.YMActivities)} or {nameof(item.YMChild)}");
+                return;
+            }
+            foreach (var activity in item.YMActivities) {
 
-            foreach (var act in item.YMActivities)
-            { 
-                Debug.WriteLine($"{item.YMChild.ChildName} {act.YmactivityId} = {act.YmactivitySum}");
-            }    
+                yearMonthActivities.Add(new YearMonthActivityUI{
+                    Year = CurrentYear,
+                    Month = CurrentYear,
+                    YmactivityId = activity.YmactivityId,
+                    YmactivitySum = activity.YmactivitySum,
+                    YmchildId = item.YMChild.ChildId,
+                    YmwasPaid = activity.YmwasPaid,
+                    YmwayOfPaying = activity.YmwayOfPaying,
+                }); 
+            }
+        }
 
+        ReturnCode retval = YearMonthActivitiesControl.UpdateYearMonthActivities(yearMonthActivities);
+        if (retval != ReturnCode.OK)
+        {
+            Debug.WriteLine($"Something went wrong updating {nameof(YearMonthActivityUI)}'s. Changes were not saved.");
         }
     }
 }

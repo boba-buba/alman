@@ -9,10 +9,17 @@ public class Mediator
 
     private Mediator() { }
 
-    public event Action<string> Notify;
+    public event Action<string>? Notify;
+
+    public event Action<string, int, int>? NotifyWithParams;
 
     public void Send(string message)
     {
         Notify?.Invoke(message);
+    }
+
+    public void SendWithParams(string message, int year, int month)
+    {
+        NotifyWithParams?.Invoke(message, year, month);
     }
 }
