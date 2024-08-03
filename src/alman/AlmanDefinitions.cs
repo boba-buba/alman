@@ -15,6 +15,7 @@ public enum ReturnCode
     SAVE_CTX_ERR,
     NOT_IMPL,
     NOT_SUPPORTED,
+    ERR,
 
 
 }

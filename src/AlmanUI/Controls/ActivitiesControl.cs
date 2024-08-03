@@ -18,7 +18,7 @@ public static class ActvitiesControl
         return BusinessActivitiesApi.AddActivities(activities);
     }
 
-    public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activities, IList<int> activitiesIdsToDelete)
+    public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activitiesToSave, IList<int> activitiesIdsToDelete)
     {
         if (activitiesIdsToDelete.Any())
         {
@@ -29,22 +29,25 @@ public static class ActvitiesControl
                 return retCode;
             }
         }
-
         var activitiesFromDb = BusinessActivitiesApi.GetActivities();
-        foreach (var activity in activitiesFromDb)
+        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.ActivityId).ToList();
+        
+        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.ActivityId) select act).ToList();
+        
+/*        foreach (var activity in activitiesFromDb)
         {
             var updatedActivity = activities.Single(act => act.ActivityId == activity.ActivityId);
             activity.ActivityPrice = updatedActivity.ActivityPrice;
             activity.ActivityName = updatedActivity.ActivityName;
-        }
-        BusinessActivitiesApi.UpdateActivities(activitiesFromDb);
+        }*/
+        BusinessActivitiesApi.UpdateActivities(updatedActivities);
 
-        if (activitiesFromDb.Count < activities.Count)
+        if (activitiesFromDb.Count < activitiesToSave.Count)
         { 
             var newActivities = new List<IActivityBase>();
-            for (int i = activitiesFromDb.Count; i < activities.Count; i++)
+            for (int i = activitiesFromDb.Count; i < activitiesToSave.Count; i++)
             {
-                newActivities.Add(activities[i]);
+                newActivities.Add(activitiesToSave[i]);
             }
             AddActivities(newActivities);
         }

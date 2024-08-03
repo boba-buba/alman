@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlmanUI.Mediator;
+using Alman.SharedDefinitions;
 
 
 namespace AlmanUI.Views;
@@ -27,8 +28,8 @@ public partial class YearMonthActivitiesPageView : UserControl
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActvitiesControl.GetActivities();
         _activitiesTable = activities;
-        var activeChildren = ChildrenControl.GetChildrenOnCondition(ch => ch.ChildState == 1);
-        _childrenTable = activeChildren;
+        var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
+        _childrenTable = children;
 
         var compositeItems = new List<CompositeItem>();
         foreach (var child in _childrenTable)
@@ -64,8 +65,8 @@ public partial class YearMonthActivitiesPageView : UserControl
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActvitiesControl.GetActivities();
         _activitiesTable = activities;
-        var activeChildren = ChildrenControl.GetChildrenOnCondition(ch => ch.ChildState == 1);
-        _childrenTable = activeChildren;
+        var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
+        _childrenTable = children;
 
         var compositeItems = new List<CompositeItem>();
         foreach (var child in _childrenTable)
@@ -101,17 +102,18 @@ public partial class YearMonthActivitiesPageView : UserControl
                     {
                         new ColumnDefinition(GridLength.Star),
                         new ColumnDefinition(GridLength.Star),
+                        new ColumnDefinition(GridLength.Star),
                         new ColumnDefinition(GridLength.Star)
                     }
                 };
 
                 var monthSumActivity = new TextBox();
 
-                if (x.YMActivities.Count == 0 || x.YMActivities is null || x.YMActivities.Where(act => act.YmactivityId == activity.ActivityId).ToList().Count == 0)
+                if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.ActivityId).ToList().Count == 0)
                 {
                     x.YMActivities!.Add(new YearMonthActivityUI { 
                         YmactivityId = activity.ActivityId, 
-                        YmchildId = x.YMChild.ChildId, 
+                        YmchildId = x.YMChild!.ChildId, 
                         Month = DateTime.Now.Month,
                         Year = DateTime.Now.Year,
                         YmactivitySum = 0,
@@ -138,6 +140,24 @@ public partial class YearMonthActivitiesPageView : UserControl
                 oneTimePrice.Text = activity.ActivityPrice.ToString();
                 grid.Children.Add(oneTimePrice);
                 Grid.SetColumn(oneTimePrice, 2);
+
+                var paymentMethod = new ComboBox();
+                paymentMethod.Bind(ComboBox.ItemsSourceProperty, new Binding { Path = "DataContext.PaymentMethods", Source = MainDataGrid });
+                paymentMethod.Bind(ComboBox.SelectedItemProperty, new Binding { Path = $"YMActivities[{index}].YmwayOfPaying" });
+                //doesnt work
+                paymentMethod.ItemTemplate = new FuncDataTemplate<WayOfPaying>((method, _) =>
+                {
+                    var textBlock = new TextBlock();
+                    textBlock.Bind(TextBlock.TextProperty, new Binding($"YMActivities[{index}].YmwayOfPaying", BindingMode.TwoWay)
+                    {
+                        Converter = new AlmanUI.ViewModels.PaymentMethodConverter()
+                    });
+                    return textBlock;
+                });
+                
+                grid.Children.Add(paymentMethod);
+                Grid.SetColumn(paymentMethod, 3);
+
 
                 return grid;
             });
