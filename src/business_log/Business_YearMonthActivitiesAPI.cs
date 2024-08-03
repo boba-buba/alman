@@ -14,6 +14,13 @@ public static class BusinessYearMonthActivitiesApi
         return db.GetYearMonthActivities(act => act.Year == year && act.Month == month);
     }
 
+    public static ReturnCode DeleteYMACtivities(IList<int> yMActivitiesIds)
+    {
+        var db = new DbChildren();
+        var yMActivitiesToDelete = db.GetYearMonthActivities(act => yMActivitiesIds.Contains(act.YmactivityId));
+        return db.DeleteYearMonthActivities(yMActivitiesToDelete);
+    }
+
     public static ReturnCode AddYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> activities)
     {
         var db = new DbChildren();
@@ -33,22 +40,29 @@ public static class BusinessYearMonthActivitiesApi
         return db.AddYearMonthActivities(yearMonthActivities);
     }
 
-    public static ReturnCode UpdateYMActivities(IReadOnlyList<IYearMonthActivityBase> activities)
+    public static ReturnCode UpdateYMActivities(IReadOnlyList<IYearMonthActivityBase> updatedYMActivities)
     {
         var db = new DbChildren();
-        List<YearMonthActivity> yearMonthActivities = new List<YearMonthActivity>();
-        foreach (var activity in activities)
+        if (updatedYMActivities.Count == 0)
         {
-            yearMonthActivities.Add(new YearMonthActivity
-            {
-                Year = activity.Year,
-                Month = activity.Month,
-                YmactivityId = activity.YmactivityId,
-                YmchildId = activity.YmchildId,
-                YmactivitySum = activity.YmactivitySum,
-                YmwayOfPaying = activity.YmwayOfPaying,
-            });
+            return ReturnCode.OK;
         }
-        return db.UpdateYearMonthActivities(yearMonthActivities);
+        int year = updatedYMActivities[0].Year;
+        int month = updatedYMActivities[0].Month;
+
+        var yMActivitesToUpdate = db.GetYearMonthActivities(act => act.Year == year && act.Month == month);
+        foreach (var yMActivity in yMActivitesToUpdate)
+        {
+            var updatedYMActivity = updatedYMActivities.Single(act =>
+                act.YmchildId == yMActivity.YmchildId &&
+                act.YmactivityId == yMActivity.YmactivityId &&
+                act.Month == yMActivity.Month &&
+                act.Year == yMActivity.Year);
+            yMActivity.YmwasPaid = updatedYMActivity.YmwasPaid;
+            yMActivity.YmwayOfPaying = updatedYMActivity.YmwayOfPaying;
+            yMActivity.YmactivitySum = updatedYMActivity.YmactivitySum;
+        }
+
+        return db.UpdateYearMonthActivities(yMActivitesToUpdate);
     }
 }
