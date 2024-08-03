@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AlmanUI.Views.YMActivitiesCalendarWindow"
+		x:DataType="ViewModels:YearMonthActivitiesPageViewModel"
+        Title="YMActivitiesCalendarWindow"
+		Width="300"
+		Height="300"
+		MinHeight="370"
+		MinWidth="300">
+
+	<Grid RowDefinitions="Auto, Auto"
+		  Width="350"
+		  Height="370"
+		  HorizontalAlignment="Left">
+		<Calendar  Grid.Row="0" Name="Calendar" SelectionMode="MultipleRange" Width="300"
+				   />
+		<Button Grid.Row="1" Content="Save Choice" Click="OnSaveChoiceClick" Width="300"/>
+	</Grid>
+</Window>

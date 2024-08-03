@@ -16,6 +16,7 @@ using AlmanUI.Mediator;
 using AlmanUI.Models;
 using Avalonia.Data.Converters;
 using System.Globalization;
+using System.Linq;
 
 namespace AlmanUI.ViewModels;
 
@@ -99,6 +100,9 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             Debug.WriteLine($"Something went wrong updating {nameof(YearMonthActivityUI)}'s. Changes were not saved.");
         }
     }
+
+
+
 }
 
 

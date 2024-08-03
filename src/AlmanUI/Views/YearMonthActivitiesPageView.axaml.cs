@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AlmanUI.Mediator;
 using Alman.SharedDefinitions;
+using Avalonia.Interactivity;
+using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace AlmanUI.Views;
@@ -107,7 +111,8 @@ public partial class YearMonthActivitiesPageView : UserControl
                     }
                 };
 
-                var monthSumActivity = new TextBox();
+                var monthSumActivity = new TextBox {Name = "monthSumActivityBox" };
+                
 
                 if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.ActivityId).ToList().Count == 0)
                 {
@@ -127,12 +132,17 @@ public partial class YearMonthActivitiesPageView : UserControl
 
                 IYearMonthActivityBase act = x.YMActivities.Single(act => act.YmactivityId == activity.ActivityId);
                 int index = x.YMActivities.IndexOf(act);
+                
                 monthSumActivity.Bind(TextBox.TextProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
-
+                
                 grid.Children.Add(monthSumActivity);
                 Grid.SetColumn(monthSumActivity, 0);
 
-                var fillDatesButton = new Button { Content = "Fill Dates" };
+                var fillDatesButton = new Button { Content = "v" };
+                //fillDatesButton.Bind(Button.ContentProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
+                ToolTip.SetTip(fillDatesButton, "Show calendar to fill dates manully.");
+                fillDatesButton.Click += OnFillDatesClick;
+                
                 grid.Children.Add(fillDatesButton);
                 Grid.SetColumn(fillDatesButton, 1);
 
@@ -175,8 +185,45 @@ public partial class YearMonthActivitiesPageView : UserControl
         MainDataGrid.ItemsSource = _yearMonthActivities;
         SaveMonthActivitiesButton.CommandParameter = _yearMonthActivities;
     }
-}
 
+    private async void OnFillDatesClick(object? sender, RoutedEventArgs e)
+    {
+        var calendarWindow = new YMActivitiesCalendarWindow();
+        if (VisualRoot is null) { return; }
+        await calendarWindow.ShowDialog((Window)VisualRoot);
+        if (calendarWindow.SelectedDates != null)
+        {
+
+            if (sender is null)
+            {
+                Debug.WriteLine("Null sender when must be button.");
+                return;
+            }
+
+            Button fillDatesButtonSender = (Button)sender;
+
+            UpdateSelectedDates(calendarWindow.SelectedDates, fillDatesButtonSender);
+        }
+    }
+
+    public void UpdateSelectedDates(IReadOnlyList<DateTime> selectedDates, Button button)
+    {
+        var parentGrid = button.Parent as Grid;
+
+        if (parentGrid is not null)
+        {
+            var sumTextBox = (TextBox)parentGrid.Children[0];
+            var oneTimePriceTextBox = (TextBlock)parentGrid.Children[2];
+
+            if (sumTextBox is not null && oneTimePriceTextBox is not null)
+            {
+                int monthSum = selectedDates.Count * Int32.Parse(oneTimePriceTextBox.Text);
+
+                sumTextBox.Text = monthSum.ToString();
+            }
+        }
+    }
+}
 
 
 public class CompositeItem

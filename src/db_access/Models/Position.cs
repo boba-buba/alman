@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Alman.SharedModels;
 namespace DbAccess.Models;
 
-public partial class Position
+public partial class Position : IPositionBase
 {
     public int PositionId { get; set; }
 
