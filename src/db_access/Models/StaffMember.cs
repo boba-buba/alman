@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Alman.SharedModels;
+using System;
 using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
-public partial class StaffMember
+public partial class StaffMember : IStaffMemberBase
 {
     public int StaffMemberId { get; set; }
 
