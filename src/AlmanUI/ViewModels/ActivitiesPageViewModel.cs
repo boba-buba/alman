@@ -1,4 +1,5 @@
-﻿using Alman.SharedModels;
+﻿using Alman.SharedDefinitions;
+using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,15 +26,26 @@ namespace AlmanUI.ViewModels
 
         public ActivitiesPageViewModel()
         {
-            Activities = new ObservableCollection<IActivityBase>(ActvitiesControl.GetActivities());
+            Activities = new ObservableCollection<IActivityBase>(ActivitiesControl.GetActivities());
             _activitiesIdsToDelete = new List<int>();
         }
 
         [RelayCommand]
         public void TriggerSaveCommand()
         {
-            var retCode = ActvitiesControl.SaveActivities(Activities, _activitiesIdsToDelete);
+            var retCode = ActivitiesControl.SaveActivities(Activities, _activitiesIdsToDelete);
+            if (retCode != ReturnCode.OK)
+            {
+                //New error window
+                Debug.WriteLine("Smth went wrong");
+                return;
+            }
             _activitiesIdsToDelete.Clear();
+            Activities.Clear();
+            foreach (var item in ActivitiesControl.GetActivities())
+            {
+                Activities.Add(item);
+            }
         }
 
         [RelayCommand]

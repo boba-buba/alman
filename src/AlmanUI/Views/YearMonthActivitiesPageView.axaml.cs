@@ -30,7 +30,7 @@ public partial class YearMonthActivitiesPageView : UserControl
     {   
         var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(DateTime.Now.Year, DateTime.Now.Month);
         _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActvitiesControl.GetActivities();
+        var activities = ActivitiesControl.GetActivities();
         _activitiesTable = activities;
         var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;
@@ -67,7 +67,7 @@ public partial class YearMonthActivitiesPageView : UserControl
     {
         var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(year, month);
         _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActvitiesControl.GetActivities();
+        var activities = ActivitiesControl.GetActivities();
         _activitiesTable = activities;
         var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;

@@ -62,9 +62,9 @@ public partial class AlmanContext : DbContext
     {
         modelBuilder.Entity<Child>(entity =>
         {
-            entity.Property(e => e.ChildContract).HasColumnType("INTEGER");
+            entity.Property(e => e.ChildContract).HasColumnType("INT");
             entity.Property(e => e.ChildLastName).HasColumnName("ChildLastNAme");
-            entity.Property(e => e.ChildName).HasColumnType("NUMERIC");
+            entity.Property(e => e.ChildName).HasColumnType("TEXT");
             entity.Property(e => e.ChildState).HasDefaultValue(1);
         });
 
@@ -100,7 +100,12 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Position>(entity =>
         {
-            entity.Property(e => e.PositionId).ValueGeneratedNever();
+            entity.HasKey(e => e.PositionId);
+
+            //entity.Property(e => e.PositionId).ValueGeneratedNever();
+            //entity.Property(e => e.PositionName).HasColumnType("TEXT").HasColumnName("PositionName");
+            //entity.Property(e => e.PositionSalary).HasColumnType("INT").HasColumnName("PositionName");
+
         });
 
         modelBuilder.Entity<Precontract>(entity =>

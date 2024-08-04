@@ -23,7 +23,7 @@ public static class YearMonthActivitiesControl
         return BusinessYearMonthActivitiesApi.AddYearMonthActivities(ymActivities);
     }
 
-    public static ReturnCode UpdateYearMonthActivities(IReadOnlyList<YearMonthActivityUI> activities)
+    public static ReturnCode UpdateYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> activities)
     {
         return BusinessYearMonthActivitiesApi.UpdateYMActivities(activities);
         
@@ -31,7 +31,7 @@ public static class YearMonthActivitiesControl
 
     public static ReturnCode SaveYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivitiesToSave, int year, int month)
     {
-        ReturnCode retval = ReturnCode.ERR;
+        ReturnCode retCode = ReturnCode.ERR;
         var ymActivitiesFromDb = BusinessYearMonthActivitiesApi.GetYMActivities(year, month);
         int dbCount = ymActivitiesFromDb.Count;
         int difference = ymActivitiesToSave.Count - dbCount;
@@ -40,11 +40,11 @@ public static class YearMonthActivitiesControl
         {
             var updatedYMActivities = ymActivitiesToSave.Where(ymAct => ymAct.InGroup(ymActivitiesFromDb)).ToList();
 
-            retval = BusinessYearMonthActivitiesApi.UpdateYMActivities(updatedYMActivities);
-            if (retval != ReturnCode.OK)
+            retCode = BusinessYearMonthActivitiesApi.UpdateYMActivities(updatedYMActivities);
+            if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IYearMonthActivityBase)}");
-                return retval;
+                return retCode;
             }
         }
 
@@ -52,10 +52,10 @@ public static class YearMonthActivitiesControl
         {
 
             var newYMActivities = ymActivitiesToSave.Where(ymAct => !ymAct.InGroup(ymActivitiesFromDb)).ToList();
-            retval = AddYearMonthActivities(newYMActivities);
+            retCode = AddYearMonthActivities(newYMActivities);
         }
 
-        return retval;
+        return retCode;
     }
 
 }
