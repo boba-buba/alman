@@ -30,7 +30,7 @@ public static class PositionsControl
     //TODO atomic somehow or like one transaction
     public static ReturnCode SavePositions(IReadOnlyList<IPositionBase> positionsToSave, IList<int> positionsIdsToDelete)
     {
-        ReturnCode retCode = ReturnCode.ERR;
+        ReturnCode retCode = ReturnCode.OK;
         if (positionsIdsToDelete.Count > 0)
         {
             retCode = DeletePositions(positionsIdsToDelete);

@@ -1,7 +1,13 @@
 ﻿using Alman.SharedModels;
-namespace DbAccess.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public partial class Precontract : IPrecontractBase
+namespace AlmanUI.Models;
+
+internal class PrecontractUI : IPrecontractBase
 {
     public int PchildId { get; set; }
 
@@ -10,6 +16,6 @@ public partial class Precontract : IPrecontractBase
     public string? Pcomment { get; set; }
 
     public int? PYear { get; set; }
+
     public int? PMonth { get; set; }
-    public virtual Child Pchild { get; set; } = null!;
 }

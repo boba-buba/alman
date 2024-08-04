@@ -47,5 +47,8 @@
     <Compile Update="Views\PositionsPageView.axaml.cs">
       <DependentUpon>PositionsPageView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\PrecontractsPageView.axaml.cs">
+      <DependentUpon>PrecontractsPageView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

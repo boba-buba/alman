@@ -27,7 +27,7 @@ namespace AlmanUI.ViewModels
         private IChildBase? _selectedChild = null;
         public ChildrenPageViewModel()
         {
-            var children = BusinessChildrenAPI.GetChildren();
+            var children = BusinessChildrenApi.GetChildren();
             Children = new ObservableCollection<IChildBase>(children);
         }
 
@@ -65,7 +65,7 @@ namespace AlmanUI.ViewModels
         public void TriggerSaveCommand()
         {
             //call save command
-            BusinessChildrenAPI.SaveChildren(Children);
+            BusinessChildrenApi.SaveChildren(Children);
 
             IsChanged = false;
         }
