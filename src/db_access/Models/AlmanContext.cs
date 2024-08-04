@@ -110,11 +110,13 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Precontract>(entity =>
         {
-            entity.HasKey(e => new { e.PchildId, e.Psum });
+            entity.HasKey(e => new { e.PchildId });
 
             entity.Property(e => e.PchildId).HasColumnName("PChildID");
             entity.Property(e => e.Psum).HasColumnName("PSum");
             entity.Property(e => e.Pcomment).HasColumnName("PComment");
+            entity.Property(e => e.PYear).HasColumnName("PYear");
+            entity.Property(e => e.PMonth).HasColumnName("PMonth");
 
             entity.HasOne(d => d.Pchild).WithMany(p => p.Precontracts)
                 .HasForeignKey(d => d.PchildId)

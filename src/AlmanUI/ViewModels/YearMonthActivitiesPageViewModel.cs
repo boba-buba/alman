@@ -1,22 +1,14 @@
-﻿using Alman.SharedModels;
-using AlmanUI.Controls;
-using Alman.SharedDefinitions;
+﻿using Alman.SharedDefinitions;
+using AlmanUI.Models;
+using AlmanUI.Views;
 using Avalonia.Controls;
+using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
-using AlmanUI.Views;
 using System.Diagnostics;
-using AlmanUI.Mediator;
-using AlmanUI.Models;
-using Avalonia.Data.Converters;
 using System.Globalization;
-using System.Linq;
 
 namespace AlmanUI.ViewModels;
 
@@ -94,8 +86,8 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             }
         }
 
-        ReturnCode retval = YearMonthActivitiesControl.SaveYearMonthActivities(yearMonthActivities, CurrentYear, CurrentMonth);
-        if (retval != ReturnCode.OK)
+        ReturnCode retCode = YearMonthActivitiesControl.SaveYearMonthActivities(yearMonthActivities, CurrentYear, CurrentMonth);
+        if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong updating {nameof(YearMonthActivityUI)}'s. Changes were not saved.");
         }

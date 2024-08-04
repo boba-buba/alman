@@ -15,64 +15,63 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 
-namespace AlmanUI.ViewModels
+namespace AlmanUI.ViewModels;
+
+public partial class PositionsPageViewModel : ViewModelBase
 {
-    public partial class PositionsPageViewModel : ViewModelBase
+    public ObservableCollection<IPositionBase> Positions { get; private set; }
+    
+    private List<int> _positionsIdsToDelete;
+
+    [ObservableProperty]
+    private IPositionBase? _selectedPosition = null;
+    public PositionsPageViewModel() 
     {
-        public ObservableCollection<IPositionBase> Positions { get; private set; }
-        
-        private List<int> _positionsIdsToDelete;
+        Positions = new ObservableCollection<IPositionBase>(PositionsControl.GetPositions());
+        _positionsIdsToDelete = new List<int>();
+    }
 
-        [ObservableProperty]
-        private IPositionBase? _selectedPosition = null;
-        public PositionsPageViewModel() 
+    [RelayCommand]
+    public void TriggerSaveCommand()
+    {
+
+        var retCode = PositionsControl.SavePositions(Positions, _positionsIdsToDelete);
+        if (retCode != ReturnCode.OK)
         {
-            Positions = new ObservableCollection<IPositionBase>(PositionsControl.GetPositions());
-            _positionsIdsToDelete = new List<int>();
+            //New error window
+            Debug.WriteLine("Smth went wrong");
+            return;
+        }
+        _positionsIdsToDelete.Clear();
+        Positions.Clear();
+        foreach (var item in PositionsControl.GetPositions())
+        {
+            Positions.Add(item);
+        }
+    }
+
+    [RelayCommand]
+    public void TriggerAddNewPositionCommand()
+    {
+        IPositionBase position = new PositionUI { PositionId = 0};
+        Positions.Add(position);
+    }
+
+    [RelayCommand]
+    public void TriggerRemovePositionCommand()
+    {
+        //nothong is chosen
+        if (SelectedPosition == null)
+        {
+            return;
         }
 
-        [RelayCommand]
-        public void TriggerSaveCommand()
+        if (SelectedPosition.PositionId != 0)
         {
-
-            var retCode = PositionsControl.SavePositions(Positions, _positionsIdsToDelete);
-            if (retCode != ReturnCode.OK)
-            {
-                //New error window
-                Debug.WriteLine("Smth went wrong");
-                return;
-            }
-            _positionsIdsToDelete.Clear();
-            Positions.Clear();
-            foreach (var item in PositionsControl.GetPositions())
-            {
-                Positions.Add(item);
-            }
+            _positionsIdsToDelete.Add(SelectedPosition.PositionId);   
         }
 
-        [RelayCommand]
-        public void TriggerAddNewPositionCommand()
-        {
-            IPositionBase position = new PositionUI { PositionId = 0};
-            Positions.Add(position);
-        }
-
-        [RelayCommand]
-        public void TriggerRemovePositionCommand()
-        {
-            //nothong is chosen
-            if (SelectedPosition == null)
-            {
-                return;
-            }
-
-            if (SelectedPosition.PositionId != 0)
-            {
-                _positionsIdsToDelete.Add(SelectedPosition.PositionId);   
-            }
-
-            Positions.Remove(SelectedPosition);
-            SelectedPosition = null;
-        }
+        Positions.Remove(SelectedPosition);
+        SelectedPosition = null;
     }
 }

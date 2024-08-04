@@ -10,11 +10,15 @@ public static class ChildrenControl
 {
     public static IReadOnlyList<IChildBase> GetChildren()
     {
-        return BusinessChildrenAPI.GetChildren();
+        return BusinessChildrenApi.GetChildren();
     }
 
     public static IReadOnlyList<IChildBase> GetChildrenOnCondition(Func<IChildBase, bool> selector)
     {
-        return BusinessChildrenAPI.GetChildrenOnCondition(selector);
+        return BusinessChildrenApi.GetChildrenByFilter(selector);
     }
+
+    public static IReadOnlyList<IChildBase> GetChildrenByFilter(Func<IChildBase, bool> filter) =>
+        BusinessChildrenApi.GetChildrenByFilter(filter);
+ 
 }
