@@ -4,7 +4,7 @@ using Alman.SharedModels;
 using System.Runtime.CompilerServices;
 namespace Business;
 
-public static class BusinessChildrenAPI
+public static class BusinessChildrenApi
 {
     public static IReadOnlyList<IChildBase> GetChildren()
     {
@@ -12,7 +12,7 @@ public static class BusinessChildrenAPI
         return db.GetChildren(ch => true);
     }
 
-    public static IReadOnlyList<IChildBase> GetChildrenOnCondition(Func<IChildBase, bool> selector)
+    public static IReadOnlyList<IChildBase> GetChildrenByFilter(Func<IChildBase, bool> selector)
     {
         var db = new DbChildren();
         return db.GetChildren(selector);

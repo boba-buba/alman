@@ -22,10 +22,16 @@ namespace AlmanUI.ViewModels
         private bool _isPaneOpen = true;
 
         [ObservableProperty]
-        private ViewModelBase _currentPage = new HomePageViewModel();
+        private ViewModelBase _currentPage = new PrecontractsPageViewModel();
 
         [ObservableProperty]
         private ListItemTemplate? _selectedListItem;
+
+        [RelayCommand]
+        public void TriggerPaneCommand()
+        {
+            IsPaneOpen = !IsPaneOpen;
+        }
 
         partial void OnSelectedListItemChanged(ListItemTemplate? value)
         {
@@ -38,8 +44,14 @@ namespace AlmanUI.ViewModels
             {
                 return;
             }
-
-            CurrentPage = (ViewModelBase)instance;
+            try
+            {
+                CurrentPage = (ViewModelBase)instance;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public ObservableCollection<ListItemTemplate> Items { get; } = new()
@@ -50,14 +62,9 @@ namespace AlmanUI.ViewModels
             new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
             new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
             new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
+            new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
         };
 
-
-        [RelayCommand]
-        public void TriggerPaneCommand()
-        {
-            IsPaneOpen = !IsPaneOpen;
-        }
     }
 
     public class ListItemTemplate

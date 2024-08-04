@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
+			 xmlns:Models="using:AlmanUI.Models"
+			 xmlns:SharedModels="using:Alman.SharedModels"
+			 xmlns:SharedDefs="using:Alman.SharedDefinitions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AlmanUI.Views.PrecontractsPageView"
+			 x:DataType="ViewModels:PrecontractsPageViewModel">
+	
+	<Grid RowDefinitions="AUto, *, Auto">
+		<Border Grid.Row="0" Height="100">
+			<Grid ColumnDefinitions="2*, *, *, 2*">
+				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevMonthCommand}">PREVIOUS</Button>
+				<TextBlock Grid.Column="1" HorizontalAlignment="Center" FontSize="30" Margin="30" Text="{Binding CurrentMonth}"></TextBlock>
+				<TextBlock Grid.Column="2" HorizontalAlignment="Center" FontSize="30" Margin="30" Text="{Binding CurrentYear}"></TextBlock>
+				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Left" Command="{Binding TriggerNextMonthCommand}">NEXT</Button>
+			</Grid>
+		</Border>
+
+		<DataGrid Grid.Row="1" Name="PrecontractsMainDataGrid" CornerRadius="0 0 12 12"
+				  Margin="10"
+				  IsReadOnly="False"
+				  GridLinesVisibility="All"
+				  CanUserSortColumns="True"
+				  CanUserResizeColumns="True"
+				  BorderThickness="4" BorderBrush="Gray">
+		</DataGrid>
+
+		<StackPanel Grid.Row="2" Margin="10">
+			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
+				<Button Name="SavePrecontractsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+			</Grid>
+		</StackPanel>
+
+
+	</Grid>
+  
+</UserControl>
