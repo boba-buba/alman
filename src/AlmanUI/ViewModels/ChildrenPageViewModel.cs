@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Alman.SharedDefinitions;
 using AlmanUI.Models;
 using Avalonia;

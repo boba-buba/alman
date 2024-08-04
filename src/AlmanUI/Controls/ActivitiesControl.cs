@@ -6,7 +6,7 @@ using System.Linq;
 using System.Diagnostics;
 namespace AlmanUI.Controls;
 
-public static class ActvitiesControl
+public static class ActivitiesControl
 {
     public static IReadOnlyList<IActivityBase> GetActivities()
     {
