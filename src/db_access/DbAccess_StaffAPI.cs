@@ -13,6 +13,13 @@ namespace DatabaseAccess;
 
 public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
 {
+    public DbStaff(string dbPath)
+    {
+        DbPath = dbPath;
+    }
+
+    public DbStaff() { }
+
     #region Staff members reading
     public IReadOnlyList<StaffMember> GetStaffMembers(Func<StaffMember, bool> selector)
     {
