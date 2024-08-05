@@ -13,22 +13,23 @@ using Avalonia.Data.Converters;
 using System.Globalization;
 using Avalonia.Data;
 using Avalonia.Media.TextFormatting.Unicode;
+using AlmanUI.Controls;
 
 namespace AlmanUI.ViewModels
 {
     public partial class ChildrenPageViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private bool _isChanged = false;
 
-        public ObservableCollection<IChildBase> Children { get; }
+        public ObservableCollection<IChildBase> Children { get; set; }
         
         [ObservableProperty]
         private IChildBase? _selectedChild = null;
+
+        private IList<int> _childrenIdsToDelete;
         public ChildrenPageViewModel()
         {
-            var children = BusinessChildrenApi.GetChildren();
-            Children = new ObservableCollection<IChildBase>(children);
+            Children = new ObservableCollection<IChildBase>(BusinessChildrenApi.GetChildren());
+            _childrenIdsToDelete = new List<int>();
         }
 
         public ObservableCollection<string> ChildrenContractNames { get; } = new ObservableCollection<string>
@@ -38,59 +39,47 @@ namespace AlmanUI.ViewModels
             "Standard",
             "Staff child"
         };
-        /*partial void OnSelectedChildChanged(Child? value)
-        {
-            throw new NotImplementedException();
-        }*/
 
-/*        public string GetContractNameByChild(ChildUI child)
-        {
-            ContractType type = (ContractType)child.ChildContract;
-            switch (type)
-            {
-                case ContractType.Precontract:
-                    return "Precontract";
-                case ContractType.OrdinaryContract:
-                    return "Standard";
-                case ContractType.MotherCapital:
-                    return "MotherContract";
-                case ContractType.StaffChild:
-                    return "StaffChild";
-                default:
-                    return "Unknown";
-            }
-        }*/
 
         [RelayCommand]
         public void TriggerSaveCommand()
         {
-            //call save command
-            BusinessChildrenApi.SaveChildren(Children);
+            var retCode = ChildrenControl.SaveChildren(Children, _childrenIdsToDelete);
+            if (retCode != ReturnCode.OK)
+            {
+                Debug.WriteLine($"Smth went wrong saving {nameof(IChildBase)}'s");
+                return;
+            }
+            _childrenIdsToDelete.Clear();
+            Children.Clear();
+            foreach (var child in ChildrenControl.GetChildren())
+            {
+                Children.Add(child);
+            }
 
-            IsChanged = false;
         }
 
+        [RelayCommand]
         public void TriggerAddNewChildCommand()
         {
             IChildBase child = new ChildUI { ChildState = 1, ChildContract = 1, ChildGroup = 1, ChildStartYear = DateTime.Now.Year, ChildStartMonth = DateTime.Now.Month};
             Children.Add(child);
         }
 
+        [RelayCommand]
         public void TriggerRemoveChildCommand()
         {
             if (SelectedChild == null)
             {
                 return;
             }
-            //if (SelectedChild.ChildId == 0)
-            //{
-            Debug.WriteLine(SelectedChild.ChildId);
+            
+            if (SelectedChild.ChildId != 0)
+            {
+                _childrenIdsToDelete.Add(SelectedChild.ChildId);
+            }
             Children.Remove(SelectedChild);
-                
             SelectedChild = null;
-            //}
-            
-            
         }
 
         public void ChooseChildContractType(string contractType)
