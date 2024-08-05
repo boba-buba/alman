@@ -17,7 +17,7 @@
 		<Border Grid.Row="0" Height="100">
 			<TextBlock Text="Children" HorizontalAlignment="Center" FontSize="40" Margin="20"/>
 		</Border>
-		<DataGrid Grid.Row="1" CornerRadius="0 0 12 12"
+		<DataGrid Name="ChildrenDataGrid" Grid.Row="1" CornerRadius="0 0 12 12"
 				  Margin="10" ItemsSource="{Binding Children}"
 				  SelectedItem="{Binding SelectedChild}"
 				  IsReadOnly="False"
@@ -63,11 +63,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
+				
 				<!-- Contract-->
 				<DataGridTemplateColumn Header="Contract Type" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate DataType="SharedModels:IChildBase">
-							<TextBlock Text="{Binding ChildContract, Converter={StaticResource ChildrenContractConverter}}"></TextBlock>
+						<DataTemplate>
+							<ComboBox Name="ContactTypeCombobox"
+                                  SelectedItem="{Binding ChildContract, Mode=TwoWay}"/>
 						</DataTemplate>				
 					</DataGridTemplateColumn.CellTemplate>
 					
