@@ -32,7 +32,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActivitiesControl.GetActivities();
         _activitiesTable = activities;
-        var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
+        var children = ChildrenControl.GetChildrenByFilter(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;
 
         var compositeItems = new List<CompositeItem>();
@@ -69,7 +69,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         _yearMonthActivitiesTable = yearMonthActivities;
         var activities = ActivitiesControl.GetActivities();
         _activitiesTable = activities;
-        var children = ChildrenControl.GetChildrenOnCondition(ch => true); //ch => ch.ChildState == 1
+        var children = ChildrenControl.GetChildrenByFilter(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;
 
         var compositeItems = new List<CompositeItem>();

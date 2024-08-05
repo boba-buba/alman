@@ -8,21 +8,23 @@ namespace AlmanUI.Controls;
 
 public static class ActivitiesControl
 {
-    public static IReadOnlyList<IActivityBase> GetActivities()
-    {
-        return BusinessActivitiesApi.GetActivities();
-    }
+    public static IReadOnlyList<IActivityBase> GetActivities() =>
+        BusinessActivitiesApi.GetActivities();
+    
 
-    private static ReturnCode AddActivities(IReadOnlyList<IActivityBase> activities)
-    {
-        return BusinessActivitiesApi.AddActivities(activities);
-    }
+    private static ReturnCode AddActivities(IReadOnlyList<IActivityBase> activities) =>
+        BusinessActivitiesApi.AddActivities(activities);
+
+    private static ReturnCode DeleteActivities(IList<int> activitiesIds) =>
+        BusinessActivitiesApi.DeleteActivities(activitiesIds);
+
 
     public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activitiesToSave, IList<int> activitiesIdsToDelete)
     {
+        ReturnCode retCode = ReturnCode.OK;
         if (activitiesIdsToDelete.Any())
         {
-            ReturnCode retCode = DeleteActivities(activitiesIdsToDelete);
+            retCode = DeleteActivities(activitiesIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IActivityBase)}'s.");
@@ -34,14 +36,14 @@ public static class ActivitiesControl
         
         var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.ActivityId) select act).ToList();
         
-/*        foreach (var activity in activitiesFromDb)
+        retCode = BusinessActivitiesApi.UpdateActivities(updatedActivities);
+        if (retCode != ReturnCode.OK)
         {
-            var updatedActivity = activities.Single(act => act.ActivityId == activity.ActivityId);
-            activity.ActivityPrice = updatedActivity.ActivityPrice;
-            activity.ActivityName = updatedActivity.ActivityName;
-        }*/
-        BusinessActivitiesApi.UpdateActivities(updatedActivities);
-
+            Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
+            return retCode;
+        }
+        
+        
         if (activitiesFromDb.Count < activitiesToSave.Count)
         { 
             var newActivities = new List<IActivityBase>();
@@ -53,11 +55,6 @@ public static class ActivitiesControl
         }
 
         return ReturnCode.OK;
-    }
-
-    private static ReturnCode DeleteActivities(IList<int> activitiesIds)
-    {
-        return BusinessActivitiesApi.DeleteActivities(activitiesIds);
     }
 
 }
