@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Alman.SharedModels;
 namespace DbAccess.Models;
 
-public partial class ContractFee
+public partial class ContractFee : IContractFeeBase
 {
     public int CfchildId { get; set; }
 

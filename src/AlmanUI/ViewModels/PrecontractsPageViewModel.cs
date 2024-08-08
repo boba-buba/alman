@@ -59,7 +59,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
 
 
     [RelayCommand]
-    public void TriggerSaveCommand(IReadOnlyList<CompositeItemPrecontract> items)
+    public void TriggerSaveCommand(IReadOnlyList<PrecontractCompositeItem> items)
     {
         if (items.Count == 0) { return; }
         List<PrecontractUI> precontracts = new List<PrecontractUI>();
@@ -68,7 +68,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
             if (item.PChild is null || item.Precontract is null)
             {
                 Debug.WriteLine($"Null {nameof(item.PChild)} or {nameof(item.Precontract)}");
-                return;
+                continue;
             }
             precontracts.Add(new PrecontractUI
             {
@@ -83,7 +83,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
         ReturnCode retCode = PrecontractsControl.SavePrecontracts(precontracts);
         if (retCode != ReturnCode.OK)
         {
-            Debug.WriteLine($"Something went wrong updating {nameof(PrecontractUI)}'s. Changes were not saved.");
+            Debug.WriteLine($"Something went wrong saving {nameof(PrecontractUI)}'s. Changes were not saved.");
         }
     }
      

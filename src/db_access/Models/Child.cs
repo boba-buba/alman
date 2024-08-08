@@ -18,9 +18,9 @@ public partial class Child : IChildBase
 
     public int ChildState { get; set; }
 
-    public int? ChildStartYear { get; set; }
+    public int ChildStartYear { get; set; }
 
-    public int? ChildStartMonth { get; set; }
+    public int ChildStartMonth { get; set; }
 
     public virtual ICollection<ContractFee> ContractFees { get; set; } = new List<ContractFee>();
 

@@ -14,70 +14,70 @@ using System.Runtime.CompilerServices;
 using Material.Icons;
 
 
-namespace AlmanUI.ViewModels
+namespace AlmanUI.ViewModels;
+
+public partial class MainWindowViewModel : ViewModelBase
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    [ObservableProperty]
+    private bool _isPaneOpen = true;
+
+    [ObservableProperty]
+    private ViewModelBase _currentPage = new HomePageViewModel();
+
+    [ObservableProperty]
+    private ListItemTemplate? _selectedListItem;
+
+    [RelayCommand]
+    public void TriggerPaneCommand()
     {
-        [ObservableProperty]
-        private bool _isPaneOpen = true;
-
-        [ObservableProperty]
-        private ViewModelBase _currentPage = new PrecontractsPageViewModel();
-
-        [ObservableProperty]
-        private ListItemTemplate? _selectedListItem;
-
-        [RelayCommand]
-        public void TriggerPaneCommand()
-        {
-            IsPaneOpen = !IsPaneOpen;
-        }
-
-        partial void OnSelectedListItemChanged(ListItemTemplate? value)
-        {
-            if (value is null)
-            {
-                return;
-            }
-            var instance = Activator.CreateInstance(value.ModelType);
-            if (instance is null)
-            {
-                return;
-            }
-            try
-            {
-                CurrentPage = (ViewModelBase)instance;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        public ObservableCollection<ListItemTemplate> Items { get; } = new()
-        {
-            new ListItemTemplate(typeof(HomePageViewModel),  MaterialIconKind.Home),
-            new ListItemTemplate(typeof(ChildrenPageViewModel),  MaterialIconKind.BabyFaceOutline),
-            new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline),
-            new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
-            new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
-            new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
-            new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
-        };
-
+        IsPaneOpen = !IsPaneOpen;
     }
 
-    public class ListItemTemplate
+    partial void OnSelectedListItemChanged(ListItemTemplate? value)
     {
-        public ListItemTemplate(Type type, MaterialIconKind icon)
+        if (value is null)
         {
-            ModelType = type;
-            Label = type.Name.Replace("PageViewModel", ""); 
-            ListItemIcon = icon;
+            return;
         }
-        public string Label { get; }
-        public Type ModelType { get; }
-
-        public MaterialIconKind ListItemIcon { get; }
+        var instance = Activator.CreateInstance(value.ModelType);
+        if (instance is null)
+        {
+            return;
+        }
+        try
+        {
+            CurrentPage = (ViewModelBase)instance;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
+
+    public ObservableCollection<ListItemTemplate> Items { get; } = new()
+    {
+        new ListItemTemplate(typeof(HomePageViewModel),  MaterialIconKind.Home),
+        new ListItemTemplate(typeof(ChildrenPageViewModel),  MaterialIconKind.BabyFaceOutline),
+        new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline),
+        new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
+        new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
+        new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
+        new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
+        new ListItemTemplate(typeof(ContractFeesPageViewModel), MaterialIconKind.AccountCreditCardOutline)
+    };
+
+}
+
+public class ListItemTemplate
+{
+    public ListItemTemplate(Type type, MaterialIconKind icon)
+    {
+        ModelType = type;
+        Label = type.Name.Replace("PageViewModel", ""); 
+        ListItemIcon = icon;
+    }
+    public string Label { get; }
+    public Type ModelType { get; }
+
+    public MaterialIconKind ListItemIcon { get; }
 }

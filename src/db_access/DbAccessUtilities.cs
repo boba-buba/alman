@@ -1,8 +1,4 @@
 ﻿using System.Diagnostics;
-
-using DbAccess.Models;
-using System.Security.AccessControl;
-
 using Microsoft.EntityFrameworkCore;
 using Alman.SharedDefinitions;
 namespace DatabaseAccess;
@@ -17,7 +13,6 @@ public static class DebugUtilities
         Debug.Assert(exception != null);
 
         Debug.WriteLine("----Another one----");
-        //Debug.Write("  Exception description: "); Debug.WriteLine(exception.ToString());
         Debug.WriteLine("  Exception message: "); Debug.WriteLine(exception.Message);
         Debug.WriteLine("  Exception stack trace: "); Debug.WriteLine(exception.StackTrace);
         Debug.WriteLine("---------End--------");

@@ -20,7 +20,7 @@ namespace AlmanUI.Views
 
         private IReadOnlyList<IPrecontractBase>? _precontractsTable;
 
-        private IReadOnlyList<CompositeItemPrecontract>? _childPrecontracts { get; set; }
+        private IReadOnlyList<PrecontractCompositeItem>? _childPrecontracts { get; set; }
 
         private void LoadItems(int year, int month)
         {
@@ -39,22 +39,19 @@ namespace AlmanUI.Views
                 pr.PMonth == month);
 
 
-            var childPrecontracts = new List<CompositeItemPrecontract>();
+            var childPrecontracts = new List<PrecontractCompositeItem>();
 
             foreach (var child in _childrenTable)
             {
-                var newItem = new CompositeItemPrecontract { PChild = child };
-                IPrecontractBase newItemPrecontract;
+                var newItem = new PrecontractCompositeItem { PChild = child };
+                IPrecontractBase? newItemPrecontract = _precontractsTable.SingleOrDefault(pr => pr.PchildId == child.ChildId);
 
-                if (_precontractsTable.Count == 0 || _precontractsTable.Single(pr => pr.PchildId == child.ChildId) == null)
+                if (_precontractsTable.Count == 0 || newItemPrecontract == null)
                 {
                     newItemPrecontract = new PrecontractUI { PchildId = child.ChildId, PMonth = child.ChildStartMonth, PYear = child.ChildStartYear };
 
                 }
-                else
-                {
-                    newItemPrecontract = _precontractsTable.Single(pr => pr.PchildId == child.ChildId);
-                }
+                
                 newItem.Precontract = newItemPrecontract;
                 childPrecontracts.Add(newItem);
             }
@@ -68,7 +65,7 @@ namespace AlmanUI.Views
             LoadItems(DateTime.Now.Year, DateTime.Now.Month);
             if (_childPrecontracts  is null)
             {
-                _childPrecontracts = new List<CompositeItemPrecontract>();
+                _childPrecontracts = new List<PrecontractCompositeItem>();
             }
             InitializeComponent();
             InitPrecontractsMainDataGrid();
@@ -92,7 +89,7 @@ namespace AlmanUI.Views
             PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Paid Sum", Binding = new Binding("Precontract.Psum") });
             PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Comment", Binding = new Binding("Precontract.Pcomment") });
 
-            var monthColumn = new FuncDataTemplate<CompositeItemPrecontract>((x, _) =>
+            var monthColumn = new FuncDataTemplate<PrecontractCompositeItem>((x, _) =>
             {
                 var monthUpDown = new NumericUpDown
                 {
@@ -105,7 +102,7 @@ namespace AlmanUI.Views
                 return monthUpDown;
             });
 
-            var yearColumn = new FuncDataTemplate<CompositeItemPrecontract>((x, _) =>
+            var yearColumn = new FuncDataTemplate<PrecontractCompositeItem>((x, _) =>
             {
                 var yearUpDown = new NumericUpDown
                 {
@@ -140,7 +137,7 @@ namespace AlmanUI.Views
     }
 
 
-    public class CompositeItemPrecontract
+    public class PrecontractCompositeItem
     {
         public IChildBase? PChild { get; set; }
         public IPrecontractBase? Precontract { get; set; }

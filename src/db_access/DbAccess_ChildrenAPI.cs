@@ -15,10 +15,8 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 
     #region Children Reading
 
-    //private Func<Child, bool> defaultSelector = ch => true;
     public IReadOnlyList<Child> GetChildren(Func<Child, bool> selector)
     {
-        //Func<Child, bool> selector = (child) => { return true; };
 
         using var db = ConnectToDb();
 
