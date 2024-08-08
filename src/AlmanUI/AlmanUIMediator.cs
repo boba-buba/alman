@@ -13,6 +13,8 @@ public class Mediator
 
     public event Action<string, int, int>? NotifyWithParams;
 
+    public event Action<string, int>? NotifyWithOneParam;
+
     public void Send(string message)
     {
         Notify?.Invoke(message);
@@ -21,5 +23,10 @@ public class Mediator
     public void SendWithParams(string message, int year, int month)
     {
         NotifyWithParams?.Invoke(message, year, month);
+    }
+
+    public void SendWithOneParam(string message, int year)
+    {
+        NotifyWithOneParam?.Invoke(message, year);
     }
 }

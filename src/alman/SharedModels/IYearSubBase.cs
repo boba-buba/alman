@@ -1,13 +1,18 @@
-﻿using Alman.SharedModels;
-namespace DbAccess.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public partial class YearSub : IYearSubBase
+namespace Alman.SharedModels;
+
+public interface IYearSubBase
 {
     public int YchildId { get; set; }
 
     public int Yyear { get; set; }
 
-    public int  Yjanuary { get; set; }
+    public int Yjanuary { get; set; }
 
     public int YjanuaryPayment { get; set; }
 
@@ -55,5 +60,4 @@ public partial class YearSub : IYearSubBase
 
     public int YdecemberPayment { get; set; }
 
-    public virtual Child Ychild { get; set; } = null!;
 }
