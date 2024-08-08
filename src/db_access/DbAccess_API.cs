@@ -84,7 +84,7 @@ public interface IAlmanStaffRead
 
 public interface IAlmanStaffWrite
 {
-    public ReturnCode AddNewStaffMembers(IEnumerable<StaffMember> members);
+    public ReturnCode AddStaffMembers(IEnumerable<StaffMember> members);
     public ReturnCode UpdateStaffMembers(IEnumerable<StaffMember> members);
     public ReturnCode DeleteStaffMembers(IEnumerable<StaffMember> members);
 
