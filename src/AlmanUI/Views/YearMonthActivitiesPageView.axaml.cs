@@ -92,8 +92,8 @@ public partial class YearMonthActivitiesPageView : UserControl
     private void InitDataGrid()
     {
 
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("YMChild.ChildName") });
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("YMChild.ChildLastName") });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
 
         foreach (var activity in _activitiesTable)
         {
@@ -139,7 +139,6 @@ public partial class YearMonthActivitiesPageView : UserControl
                 Grid.SetColumn(monthSumActivity, 0);
 
                 var fillDatesButton = new Button { Content = "v" };
-                //fillDatesButton.Bind(Button.ContentProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
                 ToolTip.SetTip(fillDatesButton, "Show calendar to fill dates manully.");
                 fillDatesButton.Click += OnFillDatesClick;
                 

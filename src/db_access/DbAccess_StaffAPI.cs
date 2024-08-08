@@ -90,7 +90,7 @@ public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
     #endregion
 
     #region Staff members writing
-    public ReturnCode AddNewStaffMembers(IEnumerable<StaffMember> members)
+    public ReturnCode AddStaffMembers(IEnumerable<StaffMember> members)
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.AddEntities(db.StaffMembers, members, db);

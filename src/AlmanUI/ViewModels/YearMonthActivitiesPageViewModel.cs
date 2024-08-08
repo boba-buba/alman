@@ -1,4 +1,5 @@
 ﻿using Alman.SharedDefinitions;
+using Alman.SharedModels;
 using AlmanUI.Models;
 using AlmanUI.Views;
 using Avalonia.Controls;
@@ -63,7 +64,7 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
     public void TriggerSaveCommand(IReadOnlyList<CompositeItem> items)
     {
        
-        List<YearMonthActivityUI> yearMonthActivities = new List<YearMonthActivityUI>();
+        List<IYearMonthActivityBase> yearMonthActivities = new List<IYearMonthActivityBase>();
 
         foreach (var item in items)
         {
@@ -74,15 +75,7 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             }
             foreach (var activity in item.YMActivities) {
 
-                yearMonthActivities.Add(new YearMonthActivityUI{
-                    Year = CurrentYear,
-                    Month = CurrentMonth,
-                    YmactivityId = activity.YmactivityId,
-                    YmactivitySum = activity.YmactivitySum,
-                    YmchildId = item.YMChild.ChildId,
-                    YmwasPaid = activity.YmwasPaid,
-                    YmwayOfPaying = activity.YmwayOfPaying,
-                }); 
+                yearMonthActivities.Add(activity); 
             }
         }
 

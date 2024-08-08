@@ -19,3 +19,10 @@ internal class PrecontractUI : IPrecontractBase
 
     public int? PMonth { get; set; }
 }
+
+public class PrecontractCompositeItem
+{
+    public IChildBase? PChild { get; set; }
+    public IPrecontractBase? Precontract { get; set; }
+}
+

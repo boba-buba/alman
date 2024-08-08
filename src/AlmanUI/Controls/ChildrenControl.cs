@@ -13,7 +13,6 @@ public static class ChildrenControl
 {
     public static IReadOnlyList<IChildBase> GetChildren() =>
         BusinessChildrenApi.GetChildren();
-  
 
     public static IReadOnlyList<IChildBase> GetChildrenByFilter(Func<IChildBase, bool> selector) => 
         BusinessChildrenApi.GetChildrenByFilter(selector);
