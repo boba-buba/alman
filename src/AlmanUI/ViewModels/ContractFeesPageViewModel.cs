@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Alman.SharedModels;
 
 namespace AlmanUI.ViewModels
 {
@@ -37,7 +38,6 @@ namespace AlmanUI.ViewModels
             }
 
             Mediator.Mediator.Instance.SendWithParams("UpdateContractFeesMainDataGrid", CurrentYear, CurrentMonth);
-
         }
 
         [RelayCommand]
@@ -53,14 +53,13 @@ namespace AlmanUI.ViewModels
                 CurrentMonth = CurrentMonth + 1;
             }
             Mediator.Mediator.Instance.SendWithParams("UpdateContractFeesMainDataGrid", CurrentYear, CurrentMonth);
-
         }
 
         [RelayCommand]
-        public void TriggerSaveCommand(IReadOnlyList<ContractFeesCompositeItem> items)
+        public void TriggerSaveCommand(IReadOnlyList<ContractFeeCompositeItem> items)
         {
             if (items.Count == 0) { return; }
-            List<ContractFeeUI> contractFees = new List<ContractFeeUI>();
+            List<IContractFeeBase> contractFees = new List<IContractFeeBase>();
             foreach (var item in items)
             {
                 if (item.CFchild is null || item.CFcontractFee is null)
@@ -69,13 +68,7 @@ namespace AlmanUI.ViewModels
                     continue;
                 }
 
-                contractFees.Add(new ContractFeeUI
-                {
-                    CfchildId = item.CFchild.ChildId,
-                    Cfmonth = item.CFcontractFee.Cfmonth,
-                    Cfyear = item.CFcontractFee.Cfyear,
-                    CfsumPaid = item.CFcontractFee.CfsumPaid
-                });   
+                contractFees.Add(item.CFcontractFee);   
             }
 
             ReturnCode retCode = ContractFeesControl.SaveContractFees(contractFees);

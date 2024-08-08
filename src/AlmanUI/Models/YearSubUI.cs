@@ -1,13 +1,13 @@
 ﻿using Alman.SharedModels;
-namespace DbAccess.Models;
+namespace AlmanUI.Models;
 
-public partial class YearSub : IYearSubBase
+public class YearSubUI : IYearSubBase
 {
     public int YchildId { get; set; }
 
     public int Yyear { get; set; }
 
-    public int  Yjanuary { get; set; }
+    public int Yjanuary { get; set; }
 
     public int YjanuaryPayment { get; set; }
 
@@ -54,6 +54,11 @@ public partial class YearSub : IYearSubBase
     public int Ydecember { get; set; }
 
     public int YdecemberPayment { get; set; }
+}
 
-    public virtual Child Ychild { get; set; } = null!;
+
+public class YearSubCompositeItem
+{
+    public IChildBase YsChild { get; set; }
+    public IYearSubBase YsYearSubscription { get; set; }
 }

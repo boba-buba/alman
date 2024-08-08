@@ -18,7 +18,7 @@ public class ContractFeeUI : IContractFeeBase
     public int? CfsumPaid { get; set; }
 }
 
-public class ContractFeesCompositeItem
+public class ContractFeeCompositeItem
 {
     public IChildBase CFchild { get; set; }
     public IContractFeeBase CFcontractFee { get; set; }
