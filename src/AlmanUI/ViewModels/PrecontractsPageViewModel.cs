@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SkiaSharp;
 using System.Diagnostics;
 using Alman.SharedDefinitions;
+using Alman.SharedModels;
 
 namespace AlmanUI.ViewModels;
 
@@ -62,7 +63,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
     public void TriggerSaveCommand(IReadOnlyList<PrecontractCompositeItem> items)
     {
         if (items.Count == 0) { return; }
-        List<PrecontractUI> precontracts = new List<PrecontractUI>();
+        List<IPrecontractBase> precontracts = new List<IPrecontractBase>();
         foreach (var item in items)
         {
             if (item.PChild is null || item.Precontract is null)
@@ -70,14 +71,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
                 Debug.WriteLine($"Null {nameof(item.PChild)} or {nameof(item.Precontract)}");
                 continue;
             }
-            precontracts.Add(new PrecontractUI
-            {
-                PchildId = item.PChild.ChildId,
-                Psum = item.Precontract.Psum,
-                Pcomment = item.Precontract.Pcomment,
-                PMonth = item.Precontract.PMonth,
-                PYear = item.Precontract.PYear
-            });
+            precontracts.Add(item.Precontract);
         }
 
         ReturnCode retCode = PrecontractsControl.SavePrecontracts(precontracts);

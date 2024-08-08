@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Data.Converters;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,5 +32,26 @@ public static class UIUtilities
                 e.Handled = true;
             }
         }
+    }
+
+
+}
+
+public class IntToStringConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // Convert int to string for display in the DataGrid
+        return value?.ToString() ?? "0";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // Convert string back to int, returning 0 if the string is empty
+        if (int.TryParse(value as string, out int result))
+        {
+            return result;
+        }
+        return 0;
     }
 }
