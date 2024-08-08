@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+//Delete here not necessary because there is 1 precontract for every child 
+// and it cannot be deleted
 public static class PrecontractsControl
 {
     public static IReadOnlyList<IPrecontractBase> GetPrecontracts() =>
@@ -17,7 +19,6 @@ public static class PrecontractsControl
 
     public static IReadOnlyList<IPrecontractBase> GetPrecontractsByFilter(Func<IPrecontractBase, bool> filter) =>
         BusinessPrecontractsApi.GetPrecontractsByFilter(filter);
-
 
     public static ReturnCode AddPrecontracts(IReadOnlyList<IPrecontractBase> precontracts) =>
         BusinessPrecontractsApi.AddPrecontracts(precontracts);
@@ -38,7 +39,7 @@ public static class PrecontractsControl
         if (dbCount > 0)
         {
             var updatedPrecontracts = precontractsToSave.Where(pr => pr.InGroup(precontractsFromDb)).ToList();
-            retCode = BusinessPrecontractsApi.UpdatePrecontracts(updatedPrecontracts);
+            retCode = UpdatePrecontracts(updatedPrecontracts);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IPrecontractBase)}");
@@ -50,6 +51,10 @@ public static class PrecontractsControl
         {
             var newPrecontracts = precontractsToSave.Where(pr => !pr.InGroup(precontractsFromDb)).ToList();
             retCode = AddPrecontracts(newPrecontracts);
+            if (retCode != ReturnCode.OK)
+            {
+                Debug.WriteLine($"Smth went wrong with adding {nameof(IPrecontractBase)}");
+            }
         }
         return retCode;
     }
