@@ -28,7 +28,10 @@ public static class PrecontractsControl
     public static ReturnCode SavePrecontracts(IReadOnlyList<IPrecontractBase> precontractsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;
-        var precontractsFromDb = GetPrecontracts();
+        int? year = precontractsToSave[0].PYear;
+        int? month = precontractsToSave[0].PMonth;
+
+        var precontractsFromDb = GetPrecontractsByFilter(pr => pr.PYear == year && pr.PMonth == month);
         int dbCount = precontractsFromDb.Count;
         int difference = precontractsToSave.Count - dbCount;
 
@@ -64,7 +67,7 @@ public static class PrecontractsBaseExtensions
     public static bool InGroup(this IPrecontractBase item, IReadOnlyList<IPrecontractBase> group)
     {
         if (group.Count == 0) { return false; }
-        var itemInGroup = group.Single(pr => pr.DbEquals(item));
+        var itemInGroup = group.SingleOrDefault(pr => pr.DbEquals(item));
         if (itemInGroup == null) { return false; }
         return true;
     }

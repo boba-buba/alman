@@ -22,7 +22,7 @@ namespace AlmanUI.ViewModels
         private bool _isPaneOpen = true;
 
         [ObservableProperty]
-        private ViewModelBase _currentPage = new HomePageViewModel();
+        private ViewModelBase _currentPage = new PrecontractsPageViewModel();
 
         [ObservableProperty]
         private ListItemTemplate? _selectedListItem;
@@ -62,7 +62,7 @@ namespace AlmanUI.ViewModels
             new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
             new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
             new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
-            //new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
+            new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
         };
 
     }

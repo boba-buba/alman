@@ -61,6 +61,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
     [RelayCommand]
     public void TriggerSaveCommand(IReadOnlyList<CompositeItemPrecontract> items)
     {
+        if (items.Count == 0) { return; }
         List<PrecontractUI> precontracts = new List<PrecontractUI>();
         foreach (var item in items)
         {
