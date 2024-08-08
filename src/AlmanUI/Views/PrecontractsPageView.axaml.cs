@@ -20,7 +20,7 @@ namespace AlmanUI.Views
 
         private IReadOnlyList<IPrecontractBase>? _precontractsTable;
 
-        private IReadOnlyList<CompositeItemPrecontract> _childPrecontracts { get; set; }
+        private IReadOnlyList<CompositeItemPrecontract>? _childPrecontracts { get; set; }
 
         private void LoadItems(int year, int month)
         {
@@ -28,6 +28,7 @@ namespace AlmanUI.Views
             _childrenTable = ChildrenControl.GetChildrenByFilter(ch =>
                 ch.ChildStartYear == year &&
                 ch.ChildStartMonth == month);
+
             if (_childrenTable is null)
             {
                 return;
@@ -36,10 +37,8 @@ namespace AlmanUI.Views
             _precontractsTable = PrecontractsControl.GetPrecontractsByFilter(pr =>
                 pr.PYear == year &&
                 pr.PMonth == month);
-            if (_precontractsTable is null)
-            {
-                return;
-            }
+
+
             var childPrecontracts = new List<CompositeItemPrecontract>();
 
             foreach (var child in _childrenTable)
@@ -63,6 +62,7 @@ namespace AlmanUI.Views
             _childPrecontracts = childPrecontracts;
 
         }
+
         public PrecontractsPageView()
         {
             LoadItems(DateTime.Now.Year, DateTime.Now.Month);
@@ -72,7 +72,6 @@ namespace AlmanUI.Views
             }
             InitializeComponent();
             InitPrecontractsMainDataGrid();
-            SavePrecontractsButton.CommandParameter = _childPrecontracts;
             Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
 
         }
@@ -84,6 +83,7 @@ namespace AlmanUI.Views
                 UpdatePrecontractsMainDataGrid(year, month);
             }
         }
+
         private void InitPrecontractsMainDataGrid()
         {
             PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("PChild.ChildName") });
@@ -123,6 +123,8 @@ namespace AlmanUI.Views
             PrecontractsMainDataGrid.Columns.Add(new DataGridTemplateColumn { Header = "Year", Width = DataGridLength.Auto, CellTemplate = yearColumn });
 
             PrecontractsMainDataGrid.ItemsSource = _childPrecontracts;
+            SavePrecontractsButton.CommandParameter = _childPrecontracts;
+
 
         }
 
