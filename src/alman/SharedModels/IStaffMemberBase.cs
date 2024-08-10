@@ -8,7 +8,9 @@ public interface IStaffMemberBase : IIdentifier
 
     public string? LastName { get; set; }
 
-    public int? PositionId { get; set; }
 
     public int State { get; set; }
+    public string? PositionName { get; set; }
+
+    public string? PositionSalary { get; set; }
 }

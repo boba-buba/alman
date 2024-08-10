@@ -101,7 +101,7 @@ public partial class AlmanContext : DbContext
             entity.Property(e => e.Id);
         });
 
-        modelBuilder.Entity<Position>(entity =>
+       /* modelBuilder.Entity<Position>(entity =>
         {
             entity.HasKey(e => e.Id);
 
@@ -109,7 +109,7 @@ public partial class AlmanContext : DbContext
             //entity.Property(e => e.PositionName).HasColumnType("TEXT").HasColumnName("PositionName");
             //entity.Property(e => e.PositionSalary).HasColumnType("INT").HasColumnName("PositionName");
 
-        });
+        });*/
 
         modelBuilder.Entity<Precontract>(entity =>
         {
@@ -146,7 +146,6 @@ public partial class AlmanContext : DbContext
             entity.HasKey(e => e.Id);
             //entity.Property(e => e.Id);
 
-            entity.HasOne(d => d.Position).WithMany(p => p.StaffMembers).HasForeignKey(d => d.PositionId);
         });
 
         modelBuilder.Entity<YearMonthActivity>(entity =>

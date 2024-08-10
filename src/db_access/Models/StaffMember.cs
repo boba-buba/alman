@@ -18,9 +18,11 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
 
     public int State { get; set; }
 
-    public virtual ICollection<FinalPayment> FinalPayments { get; set; } = new List<FinalPayment>();
+    public string? PositionName { get; set; }
 
-    public virtual Position? Position { get; set; }
+    public string? PositionSalary { get; set; }
+
+    public virtual ICollection<FinalPayment> FinalPayments { get; set; } = new List<FinalPayment>();
 
     public virtual ICollection<Prepayment> Prepayments { get; set; } = new List<Prepayment>();
 
