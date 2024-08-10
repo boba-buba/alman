@@ -26,6 +26,10 @@ public static class DebugUtilities
     #endregion
 }
 
+public interface IDeleteDependable
+{
+    void DeleteDependable(DbContext dbContext);
+}
 
 public static class DbAccessUtilities
 {
@@ -90,15 +94,16 @@ public static class DbAccessUtilities
     }
 
 
-    public static ReturnCode DeleteEntities<TEntity, TDbContext>(IEnumerable<TEntity> entitiesToDelete,  TDbContext db, Action<TDbContext, TEntity> DeleteFunction)
-        where TEntity : class
+    public static ReturnCode DeleteEntities<TEntity, TDbContext>(IEnumerable<TEntity> entitiesToDelete,  TDbContext db)
+        where TEntity : class, IDeleteDependable
         where TDbContext : DbContext
     {
         try
         {
             foreach (var entity in entitiesToDelete)
             {
-                DeleteFunction(db, entity);
+                //DeleteFunction(db, entity);
+                entity.DeleteDependable(db);
 
                 db.Remove(entity);
             }

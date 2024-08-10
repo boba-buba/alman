@@ -4,7 +4,7 @@ using Alman.SharedDefinitions;
 
 namespace DatabaseAccess;
 
-public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
+/*public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
 {
     public DbChildren(string dbPath)
     {
@@ -25,7 +25,7 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
         return DbAccessUtilities.GetEntities(selector, db.Children);
     }
 
-    /* Children activities list **/
+    *//* Children activities list **//*
     public IReadOnlyList<DbAccess.Models.Activity> GetActivities(Func<Activity, bool> selector)
     {
         using var db = ConnectToDb();
@@ -40,9 +40,9 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
         return DbAccessUtilities.GetEntities(selector, db.Precontracts);
     }
 
-    /* Year Month Table for the month of the year
+    *//* Year Month Table for the month of the year
      * 
-     */
+     *//*
     public IReadOnlyList<YearMonthActivity> GetYearMonthActivities(Func<YearMonthActivity, bool> selector)
     {
         using var db = ConnectToDb();
@@ -70,8 +70,8 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
         return DbAccessUtilities.GetEntities(selectror, db.Children);
     }
 
-    /*
-     * Must be only one child with such ChildId. Primary key **/
+    *//*
+     * Must be only one child with such ChildId. Primary key **//*
     public Child GetChildById(int ChildId)
     {
         using var db = ConnectToDb();
@@ -105,7 +105,7 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
         return precontract;
     }
 
-    /* Get all child's activities for month. */
+    *//* Get all child's activities for month. *//*
     public IReadOnlyList<YearMonthActivity> GetYearMonthActivitiesById(int year, int month, int ChildId)
     {
         using var db = ConnectToDb();
@@ -293,5 +293,5 @@ public class DbChildren : DbBase, IAlmanChildrenRead, IAlmanChildrenWrite
         return DbAccessUtilities.DeleteEntities(contractFees, db, DeleteDependableOnContractFeeRows);
     }
     #endregion
-}
+}*/
 

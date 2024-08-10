@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace DbAccess.Models;
 
@@ -95,7 +96,7 @@ public partial class AlmanContext : DbContext
         {
             entity.HasKey(e => e.OtherId);
 
-            entity.Property(e => e.OtherId).ValueGeneratedNever();
+            entity.Property(e => e.OtherId);
         });
 
         modelBuilder.Entity<Position>(entity =>
@@ -229,4 +230,24 @@ public partial class AlmanContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<TEntity> GetDeclaredDbSet<TEntity>() where TEntity : class
+    {
+        Type contextType = this.GetType();
+
+        var dbSetProperties = contextType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            
+        var dbSetProperty = dbSetProperties.FirstOrDefault(p => p.PropertyType == typeof(DbSet<TEntity>));
+
+        if (dbSetProperty is null)
+        {
+            throw new InvalidOperationException($"No dbSet found for entiy type {typeof(TEntity).Name}.");
+        }
+        var dbSet = dbSetProperty.GetValue(this);
+        if (dbSet is null)
+        {
+            throw new ArgumentNullException($"No dbSet defined for entiy type {typeof(TEntity).Name}.");
+        }
+        return (DbSet<TEntity>)dbSet;
+    }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
-public partial class YearMonthOther
+public partial class YearMonthOther : IDeleteDependable
 {
     public int OtherActivityId { get; set; }
 
@@ -22,4 +24,6 @@ public partial class YearMonthOther
     public int? FifthWeek { get; set; }
 
     public virtual OtherActivity OtherActivity { get; set; } = null!;
+
+    public void DeleteDependable(DbContext dbContext) { }
 }

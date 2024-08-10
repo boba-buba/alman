@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 namespace DatabaseAccess;
 
 
-public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
+/*public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
 {
     public DbStaff(string dbPath)
     {
@@ -109,7 +109,7 @@ public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
     public ReturnCode DeleteStaffMembers(IEnumerable<StaffMember> members)
     {
         using var db = ConnectToDb();
-        return DbAccessUtilities.DeleteEntities(members, db, DeleteDependableOnStaffMemberRows);
+        return DbAccessUtilities.DeleteEntities(members, db);//, DeleteDependableOnStaffMemberRows);
     }
 
     public ReturnCode AddPositions(IEnumerable<Position> positions)
@@ -205,4 +205,4 @@ public class DbStaff : DbBase, IAlmanStaffRead, IAlmanStaffWrite
     }
 
     #endregion
-}
+}*/
