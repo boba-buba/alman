@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
-public class ContractFeesControl
+public static class ContractFeesControl
 {
     private static BusinessEntity<ContractFee, IContractFeeBase> BusinessLog { get; set; } = new BusinessEntity<ContractFee, IContractFeeBase>();
 
