@@ -5,7 +5,7 @@ using Alman.SharedDefinitions;
 using System.Collections.ObjectModel;
 namespace Business;
 
-
+/*
 public static class BusinessActivitiesApi
 {
     public static IReadOnlyList<IActivityBase> GetActivities()
@@ -39,10 +39,11 @@ public static class BusinessActivitiesApi
 
         foreach (var activity in activitiesToUpdate)
         {
-            var updatedActivity = updatedActivities.Single(act => act.ActivityId == activity.ActivityId);
+            var updatedActivity = updatedActivities.Single(act => act.Id == activity.ActivityId);
             activity.ActivityPrice = updatedActivity.ActivityPrice;
             activity.ActivityName = updatedActivity.ActivityName;
         }
         return db.UpdateActvities(activitiesToUpdate);
     }
 }
+*/

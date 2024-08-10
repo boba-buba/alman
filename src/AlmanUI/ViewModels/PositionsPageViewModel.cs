@@ -53,7 +53,7 @@ public partial class PositionsPageViewModel : ViewModelBase
     [RelayCommand]
     public void TriggerAddNewPositionCommand()
     {
-        IPositionBase position = new PositionUI { PositionId = 0};
+        IPositionBase position = new PositionUI { Id = 0};
         Positions.Add(position);
     }
 
@@ -66,9 +66,9 @@ public partial class PositionsPageViewModel : ViewModelBase
             return;
         }
 
-        if (SelectedPosition.PositionId != 0)
+        if (SelectedPosition.Id != 0)
         {
-            _positionsIdsToDelete.Add(SelectedPosition.PositionId);   
+            _positionsIdsToDelete.Add(SelectedPosition.Id);   
         }
 
         Positions.Remove(SelectedPosition);

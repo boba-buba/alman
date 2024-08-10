@@ -17,16 +17,16 @@ public partial class DbAccessModel_UnitTests
     public void AddOtherActivity_ReadOtherActivity_MustPass(string dbName, string positionName)
     {
         //Arrange
-        var db = new DbOther(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
         var otherAct = new OtherActivity {OtherName = positionName };
         //Act
-        db.AddEntitiesGen([otherAct]);
+        db.AddItems([otherAct]);
 
-        var otherActFromDb = db.GetEntitiesGen<OtherActivity>(ch => true).Single();
+        var otherActFromDb = db.GetItems<OtherActivity>(ch => true).Single();
         //Assert
-        Assert.Equal(expectedId, otherActFromDb.OtherId);
+        Assert.Equal(expectedId, otherActFromDb.Id);
         Assert.Equal(positionName, otherActFromDb.OtherName);
     }
 

@@ -63,6 +63,8 @@ public partial class AlmanContext : DbContext
     {
         modelBuilder.Entity<Child>(entity =>
         {
+            entity.HasKey(entity => entity.Id);
+
             entity.Property(e => e.ChildContract).HasColumnType("INT");
             entity.Property(e => e.ChildLastName).HasColumnName("ChildLastNAme");
             entity.Property(e => e.ChildName).HasColumnType("TEXT");
@@ -71,7 +73,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<ContractFee>(entity =>
         {
-            entity.HasKey(e => new { e.CfchildId, e.Cfmonth, e.Cfyear });
+            entity.HasKey(e => new { e.Id/*, e.CfchildId, e.Cfmonth, e.Cfyear*/ });
 
             entity.Property(e => e.CfchildId).HasColumnName("CFChildId");
             entity.Property(e => e.Cfmonth).HasColumnName("CFMonth");
@@ -85,7 +87,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<FinalPayment>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.StaffMemberId, e.Month, e.Year*/ });
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.FinalPayments)
                 .HasForeignKey(d => d.StaffMemberId)
@@ -94,14 +96,14 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<OtherActivity>(entity =>
         {
-            entity.HasKey(e => e.OtherId);
+            entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.OtherId);
+            entity.Property(e => e.Id);
         });
 
         modelBuilder.Entity<Position>(entity =>
         {
-            entity.HasKey(e => e.PositionId);
+            entity.HasKey(e => e.Id);
 
             //entity.Property(e => e.PositionId).ValueGeneratedNever();
             //entity.Property(e => e.PositionName).HasColumnType("TEXT").HasColumnName("PositionName");
@@ -111,7 +113,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Precontract>(entity =>
         {
-            entity.HasKey(e => new { e.PchildId });
+            entity.HasKey(e => new { /*e.PchildId,*/ e.Id });
 
             entity.Property(e => e.PchildId).HasColumnName("PChildID");
             entity.Property(e => e.Psum).HasColumnName("PSum");
@@ -126,7 +128,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Prepayment>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.Year, e.Month });
+            entity.HasKey(e => new { /*e.StaffMemberId, e.Year, e.Month, */e.Id });
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.Prepayments)
                 .HasForeignKey(d => d.StaffMemberId)
@@ -135,19 +137,21 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<StaffActivity>(entity =>
         {
-            entity.Property(e => e.StaffActivityId).ValueGeneratedNever();
+            entity.HasKey(e => e.Id);
+            //entity.Property(e => e.Id);
         });
 
         modelBuilder.Entity<StaffMember>(entity =>
         {
-            entity.Property(e => e.StaffMemberId).ValueGeneratedNever();
+            entity.HasKey(e => e.Id);
+            //entity.Property(e => e.Id);
 
             entity.HasOne(d => d.Position).WithMany(p => p.StaffMembers).HasForeignKey(d => d.PositionId);
         });
 
         modelBuilder.Entity<YearMonthActivity>(entity =>
         {
-            entity.HasKey(e => new { e.YmchildId, e.YmactivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.YmchildId, e.YmactivityId, e.Month, e.Year*/ });
 
             entity.Property(e => e.YmchildId).HasColumnName("YMChildId");
             entity.Property(e => e.YmactivityId).HasColumnName("YMActivityId");
@@ -166,7 +170,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthOther>(entity =>
         {
-            entity.HasKey(e => new { e.OtherActivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.OtherActivityId, e.Month, e.Year*/});
 
             entity.HasOne(d => d.OtherActivity).WithMany(p => p.YearMonthOthers)
                 .HasForeignKey(d => d.OtherActivityId)
@@ -175,7 +179,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthStaffActivity>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.StaffActivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id, e.StaffMemberId, e.StaffActivityId, e.Month, e.Year });
 
             entity.Property(e => e.SumPaid).HasColumnType("NUMERIC");
 
@@ -190,7 +194,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearSub>(entity =>
         {
-            entity.HasKey(e => new { e.YchildId, e.Yyear });
+            entity.HasKey(e => new {/* e.YchildId, e.Yyear,*/ e.Id });
 
             entity.Property(e => e.YchildId).HasColumnName("YChildID");
             entity.Property(e => e.Yyear)

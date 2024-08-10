@@ -1,7 +1,9 @@
 ﻿namespace Alman.SharedModels;
 
-public interface IYearMonthActivityBase
+public interface IYearMonthActivityBase : IIdentifier
 {
+    //public int Id { get; set; }
+
     public int YmchildId { get; set; }
 
     public int YmactivityId { get; set; }

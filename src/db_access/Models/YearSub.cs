@@ -1,8 +1,12 @@
 ﻿using Alman.SharedModels;
+using DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 
-public partial class YearSub : IYearSubBase
+public partial class YearSub : IYearSubBase, IDeleteDependable
 {
+    public int Id { get; set; }
+
     public int YchildId { get; set; }
 
     public int Yyear { get; set; }
@@ -56,4 +60,6 @@ public partial class YearSub : IYearSubBase
     public int YdecemberPayment { get; set; }
 
     public virtual Child Ychild { get; set; } = null!;
+
+    public void DeleteDependable(DbContext dbContext) { }
 }

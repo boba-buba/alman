@@ -3,6 +3,7 @@ namespace AlmanUI.Models;
 
 public class YearMonthActivityUI : IYearMonthActivityBase
 {
+    public int Id { get; set; }
     public int YmchildId { get; set; }
 
     public int YmactivityId { get; set; }

@@ -74,9 +74,9 @@ namespace AlmanUI.ViewModels
                 return;
             }
             
-            if (SelectedChild.ChildId != 0)
+            if (SelectedChild.Id != 0)
             {
-                _childrenIdsToDelete.Add(SelectedChild.ChildId);
+                _childrenIdsToDelete.Add(SelectedChild.Id);
             }
             Children.Remove(SelectedChild);
             SelectedChild = null;

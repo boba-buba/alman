@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 namespace Business;
-
+/*
 public static class BusinessChildrenApi
 {
     public static IReadOnlyList<IChildBase> GetChildren()
@@ -55,7 +55,7 @@ public static class BusinessChildrenApi
 
         foreach (var child in childrenToUpdate)
         {
-            var updatedChild = updatedChildren.Single(ch => ch.ChildId ==  child.ChildId);
+            var updatedChild = updatedChildren.Single(ch => ch.Id ==  child.ChildId);
             child.ChildName = updatedChild.ChildName;
             child.ChildLastName = updatedChild.ChildLastName;
             child.ChildGroup = updatedChild.ChildGroup;
@@ -68,4 +68,4 @@ public static class BusinessChildrenApi
 
 }
 
-
+*/

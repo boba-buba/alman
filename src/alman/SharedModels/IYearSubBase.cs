@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alman.SharedModels;
 
-public interface IYearSubBase
+public interface IYearSubBase : IIdentifier
 {
     public int YchildId { get; set; }
 

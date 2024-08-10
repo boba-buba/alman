@@ -9,7 +9,8 @@ namespace DbAccess.Models;
 
 public partial class OtherActivity : IOtherActivityBase, IDeleteDependable
 {
-    public int OtherId { get; set; }
+
+    public int Id { get; set; }
 
     public string? OtherName { get; set; }
 
@@ -18,6 +19,6 @@ public partial class OtherActivity : IOtherActivityBase, IDeleteDependable
     public void DeleteDependable(DbContext dbContext)
     {
         AlmanContext ctx = (AlmanContext)dbContext;
-        dbContext.RemoveRange(ctx.YearMonthOthers.Where(activity => activity.OtherActivityId == this.OtherId).ToList());
+        dbContext.RemoveRange(ctx.YearMonthOthers.Where(activity => activity.OtherActivityId == this.Id).ToList());
     }
 }

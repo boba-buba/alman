@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace Business;
 
+/*
 public static class BusinessPositionsApi
 {
     public static IReadOnlyList<IPositionBase> GetPositions()
@@ -38,7 +39,7 @@ public static class BusinessPositionsApi
 
         foreach (var position in positionsToUpdate)
         {
-            var updatedPosition = updatedPositions.Single(pos => pos.PositionId == position.PositionId);
+            var updatedPosition = updatedPositions.Single(pos => pos.Id == position.PositionId);
             position.PositionName = updatedPosition.PositionName;
             position.PositionSalary = updatedPosition.PositionSalary;
         }
@@ -54,3 +55,4 @@ public static class BusinessPositionsApi
 
 
 }
+*/

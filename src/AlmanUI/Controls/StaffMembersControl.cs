@@ -74,7 +74,7 @@ public static class StaffMemberExtensions
 {
     public static bool DbEquals(this IStaffMemberBase item, IStaffMemberBase other)
     {
-        if (item.StaffMemberId != other.StaffMemberId) { return false; }
+        if (item.Id != other.Id) { return false; }
         return true;
     }
 

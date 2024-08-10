@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace Business;
 
-public static class BusinessPrecontractsApi
+/*public static class BusinessPrecontractsApi
 {
     public static IReadOnlyList<IPrecontractBase> GetPrecontracts()
     {
@@ -58,3 +58,4 @@ public static class BusinessPrecontractsApi
         return db.UpdatePrecontracts(precontractsFromDb);
     }
 }
+*/

@@ -45,11 +45,11 @@ public partial class ContractFeesPageView : UserControl
         foreach (var child in _childrenTable)
         {
             var newItem = new ContractFeeCompositeItem { CFchild = child };
-            IContractFeeBase? newItemContractFee = _contractFeesTable.SingleOrDefault(cf => cf.CfchildId == child.ChildId);
+            IContractFeeBase? newItemContractFee = _contractFeesTable.SingleOrDefault(cf => cf.CfchildId == child.Id);
 
             if (_contractFeesTable.Count == 0 || newItemContractFee == null)
             {
-                newItemContractFee = new ContractFeeUI { CfchildId = child.ChildId, Cfmonth = month, CfsumPaid = 0, Cfyear = year };
+                newItemContractFee = new ContractFeeUI { CfchildId = child.Id, Cfmonth = month, CfsumPaid = 0, Cfyear = year };
             }
             newItem.CFcontractFee = newItemContractFee;
             childContractFees.Add(newItem);

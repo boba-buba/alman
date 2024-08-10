@@ -1,8 +1,8 @@
 ﻿namespace Alman.SharedModels;
 
-public interface IPositionBase
+public interface IPositionBase : IIdentifier
 {
-    public int PositionId { get; set; }
+    //public int Id { get; set; }
 
     public string? PositionName { get; set; }
 

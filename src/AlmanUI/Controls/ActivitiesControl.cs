@@ -32,9 +32,9 @@ public static class ActivitiesControl
             }
         }
         var activitiesFromDb = BusinessActivitiesApi.GetActivities();
-        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.ActivityId).ToList();
+        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.Id).ToList();
         
-        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.ActivityId) select act).ToList();
+        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.Id) select act).ToList();
         
         retCode = BusinessActivitiesApi.UpdateActivities(updatedActivities);
         if (retCode != ReturnCode.OK)

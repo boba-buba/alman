@@ -1,8 +1,8 @@
 ﻿namespace Alman.SharedModels;
 
-public interface IChildBase
+public interface IChildBase : IIdentifier
 {
-    public int ChildId { get; set; }
+    //public int Id { get; set; }
 
     public string ChildName { get; set; }
 

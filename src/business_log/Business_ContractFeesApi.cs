@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business;
 
-public static class BusinessContractFeesApi
+/*public static class BusinessContractFeesApi
 {
     public static IReadOnlyList<IContractFeeBase> GetContractFees()
     {
@@ -63,4 +63,4 @@ public static class BusinessContractFeesApi
     }
 }
 
-
+*/

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Alman.SharedModels;
 
-public interface IOtherActivityBase : IIdentifier
+public interface IStaffActivityBase : IIdentifier
 {
-    //public int Id { get; set; }
+    public int Id { get; set; }
 
-    public string? OtherName { get; set; }
+    public string? ActivityName { get; set; }
+
 }

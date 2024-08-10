@@ -71,7 +71,7 @@ public static class PositonBaseExtensions
 {
     public static bool DbEquals(this IPositionBase item,  IPositionBase other)
     {
-        if (item.PositionId == other.PositionId) { return true; }
+        if (item.Id == other.Id) { return true; }
         return false;
     }
 

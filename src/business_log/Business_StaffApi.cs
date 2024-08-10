@@ -17,6 +17,8 @@ public class StaffMembersMapper
     }
 
 }
+
+/*
 public static class BusinessStaffMembersApi
 {
     public static IReadOnlyList<IStaffMemberBase> GetStaffMembers()
@@ -51,7 +53,7 @@ public static class BusinessStaffMembersApi
 
         foreach (var updatedMember in updatedMembers)
         {
-            var memberFromDb = membersFromDb.SingleOrDefault(m => m.StaffMemberId == updatedMember.StaffMemberId);
+            var memberFromDb = membersFromDb.SingleOrDefault(m => m.StaffMemberId == updatedMember.Id);
             if (memberFromDb is null)
             {
                 Debug.WriteLine($"No such {nameof(IStaffMemberBase)} in DB");
@@ -69,3 +71,4 @@ public static class BusinessStaffMembersApi
         return db.DeleteStaffMembers(membersToDelete);
     }
 }
+*/

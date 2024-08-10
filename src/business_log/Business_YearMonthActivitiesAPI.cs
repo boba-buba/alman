@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 namespace Business;
 
+/*
 public static class BusinessYearMonthActivitiesApi
 {
     public static IReadOnlyList<IYearMonthActivityBase> GetYMActivities(int year, int month)
@@ -66,3 +67,4 @@ public static class BusinessYearMonthActivitiesApi
         return db.UpdateYearMonthActivities(yMActivitesToUpdate);
     }
 }
+*/

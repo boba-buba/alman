@@ -39,9 +39,9 @@ public static class ChildrenControl
         var childrenFromDb = GetChildren();
         var dbCount = childrenFromDb.Count;
         var difference = childrenToSave.Count - dbCount;
-        var childrenIdsFromDb = (from child in childrenFromDb select child.ChildId).ToList();
+        var childrenIdsFromDb = (from child in childrenFromDb select child.Id).ToList();
 
-        var updatedChildren = childrenToSave.Where(ch => childrenIdsFromDb.Contains(ch.ChildId)).ToList();
+        var updatedChildren = childrenToSave.Where(ch => childrenIdsFromDb.Contains(ch.Id)).ToList();
         if (updatedChildren.Any())
         {
             retCode = BusinessChildrenApi.UpdateChildren(updatedChildren);
@@ -54,7 +54,7 @@ public static class ChildrenControl
 
         if (difference > 0)
         {
-            var newChildren = childrenToSave.Where(ch => ch.ChildId == 0).ToList();
+            var newChildren = childrenToSave.Where(ch => ch.Id == 0).ToList();
             retCode = AddChildren(newChildren);
             if (retCode != ReturnCode.OK ) 
             {
