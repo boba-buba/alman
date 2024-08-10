@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,19 +13,21 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
-public static class ContractFeesControl
+public class ContractFeesControl
 {
+    private static BusinessEntity<ContractFee, IContractFeeBase> BusinessLog { get; set; } = new BusinessEntity<ContractFee, IContractFeeBase>();
+
     public static IReadOnlyList<IContractFeeBase> GetContractFees() =>
-        BusinessContractFeesApi.GetContractFees();
+        BusinessLog.GetEntities();
 
     public static IReadOnlyList<IContractFeeBase> GetContractFeesByFilter(Func<IContractFeeBase, bool> filter) =>
-        BusinessContractFeesApi.GetContractFeesByFilter(filter);
+        BusinessLog.GetEntitiesByFilter(filter);
 
     public static ReturnCode AddContractFees(IReadOnlyList<IContractFeeBase> contractFees) =>
-        BusinessContractFeesApi.AddContractFees(contractFees);
+        BusinessLog.AddEntities(contractFees);
 
     public static ReturnCode UpdateContractFees(IReadOnlyList<IContractFeeBase> contractFees) =>
-        BusinessContractFeesApi.UpdateContractFees(contractFees);
+        BusinessLog.UpdateEntities(contractFees);
 
     public static ReturnCode SaveContractFees(IReadOnlyList<IContractFeeBase> contractFeesToSave)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace DbAccess.Models;
 
@@ -62,6 +63,8 @@ public partial class AlmanContext : DbContext
     {
         modelBuilder.Entity<Child>(entity =>
         {
+            entity.HasKey(entity => entity.Id);
+
             entity.Property(e => e.ChildContract).HasColumnType("INT");
             entity.Property(e => e.ChildLastName).HasColumnName("ChildLastNAme");
             entity.Property(e => e.ChildName).HasColumnType("TEXT");
@@ -70,7 +73,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<ContractFee>(entity =>
         {
-            entity.HasKey(e => new { e.CfchildId, e.Cfmonth, e.Cfyear });
+            entity.HasKey(e => new { e.Id/*, e.CfchildId, e.Cfmonth, e.Cfyear*/ });
 
             entity.Property(e => e.CfchildId).HasColumnName("CFChildId");
             entity.Property(e => e.Cfmonth).HasColumnName("CFMonth");
@@ -84,7 +87,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<FinalPayment>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.StaffMemberId, e.Month, e.Year*/ });
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.FinalPayments)
                 .HasForeignKey(d => d.StaffMemberId)
@@ -93,14 +96,14 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<OtherActivity>(entity =>
         {
-            entity.HasKey(e => e.OtherId);
+            entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.OtherId).ValueGeneratedNever();
+            entity.Property(e => e.Id);
         });
 
         modelBuilder.Entity<Position>(entity =>
         {
-            entity.HasKey(e => e.PositionId);
+            entity.HasKey(e => e.Id);
 
             //entity.Property(e => e.PositionId).ValueGeneratedNever();
             //entity.Property(e => e.PositionName).HasColumnType("TEXT").HasColumnName("PositionName");
@@ -110,7 +113,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Precontract>(entity =>
         {
-            entity.HasKey(e => new { e.PchildId });
+            entity.HasKey(e => new { /*e.PchildId,*/ e.Id });
 
             entity.Property(e => e.PchildId).HasColumnName("PChildID");
             entity.Property(e => e.Psum).HasColumnName("PSum");
@@ -125,7 +128,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Prepayment>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.Year, e.Month });
+            entity.HasKey(e => new { /*e.StaffMemberId, e.Year, e.Month, */e.Id });
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.Prepayments)
                 .HasForeignKey(d => d.StaffMemberId)
@@ -134,19 +137,21 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<StaffActivity>(entity =>
         {
-            entity.Property(e => e.StaffActivityId).ValueGeneratedNever();
+            entity.HasKey(e => e.Id);
+            //entity.Property(e => e.Id);
         });
 
         modelBuilder.Entity<StaffMember>(entity =>
         {
-            entity.Property(e => e.StaffMemberId).ValueGeneratedNever();
+            entity.HasKey(e => e.Id);
+            //entity.Property(e => e.Id);
 
             entity.HasOne(d => d.Position).WithMany(p => p.StaffMembers).HasForeignKey(d => d.PositionId);
         });
 
         modelBuilder.Entity<YearMonthActivity>(entity =>
         {
-            entity.HasKey(e => new { e.YmchildId, e.YmactivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.YmchildId, e.YmactivityId, e.Month, e.Year*/ });
 
             entity.Property(e => e.YmchildId).HasColumnName("YMChildId");
             entity.Property(e => e.YmactivityId).HasColumnName("YMActivityId");
@@ -165,7 +170,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthOther>(entity =>
         {
-            entity.HasKey(e => new { e.OtherActivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id/*, e.OtherActivityId, e.Month, e.Year*/});
 
             entity.HasOne(d => d.OtherActivity).WithMany(p => p.YearMonthOthers)
                 .HasForeignKey(d => d.OtherActivityId)
@@ -174,7 +179,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthStaffActivity>(entity =>
         {
-            entity.HasKey(e => new { e.StaffMemberId, e.StaffActivityId, e.Month, e.Year });
+            entity.HasKey(e => new { e.Id, e.StaffMemberId, e.StaffActivityId, e.Month, e.Year });
 
             entity.Property(e => e.SumPaid).HasColumnType("NUMERIC");
 
@@ -189,7 +194,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearSub>(entity =>
         {
-            entity.HasKey(e => new { e.YchildId, e.Yyear });
+            entity.HasKey(e => new {/* e.YchildId, e.Yyear,*/ e.Id });
 
             entity.Property(e => e.YchildId).HasColumnName("YChildID");
             entity.Property(e => e.Yyear)
@@ -229,4 +234,24 @@ public partial class AlmanContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<TEntity> GetDeclaredDbSet<TEntity>() where TEntity : class
+    {
+        Type contextType = this.GetType();
+
+        var dbSetProperties = contextType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            
+        var dbSetProperty = dbSetProperties.FirstOrDefault(p => p.PropertyType == typeof(DbSet<TEntity>));
+
+        if (dbSetProperty is null)
+        {
+            throw new InvalidOperationException($"No dbSet found for entiy type {typeof(TEntity).Name}.");
+        }
+        var dbSet = dbSetProperty.GetValue(this);
+        if (dbSet is null)
+        {
+            throw new ArgumentNullException($"No dbSet defined for entiy type {typeof(TEntity).Name}.");
+        }
+        return (DbSet<TEntity>)dbSet;
+    }
 }

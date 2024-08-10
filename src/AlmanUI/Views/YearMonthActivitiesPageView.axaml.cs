@@ -39,7 +39,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         foreach (var child in _childrenTable)
         {
             var newItem = new CompositeItem { YMChild = child };
-            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.ChildId ).ToList();
+            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id ).ToList();
             newItem.YMActivities = childActivities;
             
             compositeItems.Add(newItem);
@@ -76,7 +76,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         foreach (var child in _childrenTable)
         {
             var newItem = new CompositeItem { YMChild = child };
-            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.ChildId).ToList();
+            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id).ToList();
             newItem.YMActivities = childActivities;
 
             compositeItems.Add(newItem);
@@ -114,11 +114,11 @@ public partial class YearMonthActivitiesPageView : UserControl
                 var monthSumActivity = new TextBox {Name = "monthSumActivityBox" };
                 
 
-                if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.ActivityId).ToList().Count == 0)
+                if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.Id).ToList().Count == 0)
                 {
                     x.YMActivities!.Add(new YearMonthActivityUI { 
-                        YmactivityId = activity.ActivityId, 
-                        YmchildId = x.YMChild!.ChildId, 
+                        YmactivityId = activity.Id, 
+                        YmchildId = x.YMChild!.Id, 
                         Month = DateTime.Now.Month,
                         Year = DateTime.Now.Year,
                         YmactivitySum = 0,
@@ -130,7 +130,7 @@ public partial class YearMonthActivitiesPageView : UserControl
 
                 }
 
-                IYearMonthActivityBase act = x.YMActivities.Single(act => act.YmactivityId == activity.ActivityId);
+                IYearMonthActivityBase act = x.YMActivities.Single(act => act.YmactivityId == activity.Id);
                 int index = x.YMActivities.IndexOf(act);
                 
                 monthSumActivity.Bind(TextBox.TextProperty, new Binding($"YMActivities[{index}].YmactivitySum"));

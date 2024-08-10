@@ -47,11 +47,11 @@ namespace AlmanUI.Views
             foreach (var child in _childrenTable)
             {
                 var newItem = new PrecontractCompositeItem { PChild = child };
-                IPrecontractBase? newItemPrecontract = _precontractsTable.SingleOrDefault(pr => pr.PchildId == child.ChildId);
+                IPrecontractBase? newItemPrecontract = _precontractsTable.SingleOrDefault(pr => pr.PchildId == child.Id);
 
                 if (_precontractsTable.Count == 0 || newItemPrecontract == null)
                 {
-                    newItemPrecontract = new PrecontractUI { PchildId = child.ChildId, PMonth = child.ChildStartMonth, PYear = child.ChildStartYear };
+                    newItemPrecontract = new PrecontractUI { PchildId = child.Id, PMonth = child.ChildStartMonth, PYear = child.ChildStartYear };
 
                 }
                 

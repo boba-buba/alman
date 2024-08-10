@@ -4,7 +4,7 @@ namespace AlmanUI.Models;
 
 public partial class ActivityUI : IActivityBase
 {
-    public int ActivityId { get; set; }
+    public int Id { get; set; }
 
     public string ActivityName { get; set; } = null!;
 

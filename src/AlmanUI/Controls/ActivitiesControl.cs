@@ -1,22 +1,30 @@
 ﻿using Business;
 using Alman.SharedModels;
+using DatabaseAccess;
+using DbAccess.Models;
+
 using System.Collections.Generic;
 using Alman.SharedDefinitions;
 using System.Linq;
 using System.Diagnostics;
 namespace AlmanUI.Controls;
 
-public static class ActivitiesControl
+
+
+public class ActivitiesControl
 {
+    private static BusinessEntity<DbAccess.Models.Activity, IActivityBase> BusinessLog { get; set; } = new BusinessEntity<DbAccess.Models.Activity, IActivityBase>();
+
+
     public static IReadOnlyList<IActivityBase> GetActivities() =>
-        BusinessActivitiesApi.GetActivities();
+        BusinessLog.GetEntities();
     
 
     private static ReturnCode AddActivities(IReadOnlyList<IActivityBase> activities) =>
-        BusinessActivitiesApi.AddActivities(activities);
+        BusinessLog.AddEntities(activities);
 
     private static ReturnCode DeleteActivities(IList<int> activitiesIds) =>
-        BusinessActivitiesApi.DeleteActivities(activitiesIds);
+        BusinessLog.DeleteEntities(activitiesIds);
 
 
     public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activitiesToSave, IList<int> activitiesIdsToDelete)
@@ -31,12 +39,12 @@ public static class ActivitiesControl
                 return retCode;
             }
         }
-        var activitiesFromDb = BusinessActivitiesApi.GetActivities();
-        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.ActivityId).ToList();
+        var activitiesFromDb = BusinessLog.GetEntities();
+        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.Id).ToList();
         
-        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.ActivityId) select act).ToList();
+        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.Id) select act).ToList();
         
-        retCode = BusinessActivitiesApi.UpdateActivities(updatedActivities);
+        retCode = BusinessLog.UpdateEntities(updatedActivities);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
@@ -51,10 +59,10 @@ public static class ActivitiesControl
             {
                 newActivities.Add(activitiesToSave[i]);
             }
-            AddActivities(newActivities);
+            retCode = AddActivities(newActivities);
         }
 
-        return ReturnCode.OK;
+        return retCode;
     }
 
 }

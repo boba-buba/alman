@@ -63,14 +63,14 @@ namespace AlmanUI.ViewModels
                 return;
             }
 
-            if (SelectedActivity.ActivityId == 0)
+            if (SelectedActivity.Id == 0)
             {
                 Activities.Remove(SelectedActivity);
                 SelectedActivity = null;
             }
             else
             {
-                _activitiesIdsToDelete.Add(SelectedActivity.ActivityId);
+                _activitiesIdsToDelete.Add(SelectedActivity.Id);
                 Activities.Remove(SelectedActivity); 
                 SelectedActivity = null;
             }

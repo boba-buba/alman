@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,17 +15,19 @@ namespace AlmanUI.Controls;
 // and it cannot be deleted
 public static class PrecontractsControl
 {
+    private static BusinessEntity<Precontract, IPrecontractBase> BusinessLog { get; set; } = new BusinessEntity<Precontract, IPrecontractBase>();
+
     public static IReadOnlyList<IPrecontractBase> GetPrecontracts() =>
-        BusinessPrecontractsApi.GetPrecontracts();
+        BusinessLog.GetEntities();
 
     public static IReadOnlyList<IPrecontractBase> GetPrecontractsByFilter(Func<IPrecontractBase, bool> filter) =>
-        BusinessPrecontractsApi.GetPrecontractsByFilter(filter);
+        BusinessLog.GetEntitiesByFilter(filter);
 
     public static ReturnCode AddPrecontracts(IReadOnlyList<IPrecontractBase> precontracts) =>
-        BusinessPrecontractsApi.AddPrecontracts(precontracts);
+        BusinessLog.AddEntities(precontracts);
 
     public static ReturnCode UpdatePrecontracts(IReadOnlyList<IPrecontractBase> precontracts) =>
-        BusinessPrecontractsApi.UpdatePrecontracts(precontracts);
+        BusinessLog.UpdateEntities(precontracts);
 
     public static ReturnCode SavePrecontracts(IReadOnlyList<IPrecontractBase> precontractsToSave)
     {

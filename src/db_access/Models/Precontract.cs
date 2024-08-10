@@ -1,8 +1,12 @@
 ﻿using Alman.SharedModels;
+using DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 
-public partial class Precontract : IPrecontractBase
+public partial class Precontract : IPrecontractBase, IDeleteDependable
 {
+    public int Id { get; set; }
+
     public int PchildId { get; set; }
 
     public int Psum { get; set; }
@@ -12,4 +16,7 @@ public partial class Precontract : IPrecontractBase
     public int? PYear { get; set; }
     public int? PMonth { get; set; }
     public virtual Child Pchild { get; set; } = null!;
+
+    public void DeleteDependable(DbContext db) { }
+
 }

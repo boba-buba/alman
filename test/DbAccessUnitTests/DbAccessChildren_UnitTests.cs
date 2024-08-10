@@ -4,6 +4,7 @@ using Alman.SharedDefinitions;
 //using Alman.Models;
 using System.Xml.Linq;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
 
 namespace DbAccessUnitTests;
 
@@ -17,16 +18,16 @@ public partial class DbAccessModel_UnitTests
     public void AddChild_ReadChild_MustPass(string dbName, string firstName, string lastName, int childGroup, ChildState childState)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
         //Act
         var child = new Child { ChildName = firstName, ChildLastName = lastName, ChildGroup = childGroup, ChildState = (int)childState };
-        db.AddChildren([ child ]);
-        
-        var childFromDb = db.GetChildren(ch => true).Single();
+        db.AddItems([child]);
+
+        var childFromDb = db.GetItems<Child>(ch => true).Single();
         //Assert
-        Assert.Equal(expectedId, child.ChildId);
+        Assert.Equal(expectedId, child.Id);
         Assert.Equal(child.ChildName, childFromDb.ChildName);
         Assert.Equal(child.ChildLastName, childFromDb.ChildLastName);
         Assert.Equal(child.ChildGroup, childFromDb.ChildGroup);
@@ -40,14 +41,14 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoChildren_ReadTwoChildren_MustPass(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
         var children = new Child[] { new Child { ChildName = firstName, ChildLastName = lastName }, new Child { ChildName = secondFirstName, ChildLastName = secondLastName } };
-        db.AddChildren(children);
-        
-        var childrenFromDb = db.GetChildren(ch => true);
+        db.AddItems(children);
+
+        var childrenFromDb = db.GetItems<Child>(ch => true);
 
         //Assert
         Assert.Equal(expectedCount, childrenFromDb.Count);
@@ -59,19 +60,19 @@ public partial class DbAccessModel_UnitTests
     public void AddTheSameChildTwice_ReadTwoChildrenWithDifferentIds_MustPass(string dbName, string firstName, string lastName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
         var children = new Child[] { new Child { ChildName = firstName, ChildLastName = lastName }, new Child { ChildName = firstName, ChildLastName = lastName } };
-        db.AddChildren(children);
+        db.AddItems(children);
 
-        var childrenFromDb = db.GetChildren(ch => true);
+        var childrenFromDb = db.GetItems<Child>(ch => true);
 
         //Assert
         Assert.Equal(expectedCount, childrenFromDb.Count);
-        Assert.Equal(1, childrenFromDb.First().ChildId);
-        Assert.Equal(2, childrenFromDb.Last().ChildId);
+        Assert.Equal(1, childrenFromDb.First().Id);
+        Assert.Equal(2, childrenFromDb.Last().Id);
     }
 
 
@@ -81,14 +82,14 @@ public partial class DbAccessModel_UnitTests
     public void GetChildrenWithFilter_MustPAss(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
         var children = new Child[] { new Child { ChildName = firstName, ChildLastName = lastName }, new Child { ChildName = secondFirstName, ChildLastName = secondLastName } };
-        db.AddChildren(children);
+        db.AddItems(children);
 
-        var childrenFromDb = db.GetChildren(ch => ch.ChildName == firstName);
+        var childrenFromDb = db.GetItems<Child>(ch => ch.ChildName == firstName);
         //Assert
         Assert.Equal(expectedCount, childrenFromDb.Count);
     }
@@ -98,24 +99,24 @@ public partial class DbAccessModel_UnitTests
     public void ChangeContractTypeForChild_MustPass(string dbName, ContractType oldContract, ContractType newContract)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
 
         //Act
-        var child = new Child { ChildName = "name", ChildLastName = "lastname" ,ChildContract = (int)oldContract };
-        db.AddChildren([child]);
+        var child = new Child { ChildName = "name", ChildLastName = "lastname", ChildContract = (int)oldContract };
+        db.AddItems([child]);
 
-        var childFromDb = db.GetChildren(ch => true).Single();
+        var childFromDb = db.GetItems<Child>(ch => true).Single();
         //Assert
         Assert.Equal((int)oldContract, childFromDb.ChildContract);
 
         //Act update
         childFromDb.ChildContract = (int)newContract;
-        var ret_code = db.UpdateChildren([childFromDb]);
+        var ret_code = db.UpdateItems([childFromDb]);
 
         //Assert update
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal((int)newContract, db.GetChildById(1).ChildContract);
+        Assert.Equal((int)newContract, db.GetItemById<Child>(1).ChildContract);
 
     }
 
@@ -126,18 +127,18 @@ public partial class DbAccessModel_UnitTests
     public void DeleteChildren_MustPass(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
 
         //Act
         var children = new Child[] { new Child { ChildName = firstName, ChildLastName = lastName }, new Child { ChildName = secondFirstName, ChildLastName = secondLastName } };
-        db.AddChildren(children);
+        db.AddItems(children);
 
-        db.DeleteChildren(children);
+        db.DeleteItems(children);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetChildren(ch => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<Child>(ch => true).Count);
     }
 
     [Theory]
@@ -146,7 +147,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteChildrenWIthDependencies_MustPass(string dbName, string firstName, string lastName, int month, int year, int sum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedAfterAdding = 1;
         int expectedAfterDeleteing = 0;
@@ -155,21 +156,21 @@ public partial class DbAccessModel_UnitTests
         var child = new Child { ChildName = firstName, ChildLastName = lastName };
         child.ContractFees.Add(new ContractFee { Cfmonth = month, Cfyear = year, CfsumPaid = sum });
 
-        db.AddChildren([child]);
+        db.AddItems([child]);
 
         //Assert
-        var childrenFromDb = db.GetChildren(ch => true);
-        var contractFees = db.GetContractFees(cf => true);
+        var childrenFromDb = db.GetItems<Child>(ch => true);
+        var contractFees = db.GetItems<ContractFee>(cf => true);
         Assert.Equal(expectedAfterAdding, childrenFromDb.Count);
         Assert.Equal(expectedAfterAdding, contractFees.Count);
 
         //Act delete
-        var children = db.GetChildren(ch => true);
-        db.DeleteChildren(children);
+        var children = db.GetItems<Child>(ch => true);
+        db.DeleteItems(children);
 
         //Assert
-        Assert.Equal(expectedAfterDeleteing, db.GetChildren(ch=>true).Count);
-        Assert.Equal(expectedAfterDeleteing, db.GetContractFees(cf => true).Count);
+        Assert.Equal(expectedAfterDeleteing, db.GetItems<Child>(ch => true).Count);
+        Assert.Equal(expectedAfterDeleteing, db.GetItems<ContractFee>(cf => true).Count);
 
     }
     #endregion
@@ -183,18 +184,18 @@ public partial class DbAccessModel_UnitTests
     public void AddActvity_ReadActvity_MustPass(string dbName, string name, int price)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
         int expectedCount = 1;
         //Act
         var activity = new Activity { ActivityName = name, ActivityPrice = price };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
 
-        var actvitiesFromDb = db.GetActivities(act => true);
+        var actvitiesFromDb = db.GetItems<Activity>(act => true);
         //Assert
         Assert.Equal(expectedCount, actvitiesFromDb.Count);
-        Assert.Equal(expectedId, actvitiesFromDb[0].ActivityId);
+        Assert.Equal(expectedId, actvitiesFromDb[0].Id);
         Assert.Equal(name, actvitiesFromDb.First().ActivityName);
         Assert.Equal(price, actvitiesFromDb.First().ActivityPrice);
     }
@@ -206,14 +207,14 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoActvities_ReadTwoActivities_MustPass(string dbName, string firstName, string secondName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
         var activities = new Activity[] { new Activity { ActivityName = firstName }, new Activity { ActivityName = secondName } };
-        db.AddActvities(activities);
+        db.AddItems(activities);
 
-        var activitiesFromDb = db.GetActivities(act => true);
+        var activitiesFromDb = db.GetItems<Activity>(act => true);
 
         //Assert
         Assert.Equal(expectedCount, activitiesFromDb.Count);
@@ -226,14 +227,14 @@ public partial class DbAccessModel_UnitTests
     public void GetActivitiesWithFilter_MustPass(string dbName, string firstName, string secondName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
-        var activities = new Activity[] { new Activity {ActivityName = firstName}, new Activity {ActivityName = secondName} };
-        db.AddActvities(activities);
+        var activities = new Activity[] { new Activity { ActivityName = firstName }, new Activity { ActivityName = secondName } };
+        db.AddItems(activities);
 
-        var activitiesFromDb = db.GetActivities(act => act.ActivityName == firstName);
+        var activitiesFromDb = db.GetItems<Activity>(act => act.ActivityName == firstName);
         //Assert
         Assert.Equal(expectedCount, activitiesFromDb.Count);
     }
@@ -244,26 +245,26 @@ public partial class DbAccessModel_UnitTests
     public void ChangeActvityPrice_MustPass(string dbName, int oldPrice, int newPrice)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
 
         //Act
         var actvity = new Activity { ActivityName = "name", ActivityPrice = oldPrice };
-        db.AddActvities([actvity]);
+        db.AddItems([actvity]);
 
-        var activityFromDb = db.GetActivities(act => true).Single();
-        
+        var activityFromDb = db.GetItems<Activity>(act => true).Single();
+
         //Assert
         Assert.Equal(oldPrice, activityFromDb.ActivityPrice);
 
         //Act update
         //var activityFromDbToChange = db.GetActivities(act => true).First();
         activityFromDb.ActivityPrice = newPrice;
-        db.UpdateActvities([activityFromDb]);
+        db.UpdateItems([activityFromDb]);
 
         //Assert update
-        Assert.Equal(newPrice, db.GetActivities(act => act.ActivityId == expectedId).Single().ActivityPrice);
+        Assert.Equal(newPrice, db.GetItems<Activity>(act => act.Id == expectedId).Single().ActivityPrice);
 
     }
 
@@ -274,19 +275,19 @@ public partial class DbAccessModel_UnitTests
     public void DeleteActvities_MustPass(string dbName, string firstName, string secondFirstName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
 
         //Act
         var activities = new Activity[] { new Activity { ActivityName = firstName }, new Activity { ActivityName = secondFirstName } };
-        db.AddActvities(activities);
+        db.AddItems(activities);
 
-        var activitiesFromDb = db.GetActivities(act => true);
-        db.DeleteActvities(activities);
+        var activitiesFromDb = db.GetItems<Activity>(act => true);
+        db.DeleteItems(activities);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetActivities(act => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<Activity>(act => true).Count);
     }
 
 
@@ -296,39 +297,39 @@ public partial class DbAccessModel_UnitTests
     public void DeleteActvitiesWIthDependencies_MustPass(string dbName, string firstName, string lastName, string actName, int month, int year)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedAfterAdding = 1;
         int expectedAfterDeleteing = 0;
 
         //Act
         var activity = new Activity { ActivityName = actName, ActivityPrice = 700 };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
         //Assert
-        var activities = db.GetActivities(act => true);
+        var activities = db.GetItems<Activity>(act => true);
         Assert.Equal(expectedAfterAdding, activities.Count);
 
         var child = new Child { ChildName = firstName, ChildLastName = lastName, ChildContract = (int)ContractType.OrdinaryContract };
-        child.YearMonthActivities.Add(new YearMonthActivity { YmactivityId = 1,  Month = month, Year = year });
+        child.YearMonthActivities.Add(new YearMonthActivity { YmactivityId = 1, Month = month, Year = year });
 
-        db.AddChildren([child]);
+        db.AddItems([child]);
 
         //Assert
-        var childrenFromDb = db.GetChildren(ch => true);
+        var childrenFromDb = db.GetItems<Child>(ch => true);
         Assert.Equal(expectedAfterAdding, childrenFromDb.Count);
 
-        var yearMonthActivities = db.GetYearMonthActivities(act => true);
-        
+        var yearMonthActivities = db.GetItems<YearMonthActivity>(act => true);
+
         Assert.Equal(expectedAfterAdding, yearMonthActivities.Count);
 
 
         //Act delete
-        var actvitiesToDel = db.GetActivities(act => true);
-        db.DeleteActvities(actvitiesToDel);
+        var actvitiesToDel = db.GetItems<Activity>(act => true);
+        db.DeleteItems(actvitiesToDel);
 
         //Assert
-        Assert.Equal(expectedAfterDeleteing, db.GetActivities(act => true).Count);
-        Assert.Equal(expectedAfterDeleteing, db.GetYearMonthActivities(act => true).Count);
+        Assert.Equal(expectedAfterDeleteing, db.GetItems<Activity>(act => true).Count);
+        Assert.Equal(expectedAfterDeleteing, db.GetItems<YearMonthActivity>(act => true).Count);
 
     }
     #endregion
@@ -340,17 +341,17 @@ public partial class DbAccessModel_UnitTests
     public void AddPrecontract_ReadPrecontract_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
-        
-        var precontract = new Precontract { PchildId = 1, Psum  = sum };
-        db.AddChildren([child]);
-        db.AddPrecontracts([precontract]);
 
-        var precontractsFromDb = db.GetPrecontracts(pr => true);
+        var precontract = new Precontract { PchildId = 1, Psum = sum };
+        db.AddItems([child]);
+        db.AddItems([precontract]);
+
+        var precontractsFromDb = db.GetItems<Precontract>(pr => true);
         //Assert
         Assert.Equal(expectedCount, precontractsFromDb.Count);
         Assert.Equal(precontract.PchildId, precontractsFromDb.First().PchildId);
@@ -363,7 +364,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoPrecontracts_ReadTwoPrecontracts_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -373,10 +374,10 @@ public partial class DbAccessModel_UnitTests
         var precontract = new Precontract { PchildId = 1, Psum = firstSum };
         var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddPrecontracts([precontract, secondPrecontract]);
+        db.AddItems([child, child2]);
+        db.AddItems([precontract, secondPrecontract]);
 
-        var precontractsFromDb = db.GetPrecontracts(pr => true);
+        var precontractsFromDb = db.GetItems<Precontract>(pr => true);
         //Assert
         Assert.Equal(expectedCount, precontractsFromDb.Count);
         Assert.Equal(precontract.PchildId, precontractsFromDb.First().PchildId);
@@ -390,7 +391,7 @@ public partial class DbAccessModel_UnitTests
     public void GetPrecontractsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -400,10 +401,10 @@ public partial class DbAccessModel_UnitTests
         var precontract = new Precontract { PchildId = 1, Psum = firstSum };
         var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddPrecontracts([precontract, secondPrecontract]);
+        db.AddItems([child, child2]);
+        db.AddItems([precontract, secondPrecontract]);
 
-        var precontractsFromDb = db.GetPrecontracts(pr => pr.Psum > condition);
+        var precontractsFromDb = db.GetItems<Precontract>(pr => pr.Psum > condition);
         //Assert
         Assert.Equal(expectedCount, precontractsFromDb.Count);
         Assert.Equal(secondSum, precontractsFromDb.First().Psum);
@@ -416,25 +417,25 @@ public partial class DbAccessModel_UnitTests
     public void ChangePrecontractComment_MustPass(string dbName, string firstComment, string secondComment)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "second", ChildName = "First" };
         child.Precontracts.Add(new Precontract { Psum = 900, Pcomment = firstComment });
 
-        db.AddChildren([child]);
+        db.AddItems([child]);
         //Assert
-        Assert.Equal(1, db.GetChildren(ch => true).Count);
-        Assert.Equal(1, db.GetPrecontracts(pr => true).Count);
+        Assert.Equal(1, db.GetItems<Child>(ch => true).Count);
+        Assert.Equal(1, db.GetItems<Precontract>(pr => true).Count);
 
         //Act update
-        var precontract = db.GetPrecontracts(pr => pr.PchildId == 1).Single();
+        var precontract = db.GetItems<Precontract>(pr => pr.PchildId == 1).Single();
         precontract.Pcomment = secondComment;
-        var ret_code = db.UpdatePrecontracts([precontract]);
+        var ret_code = db.UpdateItems([precontract]);
 
         //Aassert
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal(secondComment, db.GetPrecontracts(pr => true).Single().Pcomment);
+        Assert.Equal(secondComment, db.GetItems<Precontract>(pr => true).Single().Pcomment);
     }
 
     [Theory]
@@ -443,7 +444,7 @@ public partial class DbAccessModel_UnitTests
     public void DeletePrecontracts_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         //Act
@@ -453,14 +454,14 @@ public partial class DbAccessModel_UnitTests
         var precontract = new Precontract { PchildId = 1, Psum = firstSum };
         var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddPrecontracts([precontract, secondPrecontract]);
+        db.AddItems([child, child2]);
+        db.AddItems([precontract, secondPrecontract]);
 
-        var precontracts = db.GetPrecontracts(pr => true);
-        db.DeletePrecontracts(precontracts);
+        var precontracts = db.GetItems<Precontract>(pr => true);
+        db.DeleteItems(precontracts);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetPrecontracts(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<Precontract>(pr => true).Count);
     }
 
     [Theory]
@@ -469,7 +470,7 @@ public partial class DbAccessModel_UnitTests
     public void DeletePrecontracts_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -479,14 +480,14 @@ public partial class DbAccessModel_UnitTests
         var precontract = new Precontract { PchildId = 1, Psum = firstSum };
         var secondPrecontract = new Precontract { PchildId = 2, Psum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddPrecontracts([precontract, secondPrecontract]);
+        db.AddItems([child, child2]);
+        db.AddItems([precontract, secondPrecontract]);
 
-        var precontracts = db.GetPrecontracts(pr => pr.Psum > firstSum);
-        db.DeletePrecontracts(precontracts);
+        var precontracts = db.GetItems<Precontract>(pr => pr.Psum > firstSum);
+        db.DeleteItems(precontracts);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetPrecontracts(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<Precontract>(pr => true).Count);
     }
 
     #endregion
@@ -498,17 +499,17 @@ public partial class DbAccessModel_UnitTests
     public void AddContractFee_REadContractFee_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
 
-        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = sum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year};
-        db.AddChildren([child]);
-        db.AddContractFees([contractFee]);
+        var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = sum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
+        db.AddItems([child]);
+        db.AddItems([contractFee]);
 
-        var contractsFromDb = db.GetContractFees(pr => true);
+        var contractsFromDb = db.GetItems<ContractFee>(pr => true);
         //Assert
         Assert.Equal(expectedCount, contractsFromDb.Count);
         Assert.Equal(contractFee.CfchildId, contractsFromDb[0].CfchildId);
@@ -522,7 +523,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoContractFees_ReadTwoContractFees_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -532,10 +533,10 @@ public partial class DbAccessModel_UnitTests
         var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
         var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
 
-        db.AddChildren([child, child2]);
-        db.AddContractFees([contractFee, secondContractFee]);
+        db.AddItems([child, child2]);
+        db.AddItems([contractFee, secondContractFee]);
 
-        var contractsFromDb = db.GetContractFees(pr => true);
+        var contractsFromDb = db.GetItems<ContractFee>(pr => true);
         //Assert
         Assert.Equal(expectedCount, contractsFromDb.Count);
         Assert.Equal(contractFee.CfchildId, contractsFromDb[0].CfchildId);
@@ -548,7 +549,7 @@ public partial class DbAccessModel_UnitTests
     public void GetContractFeesWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -558,10 +559,10 @@ public partial class DbAccessModel_UnitTests
         var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
         var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
 
-        db.AddChildren([child, child2]);
-        db.AddContractFees([contractFee, secondContractFee]);
+        db.AddItems([child, child2]);
+        db.AddItems([contractFee, secondContractFee]);
 
-        var contractsFromDb = db.GetContractFees(pr => pr.CfsumPaid > condition);
+        var contractsFromDb = db.GetItems<ContractFee>(pr => pr.CfsumPaid > condition);
         //Assert
         Assert.Equal(expectedCount, contractsFromDb.Count);
         Assert.Equal(secondSum, contractsFromDb[0].CfsumPaid);
@@ -574,25 +575,25 @@ public partial class DbAccessModel_UnitTests
     public void ChangeContractFeeSum_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "second", ChildName = "First" };
         child.ContractFees.Add(new ContractFee { CfsumPaid = firstSum, Cfyear = DateTime.Now.Year, Cfmonth = DateTime.Now.Month });
-            
-        db.AddChildren([child]);
+
+        db.AddItems([child]);
         //Assert
-        Assert.Equal(1, db.GetChildren(ch => true).Count);
-        Assert.Equal(1, db.GetContractFees(pr => true).Count);
+        Assert.Equal(1, db.GetItems<Child>(ch => true).Count);
+        Assert.Equal(1, db.GetItems<ContractFee>(pr => true).Count);
 
         //Act update
-        var contractFee = db.GetContractFees(pr => pr.CfchildId == 1).Single();
+        var contractFee = db.GetItems<ContractFee>(pr => pr.CfchildId == 1).Single();
         contractFee.CfsumPaid = secondSum;
-        var ret_code = db.UpdateContractFees([contractFee]);
+        var ret_code = db.UpdateItems([contractFee]);
 
         //Aassert
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal(secondSum, db.GetContractFees(pr => true).Single().CfsumPaid);
+        Assert.Equal(secondSum, db.GetItems<ContractFee>(pr => true).Single().CfsumPaid);
     }
 
     [Theory]
@@ -601,7 +602,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteContractFees_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         //Act
@@ -611,14 +612,14 @@ public partial class DbAccessModel_UnitTests
         var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
         var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
 
-        db.AddChildren([child, child2]);
-        db.AddContractFees([contractFee, secondContractFee]);
+        db.AddItems([child, child2]);
+        db.AddItems([contractFee, secondContractFee]);
 
-        var contractFees = db.GetContractFees(pr => true);
-        db.DeleteContractFees(contractFees);
+        var contractFees = db.GetItems<ContractFee>(pr => true);
+        db.DeleteItems(contractFees);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetContractFees(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<ContractFee>(pr => true).Count);
     }
 
 
@@ -628,7 +629,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteContractFees_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -638,14 +639,14 @@ public partial class DbAccessModel_UnitTests
         var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = firstSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
         var secondContractFee = new ContractFee { CfchildId = 2, CfsumPaid = secondSum, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
 
-        db.AddChildren([child, child2]);
-        db.AddContractFees([contractFee, secondContractFee]);
+        db.AddItems([child, child2]);
+        db.AddItems([contractFee, secondContractFee]);
 
-        var contarctFeesFromDb = db.GetContractFees(pr => pr.CfsumPaid > firstSum);
-        db.DeleteContractFees(contarctFeesFromDb);
+        var contarctFeesFromDb = db.GetItems<ContractFee>(pr => pr.CfsumPaid > firstSum);
+        db.DeleteItems(contarctFeesFromDb);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetContractFees(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<ContractFee>(pr => true).Count);
     }
 
     [Theory]
@@ -653,16 +654,16 @@ public partial class DbAccessModel_UnitTests
     public void AddContract_GetContractById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
 
         var contractFee = new ContractFee { CfchildId = 1, CfsumPaid = 800, Cfmonth = DateTime.Now.Month, Cfyear = DateTime.Now.Year };
-        db.AddChildren([child]);
-        db.AddContractFees([contractFee]);
+        db.AddItems([child]);
+        db.AddItems([contractFee]);
 
-        var contractFeeFromDb = db.GetContractFeeById(DateTime.Now.Year, DateTime.Now.Month, 1);
+        var contractFeeFromDb = db.GetItems<ContractFee>(cf => cf.Cfyear ==  DateTime.Now.Year && cf.Cfmonth == DateTime.Now.Month && cf.CfchildId == 1).Single();
         //Assert 
         Assert.Equal(contractFee.CfsumPaid, contractFeeFromDb.CfsumPaid);
     }
@@ -676,7 +677,7 @@ public partial class DbAccessModel_UnitTests
     public void AddYearMonthAct_ReadYearMonthAct_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -684,11 +685,11 @@ public partial class DbAccessModel_UnitTests
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = sum };
         var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = sum };
 
-        db.AddChildren([child]);
-        db.AddActvities([activity]);
-        db.AddYearMonthActivities([yearMonthActivity]);
+        db.AddItems([child]);
+        db.AddItems([activity]);
+        db.AddItems([yearMonthActivity]);
 
-        var yearMonthACtivitiesFromDb = db.GetYearMonthActivities(act => true);
+        var yearMonthACtivitiesFromDb = db.GetItems<YearMonthActivity>(act => true);
         //Assert
 
         Assert.Equal(expectedCount, yearMonthACtivitiesFromDb.Count);
@@ -703,7 +704,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoYearMonthActs_ReadTwoYearMonthActs_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -716,12 +717,12 @@ public partial class DbAccessModel_UnitTests
         var activity2 = new Activity { ActivityName = "Doctor2", ActivityPrice = secondSum };
         var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 2, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddActvities([activity, activity2]);
-        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+        db.AddItems([child, child2]);
+        db.AddItems([activity, activity2]);
+        db.AddItems([yearMonthActivity, yearMonthActivity2]);
 
 
-        var ymaFromDb = db.GetYearMonthActivities(pr => true);
+        var ymaFromDb = db.GetItems<YearMonthActivity>(pr => true);
         //Assert
         Assert.Equal(expectedCount, ymaFromDb.Count);
         Assert.Equal(yearMonthActivity.YmchildId, ymaFromDb[0].YmchildId);
@@ -736,7 +737,7 @@ public partial class DbAccessModel_UnitTests
     public void GetYearMonthActsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -748,11 +749,11 @@ public partial class DbAccessModel_UnitTests
         var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
         var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddActvities([activity]);
-        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+        db.AddItems([child, child2]);
+        db.AddItems([activity]);
+        db.AddItems([yearMonthActivity, yearMonthActivity2]);
 
-        var ymActsFromDb = db.GetYearMonthActivities(pr => pr.YmactivitySum > condition);
+        var ymActsFromDb = db.GetItems<YearMonthActivity>(pr => pr.YmactivitySum > condition);
         //Assert
         Assert.Equal(expectedCount, ymActsFromDb.Count);
         Assert.Equal(secondSum, ymActsFromDb[0].YmactivitySum);
@@ -764,28 +765,28 @@ public partial class DbAccessModel_UnitTests
     public void ChangeYearMonthActivitySum_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
         //Act
 
         var child = new Child { ChildLastName = "second", ChildName = "First" };
         child.YearMonthActivities.Add(new YearMonthActivity { Year = DateTime.Now.Year, Month = DateTime.Now.Month, YmactivityId = 1, YmwasPaid = firstSum });
 
-        db.AddChildren([child]);
+        db.AddItems([child]);
         //Assert
-        Assert.Equal(1, db.GetChildren(ch => true).Count);
-        Assert.Equal(1, db.GetYearMonthActivities(pr => true).Count);
+        Assert.Equal(1, db.GetItems<Child>(ch => true).Count);
+        Assert.Equal(1, db.GetItems<YearMonthActivity>(pr => true).Count);
 
         //Act update
-        var ymAct = db.GetYearMonthActivities(pr => pr.YmchildId == 1).Single();
+        var ymAct = db.GetItems<YearMonthActivity>(pr => pr.YmchildId == 1).Single();
         ymAct.YmactivitySum = secondSum;
-        var ret_code = db.UpdateYearMonthActivities([ymAct]);
+        var ret_code = db.UpdateItems([ymAct]);
 
         //Aassert
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal(secondSum, db.GetYearMonthActivities(pr => true).Single().YmactivitySum);
+        Assert.Equal(secondSum, db.GetItems<YearMonthActivity>(pr => true).Single().YmactivitySum);
     }
 
     [Theory]
@@ -794,11 +795,11 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearMonthActivities_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
         var child2 = new Child { ChildLastName = "name", ChildName = "second" };
@@ -806,14 +807,14 @@ public partial class DbAccessModel_UnitTests
         var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
         var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+        db.AddItems([child, child2]);
+        db.AddItems([yearMonthActivity, yearMonthActivity2]);
 
-        var ymActsFromDb = db.GetYearMonthActivities(pr => true);
-        db.DeleteYearMonthActivities(ymActsFromDb);
+        var ymActsFromDb = db.GetItems<YearMonthActivity>(pr => true);
+        db.DeleteItems(ymActsFromDb);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetYearMonthActivities(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<YearMonthActivity>(pr => true).Count);
     }
 
 
@@ -823,11 +824,11 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearMonthActivities_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
 
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
@@ -836,14 +837,14 @@ public partial class DbAccessModel_UnitTests
         var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = firstSum };
         var yearMonthActivity2 = new YearMonthActivity { YmactivityId = 1, YmchildId = 2, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = secondSum };
 
-        db.AddChildren([child, child2]);
-        db.AddYearMonthActivities([yearMonthActivity, yearMonthActivity2]);
+        db.AddItems([child, child2]);
+        db.AddItems([yearMonthActivity, yearMonthActivity2]);
 
-        var ymActsFromDb = db.GetYearMonthActivities(pr => pr.YmactivitySum > firstSum);
-        db.DeleteYearMonthActivities(ymActsFromDb);
+        var ymActsFromDb = db.GetItems<YearMonthActivity>(pr => pr.YmactivitySum > firstSum);
+        db.DeleteItems(ymActsFromDb);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetYearMonthActivities(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<YearMonthActivity>(pr => true).Count);
     }
 
     [Theory]
@@ -851,19 +852,19 @@ public partial class DbAccessModel_UnitTests
     public void AddYearMonthACtivity_GetYearMonthActivityById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectdCount = 1;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = 700 };
-        db.AddActvities([activity]);
+        db.AddItems([activity]);
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
 
         var yearMonthActivity = new YearMonthActivity { YmactivityId = 1, YmchildId = 1, Month = DateTime.Now.Month, Year = DateTime.Now.Year, YmactivitySum = 800 };
-        db.AddChildren([child]);
-        db.AddYearMonthActivities([yearMonthActivity]);
+        db.AddItems([child]);
+        db.AddItems([yearMonthActivity]);
 
-        var ymActsFromDb = db.GetYearMonthActivitiesById(DateTime.Now.Year, DateTime.Now.Month, 1);
+        var ymActsFromDb = db.GetItems<YearMonthActivity>(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month && act.YmchildId == 1);
         //Assert 
         Assert.Equal(expectdCount, ymActsFromDb.Count);
         Assert.Equal(yearMonthActivity.YmactivitySum, ymActsFromDb[0].YmactivitySum);
@@ -877,17 +878,17 @@ public partial class DbAccessModel_UnitTests
     public void AddYearSub_ReadYearSub_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
-        var yearSub = new YearSub { YchildId = 1 , Yyear = DateTime.Now.Year };
+        var yearSub = new YearSub { YchildId = 1, Yyear = DateTime.Now.Year };
 
-        db.AddChildren([child]);
-        db.AddYearSubs([yearSub]);
+        db.AddItems([child]);
+        db.AddItems([yearSub]);
 
-        var yearSubsFromDb = db.GetYearSubs(act => true);
+        var yearSubsFromDb = db.GetItems<YearSub>(act => true);
         //Assert
 
         Assert.Equal(expectedCount, yearSubsFromDb.Count);
@@ -901,7 +902,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoYearSubs_ReadTwoYearSubs_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -910,12 +911,12 @@ public partial class DbAccessModel_UnitTests
 
         var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
         var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
-      
-        db.AddChildren([child, child2]);
-        db.AddYearSubs([yearSub, yearSub2]);
+
+        db.AddItems([child, child2]);
+        db.AddItems([yearSub, yearSub2]);
 
 
-        var ymaFromDb = db.GetYearSubs(pr => true);
+        var ymaFromDb = db.GetItems<YearSub>(pr => true);
         //Assert
         Assert.Equal(expectedCount, ymaFromDb.Count);
         Assert.Equal(yearSub.YchildId, ymaFromDb[0].YchildId);
@@ -931,7 +932,7 @@ public partial class DbAccessModel_UnitTests
     public void GetYearSubsWithFilter_MustPass(string dbName, int firstYear, int secondYear, int condition)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -941,11 +942,11 @@ public partial class DbAccessModel_UnitTests
         var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
         var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
 
-        db.AddChildren([child, child2]);
-        db.AddYearSubs([yearSub, yearSub2]);
+        db.AddItems([child, child2]);
+        db.AddItems([yearSub, yearSub2]);
 
 
-        var ymActsFromDb = db.GetYearSubs(pr => pr.Yyear > condition);
+        var ymActsFromDb = db.GetItems<YearSub>(pr => pr.Yyear > condition);
         //Assert
         Assert.Equal(expectedCount, ymActsFromDb.Count);
         Assert.Equal(secondYear, ymActsFromDb[0].Yyear);
@@ -958,27 +959,27 @@ public partial class DbAccessModel_UnitTests
     public void ChangeYearSub_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
-      
+
         //Act
 
         var child = new Child { ChildLastName = "second", ChildName = "First" };
         child.YearSubs.Add(new YearSub { Yyear = DateTime.Now.Year, Yapril = firstSum, YaprilPayment = 1 });
 
-        db.AddChildren([child]);
+        db.AddItems([child]);
         //Assert
-        Assert.Equal(1, db.GetChildren(ch => true).Count);
-        Assert.Equal(1, db.GetYearSubs(pr => true).Count);
+        Assert.Equal(1, db.GetItems<Child>(ch => true).Count);
+        Assert.Equal(1, db.GetItems<YearSub>(pr => true).Count);
 
         //Act update
-        var ymAct = db.GetYearSubs(pr => pr.YchildId == 1).Single();
+        var ymAct = db.GetItems<YearSub>(pr => pr.YchildId == 1).Single();
         ymAct.Yapril = secondSum;
-        var ret_code = db.UpdateYearSubs([ymAct]);
+        var ret_code = db.UpdateItems([ymAct]);
 
         //Aassert
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal(secondSum, db.GetYearSubs(pr => true).Single().Yapril);
+        Assert.Equal(secondSum, db.GetItems<YearSub>(pr => true).Single().Yapril);
     }
 
 
@@ -988,10 +989,10 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearSubs_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
-        
+
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
         var child2 = new Child { ChildLastName = "name", ChildName = "second" };
@@ -1000,15 +1001,15 @@ public partial class DbAccessModel_UnitTests
         var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
 
 
-        db.AddChildren([child, child2]);
-        db.AddYearSubs([yearSub, yearSub2]);
+        db.AddItems([child, child2]);
+        db.AddItems([yearSub, yearSub2]);
 
 
-        var ymActsFromDb = db.GetYearSubs(pr => true);
-        db.DeleteYearSubs(ymActsFromDb);
+        var ymActsFromDb = db.GetItems<YearSub>(pr => true);
+        db.DeleteItems(ymActsFromDb);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetYearSubs(pr => true).Count);
+        Assert.Equal(expectedCount, db.GetItems<YearSub>(pr => true).Count);
     }
 
 
@@ -1018,11 +1019,11 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearSubs_WithFilter_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
-       
-        
+
+
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
         var child2 = new Child { ChildLastName = "name", ChildName = "second" };
@@ -1030,37 +1031,37 @@ public partial class DbAccessModel_UnitTests
         var yearSub = new YearSub { YchildId = 1, Yyear = firstYear };
         var yearSub2 = new YearSub { YchildId = 2, Yyear = secondYear };
 
-        
-        db.AddChildren([child, child2]);
-        db.AddYearSubs([yearSub, yearSub2]);
 
-        var ymActsFromDb = db.GetYearSubs(pr => pr.Yyear > firstYear);
-        db.DeleteYearSubs(ymActsFromDb);
+        db.AddItems([child, child2]);
+        db.AddItems([yearSub, yearSub2]);
+
+        var ymActsFromDb = db.GetItems<YearSub>(pr => pr.Yyear > firstYear);
+        db.DeleteItems(ymActsFromDb);
 
         //Assert
-        Assert.Equal(expectedCount, db.GetYearSubs(pr => true).Count);
-        Assert.Equal(firstYear, db.GetYearSubs(pr => true)[0].Yyear);
+        Assert.Equal(expectedCount, db.GetItems<YearSub>(pr => true).Count);
+        Assert.Equal(firstYear, db.GetItems<YearSub>(pr => true)[0].Yyear);
     }
 
 
     [Theory]
-    [InlineData("DeleteContractFees_WithFilter_MustPass_1.db")]
+    [InlineData("AddYearSub_GetYearSubById_MustPass.db")]
     public void AddYearSub_GetYearSubById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbChildren(dbName);
+        var db = new DbConnection(dbName);
         db.DeleteDb(dbName);
-       
+
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
 
         var yearSub = new YearSub { YchildId = 1, Yyear = 2024 };
         var yearSub2 = new YearSub { YchildId = 1, Yyear = 2023 };
 
-        db.AddChildren([child]);
-        db.AddYearSubs([yearSub, yearSub2]);
+        db.AddItems([child]);
+        db.AddItems([yearSub, yearSub2]);
 
-        var ymActsFromDb = db.GetChildYearSubById(2024, 1);
+        var ymActsFromDb = db.GetItemById<YearSub>(1);
         //Assert 
         Assert.Equal(yearSub.Yyear, ymActsFromDb.Yyear);
     }

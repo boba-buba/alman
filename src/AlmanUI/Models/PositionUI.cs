@@ -9,7 +9,7 @@ namespace AlmanUI.Models;
 
 internal class PositionUI : IPositionBase
 {
-    public int PositionId { get; set; }
+    public int Id { get; set; }
 
     public string? PositionName { get; set; }
 

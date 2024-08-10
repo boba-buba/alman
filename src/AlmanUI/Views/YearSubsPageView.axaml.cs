@@ -35,10 +35,10 @@ public partial class YearSubsPageView : UserControl
         foreach (var child in _childrenTable)
         {
             var newItem = new YearSubCompositeItem { YsChild = child};
-            IYearSubBase? newItemYearSub = _yearSubsTable.SingleOrDefault(ys => ys.YchildId == child.ChildId);
+            IYearSubBase? newItemYearSub = _yearSubsTable.SingleOrDefault(ys => ys.YchildId == child.Id);
             if (_yearSubsTable.Count == 0 || newItemYearSub is null)
             {
-                newItemYearSub = new YearSubUI { YchildId = child.ChildId, Yyear = year };
+                newItemYearSub = new YearSubUI { YchildId = child.Id, Yyear = year };
             }
             newItem.YsYearSubscription = newItemYearSub;
             childYearSubs.Add(newItem);

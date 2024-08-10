@@ -9,6 +9,7 @@ namespace AlmanUI.Models;
 
 public class ContractFeeUI : IContractFeeBase
 {
+    public int Id { get; set; }
     public int CfchildId { get; set; }
 
     public int Cfmonth { get; set; }

@@ -9,6 +9,7 @@ namespace AlmanUI.Models;
 
 internal class PrecontractUI : IPrecontractBase
 {
+    public int Id { get; set; }
     public int PchildId { get; set; }
 
     public int Psum { get; set; }

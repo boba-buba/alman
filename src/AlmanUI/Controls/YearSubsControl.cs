@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,17 +13,19 @@ namespace AlmanUI.Controls;
 
 public static class YearSubsControl
 {
+    private static BusinessEntity<YearSub, IYearSubBase> BusinessLog { get; set; } = new BusinessEntity<YearSub, IYearSubBase>();
+
     public static IReadOnlyList<IYearSubBase> GetYearSubs() =>
-        BusinessYearSubsApi.GetYearSubs();
+        BusinessLog.GetEntities();
 
     public static IReadOnlyList<IYearSubBase> GetYearSubsByFilter(Func<IYearSubBase, bool> filter) =>
-        BusinessYearSubsApi.GetYearSubsByFilter(filter);
+        BusinessLog.GetEntitiesByFilter(filter);
 
     public static ReturnCode AddYearSubs(IReadOnlyList<IYearSubBase> yearSubs) =>
-        BusinessYearSubsApi.AddYearSubs(yearSubs);
+        BusinessLog.AddEntities(yearSubs);
 
     public static ReturnCode UpdateYearSubs(IReadOnlyList<IYearSubBase> yearSubs) =>
-        BusinessYearSubsApi.UpdateYearSubs(yearSubs);
+        BusinessLog.UpdateEntities(yearSubs);
 
     public static ReturnCode SaveYearSubs(IReadOnlyList<IYearSubBase> yearSubsToSave)
     {

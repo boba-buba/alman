@@ -1,4 +1,6 @@
-﻿using DbAccess.Models;
+﻿using Alman.SharedDefinitions;
+using Alman.SharedModels;
+using DbAccess.Models;
 
 namespace DatabaseAccess;
 
@@ -23,4 +25,60 @@ public abstract class DbBase
         ctx.Database.EnsureDeleted();
     }
 
+}
+
+
+public class DbConnection : DbBase
+{
+    public DbConnection(string dbPath)
+    {
+        DbPath = dbPath;
+    }
+
+    public DbConnection() { }
+
+    public TEntity GetItemById<TEntity>(int id)
+        where TEntity : class, IIdentifier, new()
+    {
+        using var db = ConnectToDb();
+        TEntity item;
+        try
+        {
+            item = db.GetDeclaredDbSet<TEntity>().Where(it => it.Id == id).Single();
+        }
+        catch (Exception ex)
+        {
+            DebugUtilities.WriteExceptionToDebug(ex);
+            item = new TEntity();
+        }
+        return item;
+    }
+
+    public IReadOnlyList<TEntity> GetItems<TEntity>(Func<TEntity, bool> selector)
+        where TEntity : class
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.GetEntities(selector, db.GetDeclaredDbSet<TEntity>());
+    }
+
+    public ReturnCode AddItems<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.AddEntities(db.GetDeclaredDbSet<TEntity>(), entities, db);
+    }
+
+    public ReturnCode UpdateItems<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.UpdateEntities(entities, db);
+    }
+
+    public ReturnCode DeleteItems<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class, IDeleteDependable
+    {
+        using var db = ConnectToDb();
+        return DbAccessUtilities.DeleteEntities(entities, db);
+    }
 }

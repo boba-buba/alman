@@ -3,7 +3,7 @@ namespace AlmanUI.Models;
 
 public partial class ChildUI : IChildBase
 {
-    public int ChildId { get; set; }
+    public int Id { get; set; }
 
     public string ChildName { get; set; } = null!;
 

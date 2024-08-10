@@ -3,6 +3,7 @@ namespace AlmanUI.Models;
 
 public class YearSubUI : IYearSubBase
 {
+    public int Id { get; set; }
     public int YchildId { get; set; }
 
     public int Yyear { get; set; }

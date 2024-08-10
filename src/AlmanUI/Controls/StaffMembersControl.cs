@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,20 +13,22 @@ namespace AlmanUI.Controls;
 
 public static class StaffMembersControl
 {
+    private static BusinessEntity<StaffMember, IStaffMemberBase> BusinessLog { get; set; } = new BusinessEntity<StaffMember, IStaffMemberBase>();
+
     public static IReadOnlyList<IStaffMemberBase> GetStaffMembers() =>
-        BusinessStaffMembersApi.GetStaffMembers();
+        BusinessLog.GetEntities();
 
     public static IReadOnlyList<IStaffMemberBase> GetStaffMembersByFilter(Func<IStaffMemberBase, bool> filter) =>
-        BusinessStaffMembersApi.GetStaffMembersByFilter(filter);
+        BusinessLog.GetEntitiesByFilter(filter);
 
     public static ReturnCode AddStaffMembers(IReadOnlyList<IStaffMemberBase> members) =>
-        BusinessStaffMembersApi.AddStaffMembers(members);
+        BusinessLog.AddEntities(members);
 
     public static ReturnCode DeleteStaffMembers(IList<int> membersIdsToDelete) =>
-        BusinessStaffMembersApi.DeleteStaffMembers(membersIdsToDelete);
+        BusinessLog.DeleteEntities(membersIdsToDelete);
 
     public static ReturnCode UpdateStaffMembers(IReadOnlyList<IStaffMemberBase> members) =>
-        BusinessStaffMembersApi.UpdateStaffMembers(members);
+        BusinessLog.UpdateEntities(members);
 
     public static ReturnCode SaveStaffMembers(IReadOnlyList<IStaffMemberBase> membersToSave, IList<int> memberIdsToDelete)
     {
@@ -74,10 +77,9 @@ public static class StaffMemberExtensions
 {
     public static bool DbEquals(this IStaffMemberBase item, IStaffMemberBase other)
     {
-        if (item.StaffMemberId != other.StaffMemberId) { return false; }
+        if (item.Id != other.Id) { return false; }
         return true;
     }
-
      
     public static bool InGroup(this IStaffMemberBase item, IReadOnlyList<IStaffMemberBase> group)
     {

@@ -1,11 +1,15 @@
 ﻿using Alman.SharedModels;
+using DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
-public partial class YearMonthActivity : IYearMonthActivityBase
+public partial class YearMonthActivity : IYearMonthActivityBase, IDeleteDependable
 {
+    public int Id { get; set; }
+
     public int YmchildId { get; set; }
 
     public int YmactivityId { get; set; }
@@ -23,4 +27,6 @@ public partial class YearMonthActivity : IYearMonthActivityBase
     public virtual Activity Ymactivity { get; set; } = null!;
 
     public virtual Child Ymchild { get; set; } = null!;
+
+    public void DeleteDependable(DbContext dbContext) { }
 }

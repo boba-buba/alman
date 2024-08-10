@@ -28,7 +28,7 @@ namespace AlmanUI.ViewModels
         private IList<int> _childrenIdsToDelete;
         public ChildrenPageViewModel()
         {
-            Children = new ObservableCollection<IChildBase>(BusinessChildrenApi.GetChildren());
+            Children = new ObservableCollection<IChildBase>(ChildrenControl.GetChildren());
             _childrenIdsToDelete = new List<int>();
         }
 
@@ -74,9 +74,9 @@ namespace AlmanUI.ViewModels
                 return;
             }
             
-            if (SelectedChild.ChildId != 0)
+            if (SelectedChild.Id != 0)
             {
-                _childrenIdsToDelete.Add(SelectedChild.ChildId);
+                _childrenIdsToDelete.Add(SelectedChild.Id);
             }
             Children.Remove(SelectedChild);
             SelectedChild = null;

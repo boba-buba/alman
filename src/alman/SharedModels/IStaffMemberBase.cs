@@ -1,8 +1,8 @@
 ﻿namespace Alman.SharedModels;
 
-public interface IStaffMemberBase
+public interface IStaffMemberBase : IIdentifier
 {
-    public int StaffMemberId { get; set; }
+    //public int Id { get; set; }
 
     public string? FirstName { get; set; }
 
