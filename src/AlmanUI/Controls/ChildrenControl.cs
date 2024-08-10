@@ -1,5 +1,6 @@
 ﻿using Alman.SharedModels;
 using System;
+using DbAccess.Models;
 using System.Collections.Generic;
 using Business;
 using Alman.SharedDefinitions;
@@ -9,19 +10,22 @@ using System.Linq;
 namespace AlmanUI.Controls;
 
 
-public static class ChildrenControl
+public class ChildrenControl
 {
+
+    private static BusinessEntity<Child, IChildBase> BusinessLog { get; set; } = new BusinessEntity<Child, IChildBase>();
+
     public static IReadOnlyList<IChildBase> GetChildren() =>
-        BusinessChildrenApi.GetChildren();
+        BusinessLog.GetEntities();
 
     public static IReadOnlyList<IChildBase> GetChildrenByFilter(Func<IChildBase, bool> selector) => 
-        BusinessChildrenApi.GetChildrenByFilter(selector);
+        BusinessLog.GetEntitiesByFilter(selector);
     
     public static ReturnCode DeleteChildren(IList<int> childrenIds) =>
-        BusinessChildrenApi.DeleteChildren(childrenIds);
+        BusinessLog.DeleteEntities(childrenIds);
 
     public static ReturnCode AddChildren(IReadOnlyList<IChildBase> children) =>
-        BusinessChildrenApi.AddChildren(children);
+        BusinessLog.AddEntities(children);
 
     public static ReturnCode SaveChildren(IReadOnlyList<IChildBase> childrenToSave, IList<int> childrenIdsToDelete)
     {
@@ -44,7 +48,7 @@ public static class ChildrenControl
         var updatedChildren = childrenToSave.Where(ch => childrenIdsFromDb.Contains(ch.Id)).ToList();
         if (updatedChildren.Any())
         {
-            retCode = BusinessChildrenApi.UpdateChildren(updatedChildren);
+            retCode = BusinessLog.UpdateEntities(updatedChildren);
             if (retCode != ReturnCode.OK )
             {
                 Debug.WriteLine($"Something went wrong wile updating {nameof(IChildBase)}'s.");

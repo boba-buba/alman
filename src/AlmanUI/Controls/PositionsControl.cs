@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,20 +13,22 @@ namespace AlmanUI.Controls;
 
 public static class PositionsControl
 {
+    private static BusinessEntity<Position, IPositionBase> BusinessLog { get; set; } = new BusinessEntity<Position, IPositionBase>();
+
     public static IReadOnlyList<IPositionBase> GetPositions() => 
-        BusinessPositionsApi.GetPositions();
+        BusinessLog.GetEntities();
     
 
     public static ReturnCode AddPositions(IReadOnlyList<IPositionBase> positions) => 
-        BusinessPositionsApi.AddPositions(positions);
+        BusinessLog.AddEntities(positions);
     
 
     public static ReturnCode UpdatePositions(IReadOnlyList<IPositionBase> positions) => 
-        BusinessPositionsApi.UpdatePositions(positions);
+        BusinessLog.UpdateEntities(positions);
     
 
     public static ReturnCode DeletePositions(IList<int> positionsIds) => 
-        BusinessPositionsApi.DeletePositions(positionsIds);
+        BusinessLog.DeleteEntities(positionsIds);
 
     //TODO atomic somehow or like one transaction
     public static ReturnCode SavePositions(IReadOnlyList<IPositionBase> positionsToSave, IList<int> positionsIdsToDelete)
@@ -41,7 +44,7 @@ public static class PositionsControl
             }
         }
 
-        var positionsFromDb = BusinessPositionsApi.GetPositions();
+        var positionsFromDb = BusinessLog.GetEntities();
         int dbCount = positionsFromDb.Count;
         int difference = positionsToSave.Count - dbCount;
 
@@ -49,7 +52,7 @@ public static class PositionsControl
         {
             var updatedPositions = positionsToSave.Where(pos => pos.InGroup(positionsFromDb)).ToList();
 
-            retCode = BusinessPositionsApi.UpdatePositions(updatedPositions);
+            retCode = BusinessLog.UpdateEntities(updatedPositions);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IPositionBase)}");

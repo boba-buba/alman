@@ -7,32 +7,35 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Diagnostics;
+using DbAccess.Models;
 namespace Avalonia.Controls;
 
 
 public static class YearMonthActivitiesControl
-{ 
+{
+    private static BusinessEntity<YearMonthActivity, IYearMonthActivityBase> BusinessLog { get; set; } = new BusinessEntity<YearMonthActivity, IYearMonthActivityBase>();
+
     public static IReadOnlyList<IYearMonthActivityBase> GetYearMonthActivities(int year, int month)
     {
-        var activiries = BusinessYearMonthActivitiesApi.GetYMActivities(year, month);
+        var activiries = BusinessLog.GetEntitiesByFilter( act => act.Year == year && act.Month == month);
         return activiries;
     }
 
     private static ReturnCode AddYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivities)
     {
-        return BusinessYearMonthActivitiesApi.AddYearMonthActivities(ymActivities);
+        return BusinessLog.AddEntities(ymActivities);
     }
 
     public static ReturnCode UpdateYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> activities)
     {
-        return BusinessYearMonthActivitiesApi.UpdateYMActivities(activities);
+        return BusinessLog.UpdateEntities(activities);
         
     }
 
     public static ReturnCode SaveYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivitiesToSave, int year, int month)
     {
         ReturnCode retCode = ReturnCode.ERR;
-        var ymActivitiesFromDb = BusinessYearMonthActivitiesApi.GetYMActivities(year, month);
+        var ymActivitiesFromDb = BusinessLog.GetEntitiesByFilter(act => act.Year == year && act.Month == month);
         int dbCount = ymActivitiesFromDb.Count;
         int difference = ymActivitiesToSave.Count - dbCount;
 
@@ -40,7 +43,7 @@ public static class YearMonthActivitiesControl
         {
             var updatedYMActivities = ymActivitiesToSave.Where(ymAct => ymAct.InGroup(ymActivitiesFromDb)).ToList();
 
-            retCode = BusinessYearMonthActivitiesApi.UpdateYMActivities(updatedYMActivities);
+            retCode = BusinessLog.UpdateEntities(updatedYMActivities);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IYearMonthActivityBase)}");
