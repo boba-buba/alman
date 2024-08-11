@@ -28,11 +28,9 @@ public partial class AlmanContext : DbContext
 
     public virtual DbSet<OtherActivity> OtherActivities { get; set; }
 
-    public virtual DbSet<Position> Positions { get; set; }
 
     public virtual DbSet<Precontract> Precontracts { get; set; }
 
-    public virtual DbSet<Prepayment> Prepayments { get; set; }
 
     public virtual DbSet<StaffActivity> StaffActivities { get; set; }
 
@@ -126,14 +124,14 @@ public partial class AlmanContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<Prepayment>(entity =>
+       /* modelBuilder.Entity<Prepayment>(entity =>
         {
-            entity.HasKey(e => new { /*e.StaffMemberId, e.Year, e.Month, */e.Id });
+            entity.HasKey(e => new { *//*e.StaffMemberId, e.Year, e.Month, *//*e.Id });
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.Prepayments)
                 .HasForeignKey(d => d.StaffMemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-        });
+        });*/
 
         modelBuilder.Entity<StaffActivity>(entity =>
         {

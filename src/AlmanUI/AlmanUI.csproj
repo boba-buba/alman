@@ -44,14 +44,8 @@
     <Compile Update="Views\ChildrenPageView.axaml.cs">
       <DependentUpon>ChildrenPageView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\PositionsPageView.axaml.cs">
-      <DependentUpon>PositionsPageView.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\PrecontractsPageView.axaml.cs">
       <DependentUpon>PrecontractsPageView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\PrepaymentsPageView.axaml.cs">
-      <DependentUpon>PrepaymentsPageView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

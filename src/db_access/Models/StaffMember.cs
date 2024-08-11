@@ -27,8 +27,6 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
 
     public virtual ICollection<FinalPayment> FinalPayments { get; set; } = new List<FinalPayment>();
 
-    public virtual ICollection<Prepayment> Prepayments { get; set; } = new List<Prepayment>();
-
     public virtual ICollection<YearMonthOther> YearMonthOthers { get; set; } = new List<YearMonthOther>();
 
     public virtual ICollection<YearMonthStaffActivity> YearMonthStaffActivities { get; set; } = new List<YearMonthStaffActivity>();
@@ -37,7 +35,6 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
     {
         AlmanContext ctx = (AlmanContext)dbContext;
         ctx.RemoveRange(ctx.FinalPayments.Where(payment => payment.StaffMemberId == Id).ToList());
-        ctx.RemoveRange(ctx.Prepayments.Where(payment => payment.StaffMemberId == Id).ToList());
         ctx.RemoveRange(ctx.YearMonthStaffActivities.Where(activity => activity.StaffMemberId == Id).ToList());
     }
 }

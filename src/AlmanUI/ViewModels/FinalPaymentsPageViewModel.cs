@@ -1,19 +1,20 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
+using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using AlmanUI.Controls;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
-public partial class PrepaymentsPageViewModel : ViewModelBase
+public partial class FinalPaymentsPageViewModel : ViewModelBase
 {
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month;
@@ -21,7 +22,7 @@ public partial class PrepaymentsPageViewModel : ViewModelBase
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
-    public PrepaymentsPageViewModel() { }
+    public FinalPaymentsPageViewModel() { }
 
     [RelayCommand]
     public void TriggerPrevMonth()
@@ -36,7 +37,7 @@ public partial class PrepaymentsPageViewModel : ViewModelBase
             CurrentMonth = CurrentMonth - 1;
         }
 
-        Mediator.Mediator.Instance.SendWithParams("UpdatePrepaymentsMainDataGrid", CurrentYear, CurrentMonth);
+        Mediator.Mediator.Instance.SendWithParams("UpdateFinalPaymentsMainDataGrid", CurrentYear, CurrentMonth);
     }
 
     [RelayCommand]
@@ -51,29 +52,30 @@ public partial class PrepaymentsPageViewModel : ViewModelBase
         {
             CurrentMonth = CurrentMonth + 1;
         }
-        Mediator.Mediator.Instance.SendWithParams("UpdatePrepaymentsMainDataGrid", CurrentYear, CurrentMonth);
+        Mediator.Mediator.Instance.SendWithParams("UpdateFinalPaymentsMainDataGrid", CurrentYear, CurrentMonth);
 
     }
 
 
     [RelayCommand]
-    public void TriggerSaveCommand(IReadOnlyList<PrepaymentCompositeItem> items)
+    public void TriggerSaveCommand(IReadOnlyList<FinalPayementCompositeItem> items)
     {
         if (items.Count == 0) { return; }
-        List<IPrepaymentBase> prepayments = new List<IPrepaymentBase>();
+        List<IFinalPaymentBase> finalPayments = new List<IFinalPaymentBase>();
         foreach (var item in items)
         {
-            if (item.StaffMember is null || item.Prepayment is null)
+            if (item.StaffMember is null || item.FinalPayment is null)
             {
-                Debug.WriteLine($"Null {nameof(item.StaffMember)} or {nameof(item.Prepayment)}");
+                Debug.WriteLine($"Null {nameof(item.StaffMember)} or {nameof(item.FinalPayment)}");
                 continue;
             }
-            prepayments.Add(item.Prepayment);
+            finalPayments.Add(item.FinalPayment);
         }
-        ReturnCode retCode = PrepaymentsControl.SaveItems(prepayments);
+        ReturnCode retCode = FinalPaymentsControl.SaveItems(finalPayments);
         if (retCode != ReturnCode.OK)
         {
-            Debug.WriteLine($"Something went wrong saving {nameof(PrepaymentUI)}'s. Changes were not saved.");
+            Debug.WriteLine($"Something went wrong saving {nameof(FinalPaymentUI)}'s. Changes were not saved.");
         }
     }
+
 }

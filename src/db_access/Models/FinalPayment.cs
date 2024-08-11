@@ -11,13 +11,17 @@ public partial class FinalPayment : IFinalPaymentBase, IDeleteDependable
 
     public int StaffMemberId { get; set; }
 
-    public int? PaidSum { get; set; }
+    public int? FinalPaymentSum { get; set; }
+    public int FinalPaymentWasPaid { get; set; }
+
 
     public int Month { get; set; }
 
     public int Year { get; set; }
 
-    public int? WasPaid { get; set; }
+    public int PrepaymentSum { get; set; }
+
+    public int? PrepaymentWasPaid { get; set; }
 
     public virtual StaffMember StaffMember { get; set; } = null!;
 
