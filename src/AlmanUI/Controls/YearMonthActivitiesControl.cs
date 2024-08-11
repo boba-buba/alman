@@ -18,7 +18,7 @@ public static class YearMonthActivitiesControl
 
     public static IReadOnlyList<IYearMonthActivityBase> GetYearMonthActivities(int year, int month)
     {
-        var activiries = BusinessLog.GetEntitiesByFilter( act => act.Year == year && act.Month == month);
+        var activiries = BusinessLog.GetItemsByFilter( act => act.Year == year && act.Month == month);
         return activiries;
     }
 
@@ -36,7 +36,7 @@ public static class YearMonthActivitiesControl
     public static ReturnCode SaveYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivitiesToSave, int year, int month)
     {
         ReturnCode retCode = ReturnCode.ERR;
-        var ymActivitiesFromDb = BusinessLog.GetEntitiesByFilter(act => act.Year == year && act.Month == month);
+        var ymActivitiesFromDb = BusinessLog.GetItemsByFilter(act => act.Year == year && act.Month == month);
         int dbCount = ymActivitiesFromDb.Count;
         int difference = ymActivitiesToSave.Count - dbCount;
 

@@ -25,7 +25,7 @@ public partial class StaffPageViewModel : ViewModelBase
 
     public StaffPageViewModel()
     {
-        StaffMembers = new ObservableCollection<IStaffMemberBase>(StaffMembersControl.GetStaffMembers());
+        StaffMembers = new ObservableCollection<IStaffMemberBase>(StaffMembersControl.GetItems());
         _staffMembersIdsToDelete = new List<int>();
     }
 
@@ -41,7 +41,7 @@ public partial class StaffPageViewModel : ViewModelBase
         _staffMembersIdsToDelete.Clear();
         StaffMembers.Clear();
 
-        foreach (var member in StaffMembersControl.GetStaffMembers())
+        foreach (var member in StaffMembersControl.GetItems())
         {
             StaffMembers.Add(member);
         }
@@ -50,7 +50,7 @@ public partial class StaffPageViewModel : ViewModelBase
     [RelayCommand]
     public void TriggerAddNewStaffMemberCommand()
     {
-        IStaffMemberBase member = new StaffMemberUI { State = 1 };
+        IStaffMemberBase member = new StaffMemberUI { State = 1 , StartYear = DateTime.Now.Year, StartMonth = DateTime.Now.Month};
         StaffMembers.Add(member);
     }
 

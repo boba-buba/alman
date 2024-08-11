@@ -23,13 +23,7 @@
 				  CanUserSortColumns="True"
 				  CanUserResizeColumns="True"
 				  BorderThickness="4" BorderBrush="Gray">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="First name" Binding="{Binding FirstName}" Width="*"/>
-				<DataGridTextColumn Header="Last name" Binding="{Binding LastName}" Width="*"/>
-				<DataGridTextColumn Header="State" Binding="{Binding State}" Width="*"/>
-				<DataGridTextColumn Header="Position Name" Binding="{Binding PositionName}" Width="*"/>
-				<DataGridTextColumn Header="Position Salary" Binding="{Binding PositionSalary}" Width="*"/>
-			</DataGrid.Columns>
+			
 		</DataGrid>
 
 		<StackPanel Grid.Row="2" Margin="10">

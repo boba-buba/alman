@@ -61,10 +61,11 @@ public partial class MainWindowViewModel : ViewModelBase
         new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline),
         new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
         new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
-        new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
+        //new ListItemTemplate(typeof(PositionsPageViewModel), MaterialIconKind.BriefcaseOutline),
         new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
         new ListItemTemplate(typeof(ContractFeesPageViewModel), MaterialIconKind.AccountCreditCardOutline),
-        new ListItemTemplate(typeof(YearSubsPageViewModel), MaterialIconKind.CashClock)
+        new ListItemTemplate(typeof(YearSubsPageViewModel), MaterialIconKind.CashClock),
+        new ListItemTemplate(typeof(PrepaymentsPageViewModel), MaterialIconKind.Cash)
     };
 
 }

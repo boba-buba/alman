@@ -21,7 +21,7 @@ public static class ContractFeesControl
         BusinessLog.GetEntities();
 
     public static IReadOnlyList<IContractFeeBase> GetContractFeesByFilter(Func<IContractFeeBase, bool> filter) =>
-        BusinessLog.GetEntitiesByFilter(filter);
+        BusinessLog.GetItemsByFilter(filter);
 
     public static ReturnCode AddContractFees(IReadOnlyList<IContractFeeBase> contractFees) =>
         BusinessLog.AddEntities(contractFees);

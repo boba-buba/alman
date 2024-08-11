@@ -22,7 +22,7 @@ public class ChildrenControl
         BusinessLog.GetEntities();
 
     public static IReadOnlyList<IChildBase> GetChildrenByFilter(Func<IChildBase, bool> selector) => 
-        BusinessLog.GetEntitiesByFilter(selector);
+        BusinessLog.GetItemsByFilter(selector);
     
     public static ReturnCode DeleteChildren(IList<int> childrenIds) =>
         BusinessLog.DeleteEntities(childrenIds);

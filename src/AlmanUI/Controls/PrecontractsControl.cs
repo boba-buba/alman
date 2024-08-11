@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
+using DatabaseAccess;
 using DbAccess.Models;
 using System;
 using System.Collections.Generic;
@@ -13,36 +14,22 @@ namespace AlmanUI.Controls;
 
 //Delete here not necessary because there is 1 precontract for every child 
 // and it cannot be deleted
-public static class PrecontractsControl
+public class PrecontractsControl : ControlBase<Precontract, IPrecontractBase>
 {
-    private static BusinessEntity<Precontract, IPrecontractBase> BusinessLog { get; set; } = new BusinessEntity<Precontract, IPrecontractBase>();
-
-    public static IReadOnlyList<IPrecontractBase> GetPrecontracts() =>
-        BusinessLog.GetEntities();
-
-    public static IReadOnlyList<IPrecontractBase> GetPrecontractsByFilter(Func<IPrecontractBase, bool> filter) =>
-        BusinessLog.GetEntitiesByFilter(filter);
-
-    public static ReturnCode AddPrecontracts(IReadOnlyList<IPrecontractBase> precontracts) =>
-        BusinessLog.AddEntities(precontracts);
-
-    public static ReturnCode UpdatePrecontracts(IReadOnlyList<IPrecontractBase> precontracts) =>
-        BusinessLog.UpdateEntities(precontracts);
-
     public static ReturnCode SavePrecontracts(IReadOnlyList<IPrecontractBase> precontractsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;
         int? year = precontractsToSave[0].PYear;
         int? month = precontractsToSave[0].PMonth;
 
-        var precontractsFromDb = GetPrecontractsByFilter(pr => pr.PYear == year && pr.PMonth == month);
+        var precontractsFromDb = GetItemsByFilter(pr => pr.PYear == year && pr.PMonth == month);
         int dbCount = precontractsFromDb.Count;
         int difference = precontractsToSave.Count - dbCount;
 
         if (dbCount > 0)
         {
             var updatedPrecontracts = precontractsToSave.Where(pr => pr.InGroup(precontractsFromDb)).ToList();
-            retCode = UpdatePrecontracts(updatedPrecontracts);
+            retCode = UpdateItems(updatedPrecontracts);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IPrecontractBase)}");
@@ -53,7 +40,7 @@ public static class PrecontractsControl
         if (difference > 0)
         {
             var newPrecontracts = precontractsToSave.Where(pr => !pr.InGroup(precontractsFromDb)).ToList();
-            retCode = AddPrecontracts(newPrecontracts);
+            retCode = AddItems(newPrecontracts);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with adding {nameof(IPrecontractBase)}");

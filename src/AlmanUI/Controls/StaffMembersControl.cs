@@ -11,31 +11,15 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
-public static class StaffMembersControl
+public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 {
-    private static BusinessEntity<StaffMember, IStaffMemberBase> BusinessLog { get; set; } = new BusinessEntity<StaffMember, IStaffMemberBase>();
-
-    public static IReadOnlyList<IStaffMemberBase> GetStaffMembers() =>
-        BusinessLog.GetEntities();
-
-    public static IReadOnlyList<IStaffMemberBase> GetStaffMembersByFilter(Func<IStaffMemberBase, bool> filter) =>
-        BusinessLog.GetEntitiesByFilter(filter);
-
-    public static ReturnCode AddStaffMembers(IReadOnlyList<IStaffMemberBase> members) =>
-        BusinessLog.AddEntities(members);
-
-    public static ReturnCode DeleteStaffMembers(IList<int> membersIdsToDelete) =>
-        BusinessLog.DeleteEntities(membersIdsToDelete);
-
-    public static ReturnCode UpdateStaffMembers(IReadOnlyList<IStaffMemberBase> members) =>
-        BusinessLog.UpdateEntities(members);
-
+    
     public static ReturnCode SaveStaffMembers(IReadOnlyList<IStaffMemberBase> membersToSave, IList<int> memberIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
         if (memberIdsToDelete.Count > 0)
         {
-            retCode = DeleteStaffMembers(memberIdsToDelete);
+            retCode = DeleteItems(memberIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IStaffMemberBase)}'s.");
@@ -43,14 +27,14 @@ public static class StaffMembersControl
             }
         }
 
-        var staffMembersFromDb = GetStaffMembers();
+        var staffMembersFromDb = GetItems();
         int dbCount = staffMembersFromDb.Count;
         int difference = membersToSave.Count - dbCount;
 
         if (dbCount > 0)
         {
             var updatedStaffMembers = membersToSave.Where(m => m.InGroup(staffMembersFromDb)).ToList();
-            retCode = UpdateStaffMembers(updatedStaffMembers);
+            retCode = UpdateItems(updatedStaffMembers);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IStaffMemberBase)}");
@@ -61,7 +45,7 @@ public static class StaffMembersControl
         if (difference > 0)
         {
             var newStaffMembers = membersToSave.Where(m => !m.InGroup(staffMembersFromDb)).ToList();
-            retCode = AddStaffMembers(newStaffMembers);
+            retCode = AddItems(newStaffMembers);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with adding {nameof(IStaffMemberBase)}");

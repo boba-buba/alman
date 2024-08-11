@@ -90,7 +90,12 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjanuary", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjanuary", BindingMode.TwoWay)
+                {
+                    Mode = BindingMode.TwoWay,
+                    Converter = new IntToStringConverter(), // Apply the converter here
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -102,7 +107,12 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yfebruary", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yfebruary", BindingMode.TwoWay) 
+                {
+                    Mode = BindingMode.TwoWay,
+                    Converter = new IntToStringConverter(), // Apply the converter here
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -114,7 +124,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymarch", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymarch", BindingMode.TwoWay)
+                    { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -126,7 +137,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yapril", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yapril", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -138,7 +150,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymay", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymay", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -150,8 +163,10 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjune", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjune", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
+                
                 return textBox;
             }),
         });
@@ -162,7 +177,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjuly", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjuly", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -174,7 +190,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yaugust", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yaugust", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -186,7 +203,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yseptember", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yseptember", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -198,7 +216,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yoctober", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yoctober", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -210,7 +229,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ynovember", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ynovember", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),
@@ -222,7 +242,8 @@ public partial class YearSubsPageView : UserControl
             CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
             {
                 var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ydecember", BindingMode.TwoWay));
+                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ydecember", BindingMode.TwoWay) 
+                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
                 return textBox;
             }),

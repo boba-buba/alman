@@ -19,7 +19,7 @@ public static class YearSubsControl
         BusinessLog.GetEntities();
 
     public static IReadOnlyList<IYearSubBase> GetYearSubsByFilter(Func<IYearSubBase, bool> filter) =>
-        BusinessLog.GetEntitiesByFilter(filter);
+        BusinessLog.GetItemsByFilter(filter);
 
     public static ReturnCode AddYearSubs(IReadOnlyList<IYearSubBase> yearSubs) =>
         BusinessLog.AddEntities(yearSubs);

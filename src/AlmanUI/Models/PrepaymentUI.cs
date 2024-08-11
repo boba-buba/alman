@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Alman.SharedModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alman.SharedModels;
+namespace AlmanUI.Models;
 
-public interface IPrepaymentBase : IIdentifier
+public class PrepaymentUI : IPrepaymentBase
 {
+    public int Id { get; set; }
 
     public int StaffMemberId { get; set; }
 
@@ -18,5 +20,11 @@ public interface IPrepaymentBase : IIdentifier
     public int Year { get; set; }
 
     public int? WasPaid { get; set; }
+}
 
+
+public class PrepaymentCompositeItem
+{
+    public IStaffMemberBase? StaffMember { get; set; }
+    public IPrepaymentBase? Prepayment { get; set; }
 }

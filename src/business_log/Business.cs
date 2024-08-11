@@ -45,7 +45,7 @@ public class BusinessEntity<TEntity, TIface>
         return db.GetItems<TEntity>(ent => true);
     }
 
-    public IReadOnlyList<TIface> GetEntitiesByFilter(Func<TIface, bool> filter)
+    public IReadOnlyList<TIface> GetItemsByFilter(Func<TIface, bool> filter)
     {
         var db = new DbConnection();
         return db.GetItems<TEntity>(filter);
