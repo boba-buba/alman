@@ -12,69 +12,63 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlmanUI.ViewModels
+namespace AlmanUI.ViewModels;
+
+public partial class ActivitiesPageViewModel : ViewModelBase
 {
-    public partial class ActivitiesPageViewModel : ViewModelBase
+
+    public ObservableCollection<IActivityBase> Activities { get; set; }
+
+    [ObservableProperty]
+    private IActivityBase? _selectedActivity = null;
+
+    private IList<int> _activitiesIdsToDelete;
+
+    public ActivitiesPageViewModel()
     {
+        Activities = new ObservableCollection<IActivityBase>(ActivitiesControl.GetItems());
+        _activitiesIdsToDelete = new List<int>();
+    }
 
-        public ObservableCollection<IActivityBase> Activities { get; set; }
-
-        [ObservableProperty]
-        private IActivityBase? _selectedActivity = null;
-
-        private IList<int> _activitiesIdsToDelete;
-
-        public ActivitiesPageViewModel()
+    [RelayCommand]
+    public void TriggerSaveCommand()
+    {
+        var retCode = ActivitiesControl.SaveActivities(Activities, _activitiesIdsToDelete);
+        if (retCode != ReturnCode.OK)
         {
-            Activities = new ObservableCollection<IActivityBase>(ActivitiesControl.GetActivities());
-            _activitiesIdsToDelete = new List<int>();
+            //New error window
+            Debug.WriteLine("Smth went wrong");
+            return;
+        }
+        _activitiesIdsToDelete.Clear();
+        Activities.Clear();
+        foreach (var item in ActivitiesControl.GetItems())
+        {
+            Activities.Add(item);
+        }
+    }
+
+    [RelayCommand]
+    public void TriggerAddNewActivityCommand()
+    {
+        IActivityBase activity = new ActivityUI();
+        Activities.Add(activity);
+    }
+
+    [RelayCommand]
+    public void TriggerRemoveActivityCommand()
+    {
+        if (SelectedActivity == null)
+        {
+            return;
         }
 
-        [RelayCommand]
-        public void TriggerSaveCommand()
+        if (SelectedActivity.Id != 0)
         {
-            var retCode = ActivitiesControl.SaveActivities(Activities, _activitiesIdsToDelete);
-            if (retCode != ReturnCode.OK)
-            {
-                //New error window
-                Debug.WriteLine("Smth went wrong");
-                return;
-            }
-            _activitiesIdsToDelete.Clear();
-            Activities.Clear();
-            foreach (var item in ActivitiesControl.GetActivities())
-            {
-                Activities.Add(item);
-            }
+            _activitiesIdsToDelete.Add(SelectedActivity.Id);
         }
 
-        [RelayCommand]
-        public void TriggerAddNewActivityCommand()
-        {
-            IActivityBase activity = new ActivityUI();
-            Activities.Add(activity);
-        }
-
-        [RelayCommand]
-        public void TriggerRemoveActivityCommand()
-        {
-            if (SelectedActivity == null)
-            {
-                return;
-            }
-
-            if (SelectedActivity.Id == 0)
-            {
-                Activities.Remove(SelectedActivity);
-                SelectedActivity = null;
-            }
-            else
-            {
-                _activitiesIdsToDelete.Add(SelectedActivity.Id);
-                Activities.Remove(SelectedActivity); 
-                SelectedActivity = null;
-            }
-            
-        }
+        Activities.Remove(SelectedActivity); 
+        SelectedActivity = null;
     }
 }

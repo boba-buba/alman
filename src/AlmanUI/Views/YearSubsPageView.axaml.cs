@@ -22,7 +22,7 @@ public partial class YearSubsPageView : UserControl
 
     private void LoadItems(int year)
     {
-        _childrenTable = ChildrenControl.GetChildrenByFilter(ch => ch.ChildStartYear <=  year);
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch => ch.ChildStartYear <=  year);
 
         if (_childrenTable is null)
         {

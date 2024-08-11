@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Alman.SharedModels;
 
-public interface IYearMonthStaffActivityBase
+public interface IYearMonthStaffActivityBase : IIdentifier
 {
-    public int Id { get; set; }
-
+   
     public int StaffMemberId { get; set; }
 
     public int StaffActivityId { get; set; }
@@ -19,5 +18,7 @@ public interface IYearMonthStaffActivityBase
     public int Month { get; set; }
 
     public int Year { get; set; }
+
+    public int WasPaid {  get; set; }
 
 }

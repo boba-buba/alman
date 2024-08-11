@@ -28,7 +28,7 @@ namespace AlmanUI.ViewModels
         private IList<int> _childrenIdsToDelete;
         public ChildrenPageViewModel()
         {
-            Children = new ObservableCollection<IChildBase>(ChildrenControl.GetChildren());
+            Children = new ObservableCollection<IChildBase>(ChildrenControl.GetItems());
             _childrenIdsToDelete = new List<int>();
         }
 
@@ -52,7 +52,7 @@ namespace AlmanUI.ViewModels
             }
             _childrenIdsToDelete.Clear();
             Children.Clear();
-            foreach (var child in ChildrenControl.GetChildren())
+            foreach (var child in ChildrenControl.GetItems())
             {
                 Children.Add(child);
             }

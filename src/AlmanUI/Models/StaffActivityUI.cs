@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Alman.SharedModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alman.SharedModels;
+namespace AlmanUI.Models;
 
-public interface IStaffActivityBase : IIdentifier
+public class StaffActivityUI : IStaffActivityBase
 {
+    public int Id { get; set; }
 
     public string? ActivityName { get; set; }
-
 }

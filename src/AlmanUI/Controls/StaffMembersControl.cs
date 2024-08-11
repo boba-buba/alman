@@ -56,7 +56,6 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 }
 
 
-
 public static class StaffMemberExtensions
 {
     public static bool DbEquals(this IStaffMemberBase item, IStaffMemberBase other)

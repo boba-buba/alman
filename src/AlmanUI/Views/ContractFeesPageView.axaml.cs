@@ -26,7 +26,7 @@ public partial class ContractFeesPageView : UserControl
 
     private void LoadItems(int year, int month)
     {
-        _childrenTable = ChildrenControl.GetChildrenByFilter(ch =>
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
                 new DateTime(ch.ChildStartYear, ch.ChildStartMonth, 1) <= new DateTime(year, month, 1));
         
         

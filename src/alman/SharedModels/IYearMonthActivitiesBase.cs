@@ -2,7 +2,6 @@
 
 public interface IYearMonthActivityBase : IIdentifier
 {
-    //public int Id { get; set; }
 
     public int YmchildId { get; set; }
 

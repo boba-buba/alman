@@ -9,34 +9,17 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Diagnostics;
 using DbAccess.Models;
+using AlmanUI.Controls;
 namespace Avalonia.Controls;
 
 
-public static class YearMonthActivitiesControl
+public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMonthActivityBase>
 {
-    private static BusinessEntity<YearMonthActivity, IYearMonthActivityBase> BusinessLog { get; set; } = new BusinessEntity<YearMonthActivity, IYearMonthActivityBase>();
-
-    public static IReadOnlyList<IYearMonthActivityBase> GetYearMonthActivities(int year, int month)
-    {
-        var activiries = BusinessLog.GetItemsByFilter( act => act.Year == year && act.Month == month);
-        return activiries;
-    }
-
-    private static ReturnCode AddYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivities)
-    {
-        return BusinessLog.AddEntities(ymActivities);
-    }
-
-    public static ReturnCode UpdateYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> activities)
-    {
-        return BusinessLog.UpdateEntities(activities);
-        
-    }
-
+    
     public static ReturnCode SaveYearMonthActivities(IReadOnlyList<IYearMonthActivityBase> ymActivitiesToSave, int year, int month)
     {
-        ReturnCode retCode = ReturnCode.ERR;
-        var ymActivitiesFromDb = BusinessLog.GetItemsByFilter(act => act.Year == year && act.Month == month);
+        ReturnCode retCode = ReturnCode.OK;
+        var ymActivitiesFromDb = GetItemsByFilter(act => act.Year == year && act.Month == month);
         int dbCount = ymActivitiesFromDb.Count;
         int difference = ymActivitiesToSave.Count - dbCount;
 
@@ -44,7 +27,7 @@ public static class YearMonthActivitiesControl
         {
             var updatedYMActivities = ymActivitiesToSave.Where(ymAct => ymAct.InGroup(ymActivitiesFromDb)).ToList();
 
-            retCode = BusinessLog.UpdateEntities(updatedYMActivities);
+            retCode = UpdateItems(updatedYMActivities);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IYearMonthActivityBase)}");
@@ -54,9 +37,8 @@ public static class YearMonthActivitiesControl
 
         if (difference > 0)
         {
-
             var newYMActivities = ymActivitiesToSave.Where(ymAct => !ymAct.InGroup(ymActivitiesFromDb)).ToList();
-            retCode = AddYearMonthActivities(newYMActivities);
+            retCode = AddItems(newYMActivities);
         }
 
         return retCode;

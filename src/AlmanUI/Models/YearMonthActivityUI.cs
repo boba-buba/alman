@@ -1,4 +1,5 @@
 ﻿using Alman.SharedModels;
+using System.Collections.Generic;
 namespace AlmanUI.Models;
 
 public class YearMonthActivityUI : IYearMonthActivityBase
@@ -18,4 +19,10 @@ public class YearMonthActivityUI : IYearMonthActivityBase
 
     public int YmwasPaid { get; set; }
 
+}
+
+public class YearMonthActivityCompositeItem
+{
+    public IChildBase? YMChild { get; set; }
+    public IList<IYearMonthActivityBase>? YMActivities { get; set; }
 }

@@ -28,7 +28,7 @@ public partial class PrecontractsPageView : UserControl
     private void LoadItems(int year, int month)
     {
         
-        _childrenTable = ChildrenControl.GetChildrenByFilter(ch =>
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
             ch.ChildStartYear == year &&
             ch.ChildStartMonth == month);
 

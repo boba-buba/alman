@@ -61,7 +61,7 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
 
 
     [RelayCommand]
-    public void TriggerSaveCommand(IReadOnlyList<CompositeItem> items)
+    public void TriggerSaveCommand(IReadOnlyList<YearMonthActivityCompositeItem> items)
     {
        
         List<IYearMonthActivityBase> yearMonthActivities = new List<IYearMonthActivityBase>();
@@ -85,9 +85,6 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             Debug.WriteLine($"Something went wrong updating {nameof(YearMonthActivityUI)}'s. Changes were not saved.");
         }
     }
-
-
-
 }
 
 

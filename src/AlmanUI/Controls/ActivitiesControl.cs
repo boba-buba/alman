@@ -11,40 +11,27 @@ namespace AlmanUI.Controls;
 
 
 
-public class ActivitiesControl
+public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivityBase>
 {
-    private static BusinessEntity<DbAccess.Models.Activity, IActivityBase> BusinessLog { get; set; } = new BusinessEntity<DbAccess.Models.Activity, IActivityBase>();
-
-
-    public static IReadOnlyList<IActivityBase> GetActivities() =>
-        BusinessLog.GetEntities();
     
-
-    private static ReturnCode AddActivities(IReadOnlyList<IActivityBase> activities) =>
-        BusinessLog.AddEntities(activities);
-
-    private static ReturnCode DeleteActivities(IList<int> activitiesIds) =>
-        BusinessLog.DeleteEntities(activitiesIds);
-
-
     public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activitiesToSave, IList<int> activitiesIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
         if (activitiesIdsToDelete.Any())
         {
-            retCode = DeleteActivities(activitiesIdsToDelete);
+            retCode = DeleteItems(activitiesIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IActivityBase)}'s.");
                 return retCode;
             }
         }
-        var activitiesFromDb = BusinessLog.GetEntities();
+        var activitiesFromDb = GetItems();
         var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.Id).ToList();
         
         var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.Id) select act).ToList();
         
-        retCode = BusinessLog.UpdateEntities(updatedActivities);
+        retCode = UpdateItems(updatedActivities);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
@@ -59,7 +46,7 @@ public class ActivitiesControl
             {
                 newActivities.Add(activitiesToSave[i]);
             }
-            retCode = AddActivities(newActivities);
+            retCode = AddItems(newActivities);
         }
 
         return retCode;

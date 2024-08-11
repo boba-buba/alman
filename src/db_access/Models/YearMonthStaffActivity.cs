@@ -20,6 +20,7 @@ public partial class YearMonthStaffActivity : IYearMonthStaffActivityBase, IDele
 
     public int Year { get; set; }
 
+    public int WasPaid { get; set; }
     public virtual StaffActivity StaffActivity { get; set; } = null!;
 
     public virtual StaffMember StaffMember { get; set; } = null!;

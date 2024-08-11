@@ -23,22 +23,22 @@ public partial class YearMonthActivitiesPageView : UserControl
     private IReadOnlyList<IYearMonthActivityBase> _yearMonthActivitiesTable;
     private IReadOnlyList<IActivityBase> _activitiesTable;
     private IReadOnlyList<IChildBase> _childrenTable;
-    private IReadOnlyList<CompositeItem> _yearMonthActivities { get; set; }
+    private IReadOnlyList<YearMonthActivityCompositeItem> _yearMonthActivities { get; set; }
 
 
     public YearMonthActivitiesPageView()
     {   
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(DateTime.Now.Year, DateTime.Now.Month);
+        var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month);
         _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActivitiesControl.GetActivities();
+        var activities = ActivitiesControl.GetItems();
         _activitiesTable = activities;
-        var children = ChildrenControl.GetChildrenByFilter(ch => true); //ch => ch.ChildState == 1
+        var children = ChildrenControl.GetItemsByFilter(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;
 
-        var compositeItems = new List<CompositeItem>();
+        var compositeItems = new List<YearMonthActivityCompositeItem>();
         foreach (var child in _childrenTable)
         {
-            var newItem = new CompositeItem { YMChild = child };
+            var newItem = new YearMonthActivityCompositeItem { YMChild = child };
             var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id ).ToList();
             newItem.YMActivities = childActivities;
             
@@ -65,17 +65,17 @@ public partial class YearMonthActivitiesPageView : UserControl
 
     private void UpdateDataGrid(int year, int month)
     {
-        var yearMonthActivities = YearMonthActivitiesControl.GetYearMonthActivities(year, month);
+        var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
         _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActivitiesControl.GetActivities();
+        var activities = ActivitiesControl.GetItems();
         _activitiesTable = activities;
-        var children = ChildrenControl.GetChildrenByFilter(ch => true); //ch => ch.ChildState == 1
+        var children = ChildrenControl.GetItemsByFilter(ch => true); //ch => ch.ChildState == 1
         _childrenTable = children;
 
-        var compositeItems = new List<CompositeItem>();
+        var compositeItems = new List<YearMonthActivityCompositeItem>();
         foreach (var child in _childrenTable)
         {
-            var newItem = new CompositeItem { YMChild = child };
+            var newItem = new YearMonthActivityCompositeItem { YMChild = child };
             var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id).ToList();
             newItem.YMActivities = childActivities;
 
@@ -91,6 +91,7 @@ public partial class YearMonthActivitiesPageView : UserControl
 
     private void InitDataGrid()
     {
+        MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
@@ -98,7 +99,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         foreach (var activity in _activitiesTable)
         {
 
-            var template = new FuncDataTemplate<CompositeItem>((x, _) =>
+            var template = new FuncDataTemplate<YearMonthActivityCompositeItem>((x, _) =>
             {
                 var grid = new Grid
                 {
@@ -225,8 +226,3 @@ public partial class YearMonthActivitiesPageView : UserControl
 }
 
 
-public class CompositeItem
-{
-    public IChildBase? YMChild { get; set; }
-    public IList<IYearMonthActivityBase>? YMActivities { get; set; }
-}
