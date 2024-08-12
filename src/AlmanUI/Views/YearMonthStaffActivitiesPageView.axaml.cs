@@ -6,8 +6,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AlmanUI.Views;
@@ -23,7 +25,7 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
     private void LoadItems(int year, int month)
     {
         _yearMonthStaffActivitiesTable = 
-            YearMonthStaffActivitiesControl.GetItemsByFilter(act => act.Month == year && act.Month == month);
+            YearMonthStaffActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
         _staffActivitiesTable = StaffActivitiesControl.GetItems();
         DateTime now = new DateTime(year, month, 1);
         _staffMemberTable = StaffMembersControl.GetItemsByFilter(mem => new DateTime(mem.StartYear, mem.StartMonth, 1) <= now);
@@ -32,8 +34,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
         foreach (var member in _staffMemberTable)
         {            
             List<IYearMonthStaffActivityBase> memberActivities = _yearMonthStaffActivitiesTable.Where(act => act.StaffMemberId == member.Id).ToList();
-            
-            
             var newItem = new YearMonthStaffActivityCompositeItem { StaffMember = member, Activities = memberActivities };
             compositeItems.Add(newItem);
         }
@@ -66,16 +66,20 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
     private void InitDataGrid(int year, int month)
     {
         YearMonthStaffActivitiesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+        YearMonthStaffActivitiesMainDataGrid.ItemsSource = _memberActivities;
 
         YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "First Name", Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
         YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Last Name", Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
 
-        foreach (var activity in _staffActivitiesTable)
+        var staffActivitiesLocal = new List<IStaffActivityBase>(_staffActivitiesTable);
+        
+        foreach (IStaffActivityBase activity in staffActivitiesLocal)
         {
+            Debug.WriteLine($"{activity.ActivityName} AAA");
             var activityTemplate = new FuncDataTemplate<YearMonthStaffActivityCompositeItem>((x, _) => 
             {
-
-                var grid = new Grid
+                Debug.WriteLine($"{activity.ActivityName} again");
+                Grid grid = new Grid
                 {
                     ColumnDefinitions = new ColumnDefinitions
                     {
@@ -83,9 +87,15 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
                         new ColumnDefinition(GridLength.Star)
                     }
                 };
+                var textBox = new TextBox() { };
 
-                var activityInDb = x.Activities.SingleOrDefault(act => act.Id == activity.Id);
-                if (activityInDb is null)
+                if (x.Activities is null)
+                {
+                    x.Activities = new List<IYearMonthStaffActivityBase>();
+                }
+
+                int i = x.Activities.Where(act => act.StaffActivityId == activity.Id).ToList().Count;
+                if (x.Activities.Count == 0 || x.Activities.Where(act => act.StaffActivityId == activity.Id).ToList().Count == 0) 
                 {
                     x.Activities.Add(new YearMonthStaffActivityUI
                     {
@@ -94,12 +104,15 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
                         StaffMemberId = x.StaffMember!.Id,
                         SumPaid = 0
                     });
+
+                    textBox.Text = 0.ToString();
+
                 }
-                IYearMonthStaffActivityBase act = x.Activities.Single(act => act.StaffActivityId == activity.Id);
-                int index = x.Activities.IndexOf(act);
+                var activityInDb = x.Activities.Single(act => act.StaffActivityId == activity.Id);
+
+                int index = x.Activities.IndexOf(activityInDb);
 
 
-                var textBox = new TextBox() { };
                 textBox.Bind(TextBox.TextProperty, new Binding($"Activities[{index}].SumPaid"));
                 textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown; //doesnt work???
 
@@ -130,7 +143,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
   
             });
         }
-        YearMonthStaffActivitiesMainDataGrid.ItemsSource = _memberActivities;
         SaveMonthStaffActivitiesButton.CommandParameter = _memberActivities;
     }
 }

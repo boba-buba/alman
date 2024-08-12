@@ -98,9 +98,12 @@ public partial class YearMonthActivitiesPageView : UserControl
 
         foreach (var activity in _activitiesTable)
         {
+            Debug.WriteLine($"{activity.ActivityName} AAA");
 
             var template = new FuncDataTemplate<YearMonthActivityCompositeItem>((x, _) =>
             {
+                Debug.WriteLine($"{activity.ActivityName} again");
+
                 var grid = new Grid
                 {
                     ColumnDefinitions = new ColumnDefinitions
@@ -172,12 +175,9 @@ public partial class YearMonthActivitiesPageView : UserControl
                 return grid;
             });
 
-
-
             MainDataGrid.Columns.Add(new DataGridTemplateColumn
             {
                 Header = activity.ActivityName,
-                Width = DataGridLength.Auto,
                 CellTemplate = template
             });
         }
