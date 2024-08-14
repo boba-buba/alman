@@ -52,7 +52,7 @@ public partial class YearSubsPageViewModel : ViewModelBase
             yearSubs.Add(item.YsYearSubscription);
         }
 
-        ReturnCode retCode = YearSubsControl.SaveYearSubs(yearSubs);
+        ReturnCode retCode = YearSubsControl.SaveItems(yearSubs);
         if (retCode is not ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong saving {nameof(YearSubUI)}'s. Changes were not saved.");

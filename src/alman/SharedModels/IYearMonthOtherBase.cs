@@ -8,9 +8,7 @@ namespace Alman.SharedModels;
 
 public interface IYearMonthOtherBase : IIdentifier
 {
-    public int Id { get; set; }
-
-    public int OtherActivityId { get; set; }
+    public string OtherActivityName { get; set; }
 
     public int Month { get; set; }
 
@@ -18,12 +16,22 @@ public interface IYearMonthOtherBase : IIdentifier
 
     public int? FirstWeek { get; set; }
 
+    public int PayingWayFirst { get; set; }
     public int? SecondWeek { get; set; }
 
+    public int PayingWaySecond { get; set; }
+
     public int? ThirdWeek { get; set; }
+    public int PayingWayThird { get; set; }
+
 
     public int? FourthWeek { get; set; }
 
+    public int PayingWayFourth { get; set; }
+
+
     public int? FifthWeek { get; set; }
+
+    public int PayingWayFifth { get; set; }
 
 }

@@ -26,9 +26,6 @@ public partial class AlmanContext : DbContext
 
     public virtual DbSet<FinalPayment> FinalPayments { get; set; }
 
-    public virtual DbSet<OtherActivity> OtherActivities { get; set; }
-
-
     public virtual DbSet<Precontract> Precontracts { get; set; }
 
 
@@ -71,7 +68,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<ContractFee>(entity =>
         {
-            entity.HasKey(e => new { e.Id/*, e.CfchildId, e.Cfmonth, e.Cfyear*/ });
+            entity.HasKey(e => new { e.Id });
 
             entity.Property(e => e.CfchildId).HasColumnName("CFChildId");
             entity.Property(e => e.Cfmonth).HasColumnName("CFMonth");
@@ -85,33 +82,16 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<FinalPayment>(entity =>
         {
-            entity.HasKey(e => new { e.Id/*, e.StaffMemberId, e.Month, e.Year*/ });
+            entity.HasKey(e => new { e.Id});
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.FinalPayments)
                 .HasForeignKey(d => d.StaffMemberId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<OtherActivity>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-
-            entity.Property(e => e.Id);
-        });
-
-       /* modelBuilder.Entity<Position>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-
-            //entity.Property(e => e.PositionId).ValueGeneratedNever();
-            //entity.Property(e => e.PositionName).HasColumnType("TEXT").HasColumnName("PositionName");
-            //entity.Property(e => e.PositionSalary).HasColumnType("INT").HasColumnName("PositionName");
-
-        });*/
-
         modelBuilder.Entity<Precontract>(entity =>
         {
-            entity.HasKey(e => new { /*e.PchildId,*/ e.Id });
+            entity.HasKey(e => new { e.Id });
 
             entity.Property(e => e.PchildId).HasColumnName("PChildID");
             entity.Property(e => e.Psum).HasColumnName("PSum");
@@ -124,31 +104,20 @@ public partial class AlmanContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-       /* modelBuilder.Entity<Prepayment>(entity =>
-        {
-            entity.HasKey(e => new { *//*e.StaffMemberId, e.Year, e.Month, *//*e.Id });
-
-            entity.HasOne(d => d.StaffMember).WithMany(p => p.Prepayments)
-                .HasForeignKey(d => d.StaffMemberId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-        });*/
-
         modelBuilder.Entity<StaffActivity>(entity =>
         {
             entity.HasKey(e => e.Id);
-            //entity.Property(e => e.Id);
         });
 
         modelBuilder.Entity<StaffMember>(entity =>
         {
             entity.HasKey(e => e.Id);
-            //entity.Property(e => e.Id);
 
         });
 
         modelBuilder.Entity<YearMonthActivity>(entity =>
         {
-            entity.HasKey(e => new { e.Id/*, e.YmchildId, e.YmactivityId, e.Month, e.Year*/ });
+            entity.HasKey(e => new { e.Id });
 
             entity.Property(e => e.YmchildId).HasColumnName("YMChildId");
             entity.Property(e => e.YmactivityId).HasColumnName("YMActivityId");
@@ -167,11 +136,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthOther>(entity =>
         {
-            entity.HasKey(e => new { e.Id/*, e.OtherActivityId, e.Month, e.Year*/});
-
-            entity.HasOne(d => d.OtherActivity).WithMany(p => p.YearMonthOthers)
-                .HasForeignKey(d => d.OtherActivityId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasKey(e => new { e.Id});
         });
 
         modelBuilder.Entity<YearMonthStaffActivity>(entity =>
@@ -191,7 +156,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearSub>(entity =>
         {
-            entity.HasKey(e => new {/* e.YchildId, e.Yyear,*/ e.Id });
+            entity.HasKey(e => new { e.Id });
 
             entity.Property(e => e.YchildId).HasColumnName("YChildID");
             entity.Property(e => e.Yyear)

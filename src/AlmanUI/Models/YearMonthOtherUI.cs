@@ -1,12 +1,13 @@
-﻿using DatabaseAccess;
-using Microsoft.EntityFrameworkCore;
+﻿using Alman.SharedModels;
 using System;
 using System.Collections.Generic;
-using Alman.SharedModels;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DbAccess.Models;
+namespace AlmanUI.Models;
 
-public partial class YearMonthOther : IDeleteDependable, IYearMonthOtherBase
+public class YearMonthOtherUI : IYearMonthOtherBase
 {
     public int Id { get; set; }
 
@@ -36,5 +37,4 @@ public partial class YearMonthOther : IDeleteDependable, IYearMonthOtherBase
 
     public int PayingWayFifth { get; set; }
 
-    public void DeleteDependable(DbContext dbContext) { }
 }

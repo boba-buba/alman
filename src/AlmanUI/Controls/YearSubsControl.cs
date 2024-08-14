@@ -11,35 +11,21 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
-public static class YearSubsControl
+public class YearSubsControl : ControlBase<YearSub, IYearSubBase>
 {
-    private static BusinessEntity<YearSub, IYearSubBase> BusinessLog { get; set; } = new BusinessEntity<YearSub, IYearSubBase>();
-
-    public static IReadOnlyList<IYearSubBase> GetYearSubs() =>
-        BusinessLog.GetEntities();
-
-    public static IReadOnlyList<IYearSubBase> GetYearSubsByFilter(Func<IYearSubBase, bool> filter) =>
-        BusinessLog.GetItemsByFilter(filter);
-
-    public static ReturnCode AddYearSubs(IReadOnlyList<IYearSubBase> yearSubs) =>
-        BusinessLog.AddEntities(yearSubs);
-
-    public static ReturnCode UpdateYearSubs(IReadOnlyList<IYearSubBase> yearSubs) =>
-        BusinessLog.UpdateEntities(yearSubs);
-
-    public static ReturnCode SaveYearSubs(IReadOnlyList<IYearSubBase> yearSubsToSave)
+    public static ReturnCode SaveItems(IReadOnlyList<IYearSubBase> itemsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;
-        int year = yearSubsToSave[0].Yyear;
+        int year = itemsToSave[0].Yyear;
 
-        var yearSubsFromDb = GetYearSubsByFilter(ys => ys.Yyear == year);
+        var yearSubsFromDb = GetItemsByFilter(ys => ys.Yyear == year);
         int dbCount = yearSubsFromDb.Count;
-        int difference = yearSubsToSave.Count - dbCount;
+        int difference = itemsToSave.Count - dbCount;
 
         if (dbCount > 0)
         {
-            var updatedYearSubs = yearSubsToSave.Where(cf => cf.InGroup(yearSubsFromDb)).ToList();
-            retCode = UpdateYearSubs(updatedYearSubs);
+            var updatedYearSubs = itemsToSave.Where(cf => cf.InGroup(yearSubsFromDb)).ToList();
+            retCode = UpdateItems(updatedYearSubs);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IYearSubBase)}");
@@ -49,8 +35,8 @@ public static class YearSubsControl
 
         if (difference > 0)
         {
-            var newYearSubs = yearSubsToSave.Where(cf => !cf.InGroup(yearSubsFromDb)).ToList();
-            retCode = AddYearSubs(newYearSubs);
+            var newYearSubs = itemsToSave.Where(cf => !cf.InGroup(yearSubsFromDb)).ToList();
+            retCode = AddItems(newYearSubs);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with adding {nameof(IYearSubBase)}");

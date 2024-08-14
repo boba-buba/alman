@@ -44,7 +44,7 @@ namespace AlmanUI.ViewModels
         [RelayCommand]
         public void TriggerSaveCommand()
         {
-            var retCode = ChildrenControl.SaveChildren(Children, _childrenIdsToDelete);
+            var retCode = ChildrenControl.SaveItems(Children, _childrenIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong saving {nameof(IChildBase)}'s");

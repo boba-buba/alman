@@ -14,10 +14,11 @@ namespace AlmanUI.Controls;
 public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivityBase>
 {
     
-    public static ReturnCode SaveActivities(IReadOnlyList<IActivityBase> activitiesToSave, IList<int> activitiesIdsToDelete)
+    public static ReturnCode SaveItems(IReadOnlyList<IActivityBase> itemsToSave, IList<int> activitiesIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
-        if (activitiesIdsToDelete.Any())
+
+        if (activitiesIdsToDelete.Count > 0)
         {
             retCode = DeleteItems(activitiesIdsToDelete);
             if (retCode != ReturnCode.OK)
@@ -26,31 +27,49 @@ public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivity
                 return retCode;
             }
         }
-        var activitiesFromDb = GetItems();
-        var activitiesIdsFRomDb = (from dbAct in activitiesFromDb select dbAct.Id).ToList();
-        
-        var updatedActivities = (from act in activitiesToSave where activitiesIdsFRomDb.Contains(act.Id) select act).ToList();
-        
-        retCode = UpdateItems(updatedActivities);
-        if (retCode != ReturnCode.OK)
-        {
-            Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
-            return retCode;
-        }
-        
-        
-        if (activitiesFromDb.Count < activitiesToSave.Count)
-        { 
-            var newActivities = new List<IActivityBase>();
-            for (int i = activitiesFromDb.Count; i < activitiesToSave.Count; i++)
-            {
-                newActivities.Add(activitiesToSave[i]);
-            }
-            retCode = AddItems(newActivities);
-        }
 
+        var activitiesFromDb = GetItems();
+        int dbCount = activitiesFromDb.Count;
+        int difference = itemsToSave.Count - dbCount;
+
+        if (dbCount > 0)
+        {
+            var updatedActivities = itemsToSave.Where(act => act.InGroup(activitiesFromDb)).ToList();
+            retCode = UpdateItems(updatedActivities);
+            if (retCode != ReturnCode.OK)
+            {
+                Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
+                return retCode;
+            }
+
+            if (difference > 0)
+            {
+                var newActivities = itemsToSave.Where(act => act.InGroup(activitiesFromDb)).ToList();
+                retCode = AddItems(newActivities);
+                if (retCode != ReturnCode.OK)
+                {
+                    Debug.WriteLine($"Smth went wrong with adding {nameof(IActivityBase)}");
+                }
+            }
+        }
         return retCode;
     }
-
 }
 
+
+public static class ActivitiesBase
+{
+    public static bool DbEquals(this IActivityBase item, IActivityBase other)
+    {
+        if (item.Id != other.Id) return false;
+        return true;
+    }
+    
+    public static bool InGroup(this IActivityBase item, IReadOnlyCollection<IActivityBase> group)
+    {
+        if (group.Count == 0) return false;
+        var itemInGroup = group.SingleOrDefault(act => act.Id == item.Id);
+        if (itemInGroup is null) return false;
+        return true;
+    }
+}

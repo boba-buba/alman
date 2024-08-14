@@ -71,7 +71,7 @@ namespace AlmanUI.ViewModels
                 contractFees.Add(item.CFcontractFee);   
             }
 
-            ReturnCode retCode = ContractFeesControl.SaveContractFees(contractFees);
+            ReturnCode retCode = ContractFeesControl.SaveItems(contractFees);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong saving {nameof(ContractFeeUI)}'s. Changes were not saved.");

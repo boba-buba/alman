@@ -29,7 +29,7 @@ public partial class YearSubsPageView : UserControl
             return;
         }
 
-        _yearSubsTable = YearSubsControl.GetYearSubsByFilter(ys => ys.Yyear == year);
+        _yearSubsTable = YearSubsControl.GetItemsByFilter(ys => ys.Yyear == year);
 
         var childYearSubs = new List<YearSubCompositeItem>();
         foreach (var child in _childrenTable)

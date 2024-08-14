@@ -114,7 +114,7 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
 
 
                 textBox.Bind(TextBox.TextProperty, new Binding($"Activities[{index}].SumPaid"));
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown; //doesnt work???
+                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;
 
                 grid.Children.Add( textBox );
                 Grid.SetColumn(textBox, 0);

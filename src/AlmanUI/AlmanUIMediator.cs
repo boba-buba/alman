@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Alman.SharedModels;
+using System;
+using System.Collections.Generic;
+using System.Formats.Tar;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace AlmanUI.Mediator;
 public class Mediator
@@ -15,6 +19,8 @@ public class Mediator
 
     public event Action<string, int>? NotifyWithOneParam;
 
+    public event Action<string, int, int, IReadOnlyList<IYearMonthOtherBase>>? NotifyWithThreeParams;
+
     public void Send(string message)
     {
         Notify?.Invoke(message);
@@ -25,6 +31,10 @@ public class Mediator
         NotifyWithParams?.Invoke(message, year, month);
     }
 
+    public void SendWithThreeParams(string message, int year, int month, IReadOnlyList<IYearMonthOtherBase> items)
+    {
+        NotifyWithThreeParams?.Invoke(message, year, month, items);
+    }
     public void SendWithOneParam(string message, int year)
     {
         NotifyWithOneParam?.Invoke(message, year);

@@ -13,36 +13,22 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
-public static class ContractFeesControl
+public class ContractFeesControl : ControlBase<ContractFee, IContractFeeBase>
 {
-    private static BusinessEntity<ContractFee, IContractFeeBase> BusinessLog { get; set; } = new BusinessEntity<ContractFee, IContractFeeBase>();
-
-    public static IReadOnlyList<IContractFeeBase> GetContractFees() =>
-        BusinessLog.GetEntities();
-
-    public static IReadOnlyList<IContractFeeBase> GetContractFeesByFilter(Func<IContractFeeBase, bool> filter) =>
-        BusinessLog.GetItemsByFilter(filter);
-
-    public static ReturnCode AddContractFees(IReadOnlyList<IContractFeeBase> contractFees) =>
-        BusinessLog.AddEntities(contractFees);
-
-    public static ReturnCode UpdateContractFees(IReadOnlyList<IContractFeeBase> contractFees) =>
-        BusinessLog.UpdateEntities(contractFees);
-
-    public static ReturnCode SaveContractFees(IReadOnlyList<IContractFeeBase> contractFeesToSave)
+    public static ReturnCode SaveItems(IReadOnlyList<IContractFeeBase> itemsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;
-        int year = contractFeesToSave[0].Cfyear;
-        int month = contractFeesToSave[0].Cfmonth;
+        int year = itemsToSave[0].Cfyear;
+        int month = itemsToSave[0].Cfmonth;
 
-        var contractFeesFromDb = GetContractFeesByFilter(cf => cf.Cfyear == year && cf.Cfmonth == month);
+        var contractFeesFromDb = GetItemsByFilter(cf => cf.Cfyear == year && cf.Cfmonth == month);
         int dbCount = contractFeesFromDb.Count;
-        int difference = contractFeesToSave.Count - dbCount;
+        int difference = itemsToSave.Count - dbCount;
 
         if (dbCount > 0)
         {
-            var updatedContractFees = contractFeesToSave.Where(cf => cf.InGroup(contractFeesFromDb)).ToList();
-            retCode = UpdateContractFees(updatedContractFees);
+            var updatedContractFees = itemsToSave.Where(cf => cf.InGroup(contractFeesFromDb)).ToList();
+            retCode = UpdateItems(updatedContractFees);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with updating {nameof(IContractFeeBase)}");
@@ -52,14 +38,13 @@ public static class ContractFeesControl
 
         if (difference > 0)
         {
-            var newContractFees = contractFeesToSave.Where(cf => !cf.InGroup(contractFeesFromDb)).ToList();
-            retCode = AddContractFees(newContractFees);
+            var newContractFees = itemsToSave.Where(cf => !cf.InGroup(contractFeesFromDb)).ToList();
+            retCode = AddItems(newContractFees);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with adding {nameof(IContractFeeBase)}");
             }
         }
-
         return retCode;
     }
 }

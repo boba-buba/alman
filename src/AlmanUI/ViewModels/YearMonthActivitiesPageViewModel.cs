@@ -21,7 +21,6 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
-    //public List<string> PaymentMethods { get; } = new List<string>() { "Cash", "Transfer" };
     public List<int> PaymentMethods { get; } = new List<int>() { (int)WayOfPaying.Cash, (int)WayOfPaying.Transfer};
 
     public YearMonthActivitiesPageViewModel() {}

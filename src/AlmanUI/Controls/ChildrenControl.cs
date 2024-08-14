@@ -6,18 +6,12 @@ using Business;
 using Alman.SharedDefinitions;
 using System.Diagnostics;
 using System.Linq;
-using Alman.SharedDefinitions;
-using System.Diagnostics;
-using System.Linq;
 
 namespace AlmanUI.Controls;
 
-
 public class ChildrenControl : ControlBase<Child, IChildBase>
 {
-
-    
-    public static ReturnCode SaveChildren(IReadOnlyList<IChildBase> childrenToSave, IList<int> childrenIdsToDelete)
+    public static ReturnCode SaveItems(IReadOnlyList<IChildBase> childrenToSave, IList<int> childrenIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
         if (childrenIdsToDelete.Any())
@@ -57,6 +51,4 @@ public class ChildrenControl : ControlBase<Child, IChildBase>
         }
         return retCode;
     }
-
- 
 }

@@ -35,7 +35,7 @@ public partial class ContractFeesPageView : UserControl
             return;
         }
 
-        _contractFeesTable = ContractFeesControl.GetContractFeesByFilter(cf =>
+        _contractFeesTable = ContractFeesControl.GetItemsByFilter(cf =>
                 cf.Cfyear == year &&
                 cf.Cfmonth == month);
         

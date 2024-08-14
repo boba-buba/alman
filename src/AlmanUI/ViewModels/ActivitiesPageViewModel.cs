@@ -33,7 +33,7 @@ public partial class ActivitiesPageViewModel : ViewModelBase
     [RelayCommand]
     public void TriggerSaveCommand()
     {
-        var retCode = ActivitiesControl.SaveActivities(Activities, _activitiesIdsToDelete);
+        var retCode = ActivitiesControl.SaveItems(Activities, _activitiesIdsToDelete);
         if (retCode != ReturnCode.OK)
         {
             //New error window
