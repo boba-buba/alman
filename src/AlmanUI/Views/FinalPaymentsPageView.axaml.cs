@@ -72,84 +72,14 @@ public partial class FinalPaymentsPageView : UserControl
         FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Staff Member Name", Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
         FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Staff Member LastName", Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
 
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "PrePayment",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("FinalPayment.PrepaymentSum", BindingMode.TwoWay)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToStringConverter(), // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
+        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "PrePayment", "FinalPayment.PrepaymentSum");
+        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Prepayment Was Paid", "FinalPayment.PrepaymentWasPaid");
 
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "Prepayment Was Paid",  // Example header name
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var checkBox = new CheckBox();
-
-                var binding = new Binding("FinalPayment.PrepaymentWasPaid")
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToBoolConverter(),  // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
-                };
-
-                checkBox.Bind(CheckBox.IsCheckedProperty, binding);
-
-                return checkBox;
-            }),
-        });
-
-
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "Final Payment",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("FinalPayment.FinalPaymentSum", BindingMode.TwoWay)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToStringConverter(), // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "Final payment Was Paid",  // Example header name
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var checkBox = new CheckBox();
-
-                var binding = new Binding("FinalPayment.FinalPaymentWasPaid")
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToBoolConverter(),  // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
-                };
-
-                checkBox.Bind(CheckBox.IsCheckedProperty, binding);
-
-                return checkBox;
-            }),
-        });
+        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Final Payment", "FinalPayment.FinalPaymentSum");
+        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Final payment Was Paid", "FinalPayment.FinalPaymentWasPaid");
 
         FinalPaymentsMainDataGrid.ItemsSource = _memberFinalPayments;
         SaveFinalPaymentsButton.CommandParameter = _memberFinalPayments;
-
     }
 
     private void UpdateFinalPaymentsMainDataGrid(int year, int month)

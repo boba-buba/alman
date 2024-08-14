@@ -2,8 +2,6 @@
 
 public interface IChildBase : IIdentifier
 {
-    //public int Id { get; set; }
-
     public string ChildName { get; set; }
 
     public string ChildLastName { get; set; }

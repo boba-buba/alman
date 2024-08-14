@@ -13,7 +13,6 @@ using Alman.SharedModels;
 
 namespace AlmanUI.ViewModels
 {
-
     public partial class ContractFeesPageViewModel : ViewModelBase
     {
         [ObservableProperty]

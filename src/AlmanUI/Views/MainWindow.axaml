@@ -18,7 +18,7 @@
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
 
-	<SplitView IsPaneOpen ="True"
+	<SplitView IsPaneOpen ="{Binding IsPaneOpen}"
 			   OpenPaneLength="300"
 			   DisplayMode="CompactInline"
 			   CompactPaneLength="46"

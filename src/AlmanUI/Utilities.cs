@@ -68,3 +68,41 @@ public class IntToBoolConverter : IValueConverter
         return (bool)value ? 1 : 0;
     }
 }
+
+
+public class StringToIntConverter : IValueConverter
+{
+    // Map string values to corresponding integer values
+    private readonly Dictionary<string, int> stringToIntMap = new Dictionary<string, int>
+    {
+        { "Option 1", 1 },
+        { "Option 2", 2 },
+        { "Option 3", 3 }
+    };
+
+    // Map integer values back to corresponding string values
+    private readonly Dictionary<int, string> intToStringMap = new Dictionary<int, string>
+    {
+        { 1, "Option 1" },
+        { 2, "Option 2" },
+        { 3, "Option 3" }
+    };
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is int intValue && intToStringMap.ContainsKey(intValue))
+        {
+            return intToStringMap[intValue];
+        }
+        return string.Empty; // Default if no match
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string stringValue && stringToIntMap.ContainsKey(stringValue))
+        {
+            return stringToIntMap[stringValue];
+        }
+        return 0; // Default to 0 if no match
+    }
+}

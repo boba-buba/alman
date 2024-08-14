@@ -12,8 +12,7 @@ namespace AlmanUI.Controls;
 
 
 public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivityBase>
-{
-    
+{    
     public static ReturnCode SaveItems(IReadOnlyList<IActivityBase> itemsToSave, IList<int> activitiesIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
@@ -41,19 +40,21 @@ public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivity
                 Debug.WriteLine($"Something went wrong wile updating {nameof(IActivityBase)}'s.");
                 return retCode;
             }
+        }
 
-            if (difference > 0)
+        if (difference > 0)
+        {
+            var newActivities = itemsToSave.Where(act => !act.InGroup(activitiesFromDb)).ToList();
+            retCode = AddItems(newActivities);
+            if (retCode != ReturnCode.OK)
             {
-                var newActivities = itemsToSave.Where(act => act.InGroup(activitiesFromDb)).ToList();
-                retCode = AddItems(newActivities);
-                if (retCode != ReturnCode.OK)
-                {
-                    Debug.WriteLine($"Smth went wrong with adding {nameof(IActivityBase)}");
-                }
+                Debug.WriteLine($"Smth went wrong with adding {nameof(IActivityBase)}");
             }
         }
+        
         return retCode;
     }
+
 }
 
 

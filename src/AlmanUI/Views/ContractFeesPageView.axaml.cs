@@ -57,7 +57,6 @@ public partial class ContractFeesPageView : UserControl
         _childContractFees = childContractFees;
     }
 
-
     public ContractFeesPageView()
     {
         LoadItems(DateTime.Now.Year, DateTime.Now.Month);
@@ -95,28 +94,13 @@ public partial class ContractFeesPageView : UserControl
                 IsReadOnly = true,
             });
 
-        var paidSumColumn = new DataGridTemplateColumn
-        {
-            Header = "Paid Sum",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("CFcontractFee.CfsumPaid", BindingMode.TwoWay));
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-
-        };
-
-        ContractFeesMainDataGrid.Columns.Add(paidSumColumn);
-
+        UIControlElements.AddNumericTextBoxToGrid<ContractFeeCompositeItem>(ContractFeesMainDataGrid, "Paid Sum", "CFcontractFee.CfsumPaid");
 
         ContractFeesMainDataGrid.Columns.Add(
             new DataGridTextColumn { 
                 Header = "Month", 
                 Binding = new Binding("CFcontractFee.Cfmonth"), 
                 IsReadOnly = true,
-                //Width = new DataGridLength(1, DataGridLengthUnitType.Star)
             });
 
         ContractFeesMainDataGrid.Columns.Add(
@@ -124,7 +108,6 @@ public partial class ContractFeesPageView : UserControl
                 Header = "Year", 
                 Binding = new Binding("CFcontractFee.Cfyear"), 
                 IsReadOnly = true,
-                //Width = new DataGridLength(1, DataGridLengthUnitType.Star)
             });
 
         ContractFeesMainDataGrid.ItemsSource = _childContractFees;

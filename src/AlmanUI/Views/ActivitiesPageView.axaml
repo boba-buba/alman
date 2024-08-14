@@ -14,7 +14,7 @@
 		<Border Grid.Row="0" Height="100">
 			<TextBlock Text="Activities" HorizontalAlignment="Center" FontSize="40" Margin="20"/>
 		</Border>
-		<DataGrid Grid.Row="1" CornerRadius="0 0 12 12"
+		<DataGrid Name="ActivitiesDataGrid" Grid.Row="1" CornerRadius="0 0 12 12"
 				  Margin="10" ItemsSource="{Binding Activities}"
 				  SelectedItem="{Binding SelectedActivity}"
 				  IsReadOnly="False"
@@ -22,10 +22,6 @@
 				  CanUserSortColumns="True"
 				  CanUserResizeColumns="True"
 				  BorderThickness="4" BorderBrush="Gray">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Activity name" Binding="{Binding ActivityName}" Width="*"/>
-				<DataGridTextColumn Header="Price for on standard time" Binding="{Binding ActivityPrice}" Width="*"/>
-			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto, Auto, Auto" HorizontalAlignment="Center">

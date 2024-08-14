@@ -32,15 +32,6 @@ namespace AlmanUI.ViewModels
             _childrenIdsToDelete = new List<int>();
         }
 
-        public ObservableCollection<string> ChildrenContractNames { get; } = new ObservableCollection<string>
-        {
-            "Precontract",
-            "Mother Capital",
-            "Standard",
-            "Staff child"
-        };
-
-
         [RelayCommand]
         public void TriggerSaveCommand()
         {
@@ -81,59 +72,5 @@ namespace AlmanUI.ViewModels
             Children.Remove(SelectedChild);
             SelectedChild = null;
         }
-
-        public void ChooseChildContractType(string contractType)
-        {
-
-        }
-
     }
-
-    public class ChildrenContractConverter : IValueConverter
-    {
-        public static readonly ChildrenContractConverter Instance = new();
-
-        public object? Convert(object? value, Type targetType,
-                                    object? parameter, CultureInfo culture)
-        {
-
-            if (value is int number && number > 0 && number <= (int)ContractType.StaffChild)
-            {
-
-                var contract = (ContractType)number;
-                switch (contract)
-                {
-                    case ContractType.MotherCapital: { return "Mother Capital";}
-                    case ContractType.Precontract: { return "Precontract"; }
-                    case ContractType.OrdinaryContract: { return "Ordinary"; }
-                    case ContractType.StaffChild: { return "Staff Child"; }
-                    default: return "Unknown";
-                    
-                }
-            }
-            // converter used for the wrong type
-            return new BindingNotification(new InvalidCastException(),
-                                                    BindingErrorType.Error);
-        }
-
-        public object ConvertBack(object? value, Type targetType,
-                               object? parameter, CultureInfo culture)
-        {
-            if (value is string contractName)
-            {
-                switch (contractName)
-                {
-                    case "Mother Capital": return (int)ContractType.MotherCapital;
-                    case "Precontract": return (int)ContractType.Precontract;
-                    case "Ordinary": return (int)ContractType.OrdinaryContract;
-                    case "Staff Child": return (int)ContractType.StaffChild;
-                }
-            }
-            // converter used for the wrong type
-            return new BindingNotification(new InvalidCastException(),
-                                                    BindingErrorType.Error);
-        }
-    }
-
-
 }
