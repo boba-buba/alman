@@ -32,9 +32,6 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
     private ObservableCollection<IYearMonthOtherBase> OtherActivities;
     private List<int> idsToDelete;
 
-
-    public List<int> PaymentMethods { get; } = new List<int>() { (int)WayOfPaying.Cash, (int)WayOfPaying.Transfer };
-
     public YearMonthOtherPageViewModel()
     {
         OtherActivities = new ObservableCollection<IYearMonthOtherBase>(
@@ -75,6 +72,7 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
         {
             CurrentMonth = CurrentMonth + 1;
         }
+
         OtherActivities = new ObservableCollection<IYearMonthOtherBase>(
             YearMonthOtherControl.GetItemsByFilter(other => other.Year == CurrentYear && other.Month == CurrentMonth));
 

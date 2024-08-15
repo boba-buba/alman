@@ -62,7 +62,6 @@ public partial class YearMonthActivitiesPageView : UserControl
         }
     }
 
-
     private void UpdateDataGrid(int year, int month)
     {
         var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);

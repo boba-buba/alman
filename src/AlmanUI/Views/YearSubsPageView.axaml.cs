@@ -66,7 +66,7 @@ public partial class YearSubsPageView : UserControl
 
     public void InitYearSubsMainDataGrid()
     {
-        YearSubsMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+        YearSubsMainDataGrid.MinColumnWidth = 150;
 
         YearSubsMainDataGrid.Columns.Add(
             new DataGridTextColumn
@@ -83,172 +83,16 @@ public partial class YearSubsPageView : UserControl
                 Binding = new Binding("YsChild.ChildLastName"),
                 IsReadOnly = true,
             });
+        
+        var months = new string[] {"january", "february", "march", "april", "may", "june", "jule", "august", "september", "october", "november", "december"};
 
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
+        foreach (string month in months)
         {
-            Header = "January",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjanuary", BindingMode.TwoWay)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToStringConverter(), // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "February",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yfebruary", BindingMode.TwoWay) 
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToStringConverter(), // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "March",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymarch", BindingMode.TwoWay)
-                    { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "April",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yapril", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "May",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ymay", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "June",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjune", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "July",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yjuly", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "August",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yaugust", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "September",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yseptember", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "October",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Yoctober", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "November",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ynovember", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
-        YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "December",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("YsYearSubscription.Ydecember", BindingMode.TwoWay) 
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
-
+            string textBoxBindingName = $"YsYearSubscription.Y{month}";
+            string comboBoxBindingName = $"YsYearSubscription.Y{month}Payment";
+            UIControlElements.AddMoneyTextBox<YearSubCompositeItem>(YearSubsMainDataGrid, textBoxBindingName, comboBoxBindingName, month);
+        }
+        
         YearSubsMainDataGrid.ItemsSource = _childYearSubs;
         SaveYearSubsButton.CommandParameter = _childYearSubs;
     }

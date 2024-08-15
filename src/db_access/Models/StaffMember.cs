@@ -17,6 +17,7 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
     public int? PositionId { get; set; }
 
     public int StartYear { get; set; }
+
     public int StartMonth { get; set; }
 
     public int State { get; set; }

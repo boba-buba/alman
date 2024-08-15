@@ -27,8 +27,6 @@
 					CanUserResizeColumns="True"
 					BorderThickness="4" BorderBrush="Gray">
 		</DataGrid>
-
-
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
 				<Button Name="SaveFinalPaymentsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>

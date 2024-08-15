@@ -27,6 +27,6 @@ public partial class ChildrenPageView : UserControl
         UIControlElements.AddNumericUpDownToGrid<IChildBase>(ChildrenDataGrid, "Start Month", "ChildStartMonth", 1, 12);
         UIControlElements.AddCheckBoxToGrid<IChildBase>(ChildrenDataGrid, "Is Active", "ChildState");
         UIControlElements.AddNumericTextBoxToGrid<IChildBase>(ChildrenDataGrid, "Child Group", "ChildGroup");
-        UIControlElements.AddComboBoxToDataGrid<IChildBase>(ChildrenDataGrid, "Contract type", "ChildContract" , new StringToIntConverter());
+        UIControlElements.AddComboBoxToDataGrid<IChildBase>(ChildrenDataGrid, "Contract type", "ChildContract" , new ContractTypeConverter());
     }
 }

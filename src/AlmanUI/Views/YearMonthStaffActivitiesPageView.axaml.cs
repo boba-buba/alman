@@ -87,7 +87,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
                         new ColumnDefinition(GridLength.Star)
                     }
                 };
-                var textBox = new TextBox() { };
 
                 if (x.Activities is null)
                 {
@@ -105,30 +104,18 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
                         SumPaid = 0
                     });
 
-                    textBox.Text = 0.ToString();
 
                 }
                 var activityInDb = x.Activities.Single(act => act.StaffActivityId == activity.Id);
 
                 int index = x.Activities.IndexOf(activityInDb);
-
-
-                textBox.Bind(TextBox.TextProperty, new Binding($"Activities[{index}].SumPaid"));
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;
+                
+                var textBox = UIControlElements.CreateNumericTextBox($"Activities[{index}].SumPaid");
 
                 grid.Children.Add( textBox );
                 Grid.SetColumn(textBox, 0);
 
-                CheckBox WasPaidCheckBox = new CheckBox();
-                
-                var binding = new Binding($"Activities[{index}].WasPaid")
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToBoolConverter(),  // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
-                };
-
-                WasPaidCheckBox.Bind(CheckBox.IsCheckedProperty, binding);
+                CheckBox WasPaidCheckBox = UIControlElements.CreateCheckBox($"Activities[{index}].WasPaid");
 
                 grid.Children.Add(WasPaidCheckBox);
                 Grid.SetColumn(WasPaidCheckBox, 1);
@@ -143,6 +130,7 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
   
             });
         }
+        
         SaveMonthStaffActivitiesButton.CommandParameter = _memberActivities;
     }
 }

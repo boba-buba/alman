@@ -19,15 +19,12 @@
 
 		<DataGrid Grid.Row="1" Name="StaffActivitiesMainDataGrid" CornerRadius="0 0 12 12"
 					Margin="10" ItemsSource="{Binding StaffActivities}"
-				    SelectedItem="{ Binding SelectedStaffActivity}"
+				    SelectedItem="{Binding SelectedStaffActivity}"
 					IsReadOnly="False"
 					GridLinesVisibility="All"
 					CanUserSortColumns="True"
 					CanUserResizeColumns="True"
 					BorderThickness="4" BorderBrush="Gray">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Activity name" Binding="{Binding ActivityName}" Width="*"/>
-			</DataGrid.Columns>
 		</DataGrid>
 
 

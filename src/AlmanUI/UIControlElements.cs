@@ -54,15 +54,7 @@ public static class UIControlElements
             Header = headerName,
             CellTemplate = new FuncDataTemplate<TEntity>((x, _) =>
             {
-                var checkBox = new CheckBox();
-                var binding = new Binding(bindingName)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToBoolConverter(),  // Apply the converter here
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
-                };
-                checkBox.Bind(CheckBox.IsCheckedProperty, binding);
-                return checkBox;
+                return CreateCheckBox(bindingName);
             })
         });
     }
@@ -74,21 +66,10 @@ public static class UIControlElements
             Header = headerName,
             CellTemplate = new FuncDataTemplate<TEntity>((x, _) => 
             {
-                var textBox = new TextBox();
-                var binding = new Binding(bindingName)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new IntToStringConverter(),
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;
-                textBox.Bind(TextBox.TextProperty, binding);
-                return textBox;
+                return CreateNumericTextBox(bindingName);
             })
         });
     }
-
 
     public static void AddComboBoxToDataGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName, IValueConverter converter)
     {
@@ -97,24 +78,88 @@ public static class UIControlElements
             Header = headerName,
             CellTemplate = new FuncDataTemplate<TEntity>((x, _) =>
             {
-                var comboBox = new ComboBox
-                {
-                    ItemsSource = new string[] { "Option 1", "Option 2", "Option 3" },  // Options to display
-
-                };
-
-                var binding = new Binding(bindingName) // Bind to the 'Role' property of the data item
-                {
-                    Mode = BindingMode.TwoWay,                         // Ensure two-way binding
-                    Converter = converter,            // Apply the converter
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Update the source whenever the value changes
-                };
-
-                // Bind the ComboBox's SelectedItem property to the Role property
-                comboBox.Bind(ComboBox.SelectedItemProperty, binding);
-
-                return comboBox;
+                return CreateComboBox(converter, bindingName);
             })
         });
+    }
+
+    public static void AddMoneyTextBox<TEntity>(DataGrid gridToAddTo, string textBoxProperty, string WayOfPayProperty, string headerName)
+    {
+        var moneyTemplate = new FuncDataTemplate<TEntity>((x, _) =>
+        {
+            Grid cellGrid = new Grid
+            {
+                ColumnDefinitions = new ColumnDefinitions
+                {
+                    new ColumnDefinition(GridLength.Star),
+                    new ColumnDefinition(GridLength.Star)
+                }
+            };
+            //TextBox
+            TextBox moneyTextBox = UIControlElements.CreateNumericTextBox(textBoxProperty);
+            //CombBox
+            ComboBox wayOfPayCombobox = UIControlElements.CreateComboBox(new WayOfPayingConverter(), WayOfPayProperty);
+            //Adding to cellGrid
+            cellGrid.Children.Add(moneyTextBox);
+            Grid.SetColumn(moneyTextBox, 0);
+            cellGrid.Children.Add(wayOfPayCombobox);
+            Grid.SetColumn(wayOfPayCombobox, 1);
+
+            return cellGrid;
+        });
+
+        gridToAddTo.Columns.Add(new DataGridTemplateColumn
+        {
+            Header = headerName,
+            CellTemplate = moneyTemplate,
+        });
+    }
+
+    public static TextBox CreateNumericTextBox(string bindingName)
+    {
+        var textBox = new TextBox();
+        var binding = new Binding(bindingName)
+        {
+            Mode = BindingMode.TwoWay,
+            Converter = new IntToStringConverter(),
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+
+        textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;
+        textBox.Bind(TextBox.TextProperty, binding);
+        return textBox;
+    }
+
+    public static CheckBox CreateCheckBox(string bindingName)
+    {
+        var checkBox = new CheckBox();
+        var binding = new Binding(bindingName)
+        {
+            Mode = BindingMode.TwoWay,
+            Converter = new IntToBoolConverter(),  // Apply the converter here
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
+        };
+        checkBox.Bind(CheckBox.IsCheckedProperty, binding);
+        return checkBox;
+    }
+
+    public static ComboBox CreateComboBox(IValueConverter converter, string bindingName)
+    {
+        var comboBox = new ComboBox
+        {
+            ItemsSource = ((IKeys)converter).Keys,  // Options to display
+        };
+
+        var binding = new Binding(bindingName) // Bind to the 'Role' property of the data item
+        {
+            Mode = BindingMode.TwoWay,                         // Ensure two-way binding
+            Converter = converter,            // Apply the converter
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Update the source whenever the value changes
+        };
+
+        // Bind the ComboBox's SelectedItem property to the Role property
+        comboBox.Bind(ComboBox.SelectedItemProperty, binding);
+
+        return comboBox;
     }
 }

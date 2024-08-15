@@ -91,18 +91,8 @@ public partial class PrecontractsPageView : UserControl
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("PChild.ChildName"), IsReadOnly = true });
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("PChild.ChildLastName"), IsReadOnly = true });
 
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTemplateColumn
-        {
-            Header = "Paid Sum",
-            CellTemplate = new FuncDataTemplate<object>((item, namescope) =>
-            {
-                var textBox = new TextBox();
-                textBox.Bind(TextBox.TextProperty, new Binding("Precontract.Psum", BindingMode.TwoWay)
-                { Mode = BindingMode.TwoWay, Converter = new IntToStringConverter(), UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-                textBox.KeyDown += UIUtilities.TextBox_NumericInput_KeyDown;  // Attach the filtering function
-                return textBox;
-            }),
-        });
+        UIControlElements.AddNumericTextBoxToGrid<PrecontractCompositeItem>(PrecontractsMainDataGrid, "Paid Sum", "Precontract.Psum");
+
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Comment", Binding = new Binding("Precontract.Pcomment") });
 
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Month", Binding = new Binding("Precontract.PMonth"), IsReadOnly = true });
