@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,14 +31,36 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
     private IYearMonthOtherBase? _selectedOther = null;
 
     public ObservableCollection<IYearMonthOtherBase> OtherActivities { get; set; }
-    private List<int> idsToDelete;
+    private List<int> _idsToDelete;
+
+    private void LoadItems()
+    {
+        if (_idsToDelete is null)
+        {
+            _idsToDelete = new List<int>();
+        }
+        else
+        {
+            _idsToDelete.Clear();
+        }
+        if (OtherActivities is null)
+        {
+            OtherActivities = new ObservableCollection<IYearMonthOtherBase>();
+        }
+        else
+        {
+            OtherActivities.Clear();
+        }
+
+        foreach (var other in YearMonthOtherControl.GetItemsByFilter(other => other.Month == CurrentMonth && other.Year == CurrentYear))
+        {
+            OtherActivities.Add(other);
+        }
+    }
 
     public YearMonthOtherPageViewModel()
     {
-        OtherActivities = new ObservableCollection<IYearMonthOtherBase>(
-            YearMonthOtherControl.GetItemsByFilter(other => other.Year == CurrentYear && other.Month == CurrentMonth));
-        
-        idsToDelete = new List<int>();
+        LoadItems();
     }
 
 
@@ -53,10 +76,8 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
         {
             CurrentMonth = CurrentMonth - 1;
         }
-        OtherActivities = new ObservableCollection<IYearMonthOtherBase>(
-            YearMonthOtherControl.GetItemsByFilter(other => other.Year == CurrentYear && other.Month == CurrentMonth));
-
-        Mediator.Mediator.Instance.SendWithParams("UpdateYearMonthOtherDataGrid", CurrentYear, CurrentMonth);
+        LoadItems();
+        Mediator.Mediator.Instance.Send("UpdateYearMonthOtherDataGrid");
     }
 
 
@@ -73,47 +94,32 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
             CurrentMonth = CurrentMonth + 1;
         }
 
-        OtherActivities = new ObservableCollection<IYearMonthOtherBase>(
-            YearMonthOtherControl.GetItemsByFilter(other => other.Year == CurrentYear && other.Month == CurrentMonth));
-
-        Mediator.Mediator.Instance.SendWithParams("UpdateYearMonthOtherDataGrid", CurrentYear, CurrentMonth);
+        LoadItems();
+        Mediator.Mediator.Instance.Send("UpdateYearMonthOtherDataGrid");
     }
 
 
     [RelayCommand]
     public void TriggerSaveCommand()
     {
-        var retCode = YearMonthOtherControl.SaveItems(OtherActivities, idsToDelete);
+        var retCode = YearMonthOtherControl.SaveItems(OtherActivities, _idsToDelete);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Smth went wrong saving {nameof(IYearMonthOtherBase)}'s");
             return;
         }
-        idsToDelete.Clear();
-        OtherActivities.Clear();
-        foreach (var other in YearMonthOtherControl.GetItemsByFilter(other => other.Year == CurrentYear && other.Month == CurrentMonth))
-        {
-            OtherActivities.Add(other);
-        }
+        LoadItems();
     }
 
     [RelayCommand]
-    public void TriggerAddNewOtherommand()
+    public void TriggerAddNewCommand()
     {
-        YearMonthOtherUI newOther = new YearMonthOtherUI { Month = CurrentMonth, Year = CurrentMonth, OtherActivityName = "" };
-        if (OtherActivities is null)
-        {
-            OtherActivities = new ObservableCollection<IYearMonthOtherBase> { newOther };
-        }
-        else
-        {
-            OtherActivities.Add(newOther);
-        }
-        
+        YearMonthOtherUI newOther = new YearMonthOtherUI { Month = CurrentMonth, Year = CurrentYear, OtherActivityName = "" };
+        OtherActivities.Add(newOther);
     }
 
     [RelayCommand]
-    public void TriggerRemoveOtherCommand()
+    public void TriggerRemoveCommand()
     {
         if (SelectedOther == null)
         {
@@ -122,11 +128,10 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
 
         if (SelectedOther.Id != 0)
         {
-            idsToDelete.Add(SelectedOther.Id);
+            _idsToDelete.Add(SelectedOther.Id);
         }
         OtherActivities.Remove(SelectedOther);
         SelectedOther = null;
-        Mediator.Mediator.Instance.SendWithThreeParams("UpdateDataGrid", CurrentYear, CurrentMonth, OtherActivities);
     }
 
 }

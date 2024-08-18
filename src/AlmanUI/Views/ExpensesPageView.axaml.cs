@@ -15,18 +15,18 @@ public partial class ExpensesPageView : UserControl
     {
         InitializeComponent();
         InitDataGrid();
-        //Mediator.Mediator.Instance.Notify += OnNotify;
+        Mediator.Mediator.Instance.Notify += OnNotify;
     }
 
     private void OnNotify(string message)
     {
-        //if (message == "UpdateExpensesDataGrid") UpdateDataGrid();
+        if (message == "UpdateExpensesDataGrid") UpdateDataGrid();
     }
 
     private void UpdateDataGrid()
     {
         ExpensesDataGrid.Columns.Clear();
-        //InitDataGrid();
+        InitDataGrid();
     }
     private void InitDataGrid()
     {

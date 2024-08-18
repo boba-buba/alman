@@ -19,11 +19,11 @@ public partial class YearMonthOtherPageView : UserControl
         InitializeComponent();
         InitDataGrid();
         
-        Mediator.Mediator.Instance.NotifyWithThreeParams += OnNotifyWithTreeParams;
+        Mediator.Mediator.Instance.Notify += OnNotify;
 
     }
 
-    private void OnNotifyWithTreeParams(string message, int  year, int month, IReadOnlyList<IYearMonthOtherBase> items)
+    private void OnNotify(string message)
     {
         if (message == "UpdateYearMonthOtherDataGrid") UpdateDataGrid();
     }
@@ -47,7 +47,7 @@ public partial class YearMonthOtherPageView : UserControl
         {
             string moneyString = $"{weeks[i]}Week";
             string PayWay = $"PayingWay{weeks[i]}";
-            UIControlElements.AddMoneyTextBox<YearMonthOtherUI>(YearMonthOtherMainDataGrid, moneyString, PayWay, moneyString);
+            UIControlElements.AddMoneyTextBox<IYearMonthOtherBase>(YearMonthOtherMainDataGrid, moneyString, PayWay, moneyString);
         }
     }
 
