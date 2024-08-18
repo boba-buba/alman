@@ -67,7 +67,8 @@ public partial class MainWindowViewModel : ViewModelBase
         new ListItemTemplate(typeof(FinalPaymentsPageViewModel), MaterialIconKind.Cash),
         new ListItemTemplate(typeof(StaffActivitiesPageViewModel), MaterialIconKind.DrawingBox),
         new ListItemTemplate(typeof(YearMonthStaffActivitiesPageViewModel), MaterialIconKind.CalendarOutline),
-        new ListItemTemplate(typeof(YearMonthOtherPageViewModel), MaterialIconKind.Flower)
+        new ListItemTemplate(typeof(YearMonthOtherPageViewModel), MaterialIconKind.Flower),
+        new ListItemTemplate(typeof(ExpensesPageViewModel), MaterialIconKind.CreditCardOutline),
     };
 
 }

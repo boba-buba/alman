@@ -29,7 +29,7 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
     [ObservableProperty]
     private IYearMonthOtherBase? _selectedOther = null;
 
-    private ObservableCollection<IYearMonthOtherBase> OtherActivities;
+    public ObservableCollection<IYearMonthOtherBase> OtherActivities { get; set; }
     private List<int> idsToDelete;
 
     public YearMonthOtherPageViewModel()

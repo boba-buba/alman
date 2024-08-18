@@ -78,7 +78,7 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
             }
         }
 
-        ReturnCode retCode = YearMonthActivitiesControl.SaveYearMonthActivities(yearMonthActivities, CurrentYear, CurrentMonth);
+        ReturnCode retCode = YearMonthActivitiesControl.SaveItems(yearMonthActivities, CurrentYear, CurrentMonth);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong updating {nameof(YearMonthActivityUI)}'s. Changes were not saved.");

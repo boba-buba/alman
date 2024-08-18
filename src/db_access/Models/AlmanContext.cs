@@ -40,6 +40,9 @@ public partial class AlmanContext : DbContext
     public virtual DbSet<YearMonthStaffActivity> YearMonthStaffActivities { get; set; }
 
     public virtual DbSet<YearSub> YearSubs { get; set; }
+
+    public virtual DbSet<Expense> YearMonthExpenses { get; set; }
+
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -190,6 +193,11 @@ public partial class AlmanContext : DbContext
             entity.HasOne(d => d.Ychild).WithMany(p => p.YearSubs)
                 .HasForeignKey(d => d.YchildId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Expense>(entity => 
+        {
+            entity.HasKey(e => new { e.Id });
         });
 
         OnModelCreatingPartial(modelBuilder);

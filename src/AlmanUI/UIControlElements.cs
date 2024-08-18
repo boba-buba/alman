@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AlmanUI;
 
@@ -23,6 +24,8 @@ public static class UIControlElements
             Header = headerName,  // Example header for the column
             CellTemplate = new FuncDataTemplate<TEntity>((item, namescope) =>
             {
+                Debug.WriteLine(nameof(TEntity));
+
                 // Create a NumericUpDown control
                 var numericUpDown = new NumericUpDown
                 {
@@ -87,6 +90,7 @@ public static class UIControlElements
     {
         var moneyTemplate = new FuncDataTemplate<TEntity>((x, _) =>
         {
+            Debug.WriteLine(nameof(TEntity));
             Grid cellGrid = new Grid
             {
                 ColumnDefinitions = new ColumnDefinitions
@@ -96,9 +100,9 @@ public static class UIControlElements
                 }
             };
             //TextBox
-            TextBox moneyTextBox = UIControlElements.CreateNumericTextBox(textBoxProperty);
+            TextBox moneyTextBox = CreateNumericTextBox(textBoxProperty);
             //CombBox
-            ComboBox wayOfPayCombobox = UIControlElements.CreateComboBox(new WayOfPayingConverter(), WayOfPayProperty);
+            ComboBox wayOfPayCombobox = CreateComboBox(new WayOfPayingConverter(), WayOfPayProperty);
             //Adding to cellGrid
             cellGrid.Children.Add(moneyTextBox);
             Grid.SetColumn(moneyTextBox, 0);
@@ -106,7 +110,7 @@ public static class UIControlElements
             Grid.SetColumn(wayOfPayCombobox, 1);
 
             return cellGrid;
-        });
+        }, true);
 
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
         {

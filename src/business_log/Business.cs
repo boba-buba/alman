@@ -77,10 +77,10 @@ public class BusinessEntity<TEntity, TIface>
 
         IReadOnlyList<TEntity> entitiesToUpdate = db.GetItems<TEntity>(ent => true);
 
-        foreach (var entity in entitiesToUpdate)
+        foreach (var updEntity in updatedEntities)
         {
-            var updatedEntity = updatedEntities.Single(ent => ent.Id == entity.Id); 
-            EntityMapper.EntityMapper.Map(updatedEntity, entity);
+            var entityToUpd = entitiesToUpdate.Single(ent => ent.Id == updEntity.Id); 
+            EntityMapper.EntityMapper.Map(updEntity, entityToUpd);
         }
         return db.UpdateItems(entitiesToUpdate);
     }
