@@ -20,25 +20,25 @@ namespace AlmanUI.ViewModels
         public int _currentYear = DateTime.Now.Year;
 
         [ObservableProperty]
-        public int _lastYearRemainder; //monthRemainder from last month
+        public int _lastYearRemainder = 0; //monthRemainder from last month
 
         [ObservableProperty]
-        public int _yearSubsSum; // All yearSubs for year
+        public int _yearSubsSum = 0; // All yearSubs for year
 
         [ObservableProperty]
-        public int _yearRemainder; // monthBalance from this year minus all expenses
+        public int _yearRemainder = 0; // monthBalance from this year minus all expenses
         
         private void LoadItems()
         {
-            _lastYearRemainder = YearResultsControl.GetYearRemainder(CurrentYear - 1);
-            _yearSubsSum = HomeControl.ClaculateYearSubsSum(CurrentYear);
+            LastYearRemainder = YearResultsControl.GetYearRemainder(CurrentYear - 1);
+            YearSubsSum = HomeControl.ClaculateYearSubsSum(CurrentYear);
             ReturnCode retCode = YearResultsControl.CalculateYearRemainder(CurrentYear);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong during calculating {nameof(YearResultsControl.CalculateYearRemainder)}");
                 return;
             }
-            _yearRemainder = YearResultsControl.GetYearRemainder(CurrentYear);
+            YearRemainder = YearResultsControl.GetYearRemainder(CurrentYear);
         }
         
         public HomePageViewModel()
@@ -51,7 +51,6 @@ namespace AlmanUI.ViewModels
         {
             CurrentYear -= 1;
             LoadItems();
-            Mediator.Mediator.Instance.SendWithOneParam("UpdateYearSubsMainDataGrid", CurrentYear);
         }
 
         [RelayCommand]
@@ -59,7 +58,6 @@ namespace AlmanUI.ViewModels
         {
             CurrentYear += 1;
             LoadItems();
-            Mediator.Mediator.Instance.SendWithOneParam("UpdateYearSubsMainDataGrid", CurrentYear);
         }
 
         [RelayCommand]

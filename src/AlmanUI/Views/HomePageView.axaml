@@ -17,17 +17,17 @@
 		</Border>
 
 		<Grid Grid.Row="1" RowDefinitions="*, *, *">
-			<Grid  Grid.Row="0" ColumnDefinitions="*, *">
-				<TextBlock Grid.Column="0" Text="Left From Prev. Year"></TextBlock>
-				<TextBlock Grid.Column="1" Text="{Binding LastYearRemainder}"/>
+			<Grid  Grid.Row="0" ColumnDefinitions="*, *" HorizontalAlignment="Center">
+				<TextBlock Grid.Column="0" Text="Left From Prev. Year:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="1" Text="{Binding LastYearRemainder}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
-			<Grid  Grid.Row="1" ColumnDefinitions="*, *">
-				<TextBlock Grid.Column="0" Text="Year Subs Sum"></TextBlock>
-				<TextBlock Grid.Column="1" Text="{Binding YearSubsSum}"/>
+			<Grid  Grid.Row="1" ColumnDefinitions="*, *" HorizontalAlignment="Center">
+				<TextBlock Grid.Column="0" Text="Year Subs Sum:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="1" Text="{Binding YearSubsSum}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
-			<Grid  Grid.Row="2" ColumnDefinitions="*, *">
-				<TextBlock Grid.Column="0" Text="Remainder"></TextBlock>
-				<TextBlock Grid.Column="1" Text="{Binding YearRemainder}"/>
+			<Grid  Grid.Row="2" ColumnDefinitions="*, *" HorizontalAlignment="Center">
+				<TextBlock Grid.Column="0" Text="Remainder:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="1" Text="{Binding YearRemainder}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
 		</Grid>
 		

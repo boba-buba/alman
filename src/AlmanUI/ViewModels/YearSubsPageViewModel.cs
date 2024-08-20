@@ -31,15 +31,7 @@ public partial class YearSubsPageViewModel : ViewModelBase
     
     private void LoadItems()
     {
-        if (ChildYearSubs is null)
-        {
-            ChildYearSubs = new ObservableCollection<YearSubCompositeItem>();
-        }
-        else
-        {
-            ChildYearSubs.Clear();
-        }
-
+        ChildYearSubs.Clear();
         _childrenTable = ChildrenControl.GetItemsByFilter(ch => ch.ChildStartYear <= CurrentYear);
 
         if (_childrenTable is null)
@@ -65,15 +57,17 @@ public partial class YearSubsPageViewModel : ViewModelBase
             }
             ChildYearSubs.Add(newItem);
         }
-        MonthlySum = new ObservableCollection<int>(new int[12]);
+        CalculateSum();
         
     }
     
     public YearSubsPageViewModel() 
     {
+        MonthlySum = new ObservableCollection<int>(new int[12]);
+        ChildYearSubs = new ObservableCollection<YearSubCompositeItem>();
         LoadItems();
-        CalculateSum();
-        
+        //CalculateSum();
+        ChildYearSubs.CollectionChanged += (s, e) => CalculateSum();
     }
 
     private void CalculateSum()
