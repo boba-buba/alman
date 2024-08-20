@@ -24,7 +24,7 @@ public class YearSubsControl : ControlBase<YearSub, IYearSubBase>
 
         if (dbCount > 0)
         {
-            var updatedYearSubs = itemsToSave.Where(cf => cf.InGroup(yearSubsFromDb)).ToList();
+            var updatedYearSubs = itemsToSave.Where(cf => cf.InGroupId(yearSubsFromDb)).ToList();
             retCode = UpdateItems(updatedYearSubs);
             if (retCode != ReturnCode.OK)
             {
@@ -35,7 +35,7 @@ public class YearSubsControl : ControlBase<YearSub, IYearSubBase>
 
         if (difference > 0)
         {
-            var newYearSubs = itemsToSave.Where(cf => !cf.InGroup(yearSubsFromDb)).ToList();
+            var newYearSubs = itemsToSave.Where(cf => !cf.InGroupId(yearSubsFromDb)).ToList();
             retCode = AddItems(newYearSubs);
             if (retCode != ReturnCode.OK)
             {

@@ -11,7 +11,7 @@ public class YearMonthOtherUI : IYearMonthOtherBase
 {
     public int Id { get; set; }
 
-    public string OtherActivityName { get; set; }
+    public string OtherActivityName { get; set; } = "";
 
     public int Month { get; set; }
 

@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.YearSubsPageView"
 			 x:DataType="ViewModels:YearSubsPageViewModel">
-	<Grid RowDefinitions="Auto, *, Auto">
+	<Grid RowDefinitions="Auto, *, Auto, Auto">
 		<Border Grid.Row="0" Height="100">
 			<Grid ColumnDefinitions="2*, *, 2*">
 				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevYearCommand}">PREVIOUS</Button>
@@ -19,7 +19,7 @@
 		</Border>
 
 		<DataGrid Grid.Row="1" Name="YearSubsMainDataGrid" CornerRadius="0 0 12 12"
-				  Margin="10"
+				  Margin="10" ItemsSource="{Binding ChildYearSubs}"
 				  IsReadOnly="False"
 				  GridLinesVisibility="All"
 				  CanUserSortColumns="True"
@@ -27,7 +27,12 @@
 				  BorderThickness="4" BorderBrush="Gray">
 		</DataGrid>
 
-		<StackPanel Grid.Row="2" Margin="10">
+		<Grid Grid.Row="2" Name="MonthlySumGrid">
+			<ItemsControl ItemsSource="{Binding MonthlySum}"></ItemsControl>
+			
+		</Grid>
+		
+		<StackPanel Grid.Row="3" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
 				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
 			</Grid>

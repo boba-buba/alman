@@ -27,10 +27,17 @@
 		</DataGrid>
 
 		<StackPanel Grid.Row="2" Margin="10">
-			<Grid ColumnDefinitions="Auto, Auto, Auto" HorizontalAlignment="Center">
-				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
-				<Button Grid.Column="1" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewCommand}">ADD NEW</Button>
-				<Button Grid.Column="2" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveCommand}">REMOVE</Button>
+			<Grid ColumnDefinitions="Auto, Auto, Auto, Auto" HorizontalAlignment="Center">
+				<TextBlock Grid.Column="0" Margin="5" HorizontalAlignment="Center">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="Overall Sum: {0}">
+							<Binding Path="MonthSum" />
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+				<Button Grid.Column="1" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+				<Button Grid.Column="2" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerAddNewCommand}">ADD NEW</Button>
+				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerRemoveCommand}">REMOVE</Button>
 			</Grid>
 		</StackPanel>
 	</Grid>

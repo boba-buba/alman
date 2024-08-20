@@ -1,6 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess;
 
@@ -16,6 +17,11 @@ public abstract class DbBase
         }
         var ctx = new AlmanContext(DbPath);
         ctx.Database.EnsureCreated();
+        if (!ctx.Users.Any())
+        {
+            ctx.Users.Add(new User { Name = "Admin", Password = "1234", Id = 1, Permissions = 1 });
+            ctx.SaveChanges();
+        }
         return ctx;
     }
 

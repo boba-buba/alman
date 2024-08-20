@@ -86,35 +86,3 @@ public partial class YearMonthActivitiesPageViewModel : ViewModelBase
     }
 }
 
-
-public class PaymentMethodConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-
-        if (value is WayOfPaying paymentMethod)
-        {
-            return paymentMethod switch
-            {
-                WayOfPaying.Cash => "Cash",
-                WayOfPaying.Transfer => "Transfer",
-                _ => "Unknown"
-            };
-        }
-        return "Unknown";
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is string str)
-        {
-            return str switch
-            {
-                "Cash" => WayOfPaying.Cash,
-                "Transfer" => WayOfPaying.Transfer,
-                _ => WayOfPaying.Cash
-            };
-        }
-        return (int)WayOfPaying.Cash;
-    }
-}

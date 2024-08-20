@@ -11,12 +11,12 @@ namespace AlmanUI.Controls;
 
 public class ChildrenControl : ControlBase<Child, IChildBase>
 {
-    public static ReturnCode SaveItems(IReadOnlyList<IChildBase> childrenToSave, IList<int> childrenIdsToDelete)
+    public static ReturnCode SaveItems(IReadOnlyList<IChildBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
-        if (childrenIdsToDelete.Any())
+        if (itemsIdsToDelete.Any())
         {
-            retCode = DeleteItems(childrenIdsToDelete);
+            retCode = DeleteItems(itemsIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IChildBase)}'s.");
@@ -26,10 +26,10 @@ public class ChildrenControl : ControlBase<Child, IChildBase>
 
         var childrenFromDb = GetItems();
         var dbCount = childrenFromDb.Count;
-        var difference = childrenToSave.Count - dbCount;
+        var difference = itemsToSave.Count - dbCount;
         var childrenIdsFromDb = (from child in childrenFromDb select child.Id).ToList();
 
-        var updatedChildren = childrenToSave.Where(ch => childrenIdsFromDb.Contains(ch.Id)).ToList();
+        var updatedChildren = itemsToSave.Where(ch => childrenIdsFromDb.Contains(ch.Id)).ToList();
         if (updatedChildren.Any())
         {
             retCode = UpdateItems(updatedChildren);
@@ -42,7 +42,7 @@ public class ChildrenControl : ControlBase<Child, IChildBase>
 
         if (difference > 0)
         {
-            var newChildren = childrenToSave.Where(ch => ch.Id == 0).ToList();
+            var newChildren = itemsToSave.Where(ch => ch.Id == 0).ToList();
             retCode = AddItems(newChildren);
             if (retCode != ReturnCode.OK ) 
             {

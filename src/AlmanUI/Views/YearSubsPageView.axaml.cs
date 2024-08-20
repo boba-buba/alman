@@ -9,60 +9,24 @@ using System;
 using System.Linq;
 using Avalonia.Data;
 using Avalonia.Controls.Templates;
+using System.Diagnostics;
 
 namespace AlmanUI.Views;
 
 public partial class YearSubsPageView : UserControl
 {
-    private IReadOnlyList<IChildBase>? _childrenTable;
-
-    private IReadOnlyList<IYearSubBase>? _yearSubsTable;
-
-    private IReadOnlyList<YearSubCompositeItem>? _childYearSubs;
-
-    private void LoadItems(int year)
-    {
-        _childrenTable = ChildrenControl.GetItemsByFilter(ch => ch.ChildStartYear <=  year);
-
-        if (_childrenTable is null)
-        {
-            return;
-        }
-
-        _yearSubsTable = YearSubsControl.GetItemsByFilter(ys => ys.Yyear == year);
-
-        var childYearSubs = new List<YearSubCompositeItem>();
-        foreach (var child in _childrenTable)
-        {
-            var newItem = new YearSubCompositeItem { YsChild = child};
-            IYearSubBase? newItemYearSub = _yearSubsTable.SingleOrDefault(ys => ys.YchildId == child.Id);
-            if (_yearSubsTable.Count == 0 || newItemYearSub is null)
-            {
-                newItemYearSub = new YearSubUI { YchildId = child.Id, Yyear = year };
-            }
-            newItem.YsYearSubscription = newItemYearSub;
-            childYearSubs.Add(newItem);
-        }
-        _childYearSubs = childYearSubs;
-    }
-
     public YearSubsPageView()
     {
-        LoadItems(DateTime.Now.Year);
-        if (_childYearSubs is null)
-        {
-            _childYearSubs = new List<YearSubCompositeItem>();
-        }
         InitializeComponent();
         InitYearSubsMainDataGrid();
+        InitMonthlySumGrid();
         Mediator.Mediator.Instance.NotifyWithOneParam += OnNotifyWithOneParam;
     }
 
     private void OnNotifyWithOneParam(string message, int year)
     {
-        if (message == "UpdateYearSubsMainDataGrid") UpdateYearSubsMainDataGrid(year);
+        if (message == "UpdateYearSubsMainDataGrid") UpdateYearSubsMainDataGrid();
     }
-
 
     public void InitYearSubsMainDataGrid()
     {
@@ -84,25 +48,66 @@ public partial class YearSubsPageView : UserControl
                 IsReadOnly = true,
             });
         
-        var months = new string[] {"january", "february", "march", "april", "may", "june", "jule", "august", "september", "october", "november", "december"};
+        var months = new List<string> {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
 
-        foreach (string month in months)
+        foreach (var month in months)
         {
-            string textBoxBindingName = $"YsYearSubscription.Y{month}";
-            string comboBoxBindingName = $"YsYearSubscription.Y{month}Payment";
-            UIControlElements.AddMoneyTextBox<YearSubCompositeItem>(YearSubsMainDataGrid, textBoxBindingName, comboBoxBindingName, month);
+            var moneyTemplate = new FuncDataTemplate<YearSubCompositeItem>((x, _) =>
+            {
+                Grid cellGrid = new Grid
+                {
+                    ColumnDefinitions = new ColumnDefinitions
+                    {
+                        new ColumnDefinition(GridLength.Auto),
+                        new ColumnDefinition(GridLength.Auto)
+                    }
+                };
+                int indexMonth = months.IndexOf(month);
+                IYearSubBase subscription = x.YsYearSubscriptions.Single(sub => sub.Month == indexMonth + 1);
+                int index = x.YsYearSubscriptions.IndexOf(subscription);
+
+                //TextBox
+                TextBox moneyTextBox = UIControlElements.CreateNumericTextBox($"YsYearSubscriptions[{index}].Payment");
+                //CombBox
+                ComboBox wayOfPayCombobox = UIControlElements.CreateComboBox(new WayOfPayingConverter(), $"YsYearSubscriptions[{index}].WayOfaying");
+                //Adding to cellGrid
+                cellGrid.Children.Add(moneyTextBox);
+                Grid.SetColumn(moneyTextBox, 0);
+                cellGrid.Children.Add(wayOfPayCombobox);
+                Grid.SetColumn(wayOfPayCombobox, 1);
+
+                return cellGrid;
+            });
+
+            YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
+            {
+                Header = month,
+                CellTemplate = moneyTemplate,
+            });
         }
-        
-        YearSubsMainDataGrid.ItemsSource = _childYearSubs;
-        SaveYearSubsButton.CommandParameter = _childYearSubs;
     }
 
-
-    private void UpdateYearSubsMainDataGrid(int year)
+    public void InitMonthlySumGrid()
     {
-        LoadItems(year);
+
+        for (int i = 0; i < 12; i++)
+        {
+            MonthlySumGrid.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(150)));
+            var sumTextBlock = new TextBlock()
+            {
+                Margin = new Thickness(1),
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
+            };
+            MonthlySumGrid.Children.Add(sumTextBlock);
+            Grid.SetColumn(MonthlySumGrid, i);
+
+        }
+    }
+
+    private void UpdateYearSubsMainDataGrid()
+    {
         YearSubsMainDataGrid.Columns.Clear();
         InitYearSubsMainDataGrid();
+        InitMonthlySumGrid();
     }
-
 }

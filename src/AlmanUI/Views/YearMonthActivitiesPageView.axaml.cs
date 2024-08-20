@@ -27,13 +27,10 @@ public partial class YearMonthActivitiesPageView : UserControl
 
 
     public YearMonthActivitiesPageView()
-    {   
-        var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month);
-        _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActivitiesControl.GetItems();
-        _activitiesTable = activities;
-        var children = ChildrenControl.GetItemsByFilter(ch => true); //ch => ch.ChildState == 1
-        _childrenTable = children;
+    {
+        _yearMonthActivitiesTable = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month);
+        _activitiesTable = ActivitiesControl.GetItems();
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch => true);
 
         var compositeItems = new List<YearMonthActivityCompositeItem>();
         foreach (var child in _childrenTable)
@@ -97,12 +94,8 @@ public partial class YearMonthActivitiesPageView : UserControl
 
         foreach (var activity in _activitiesTable)
         {
-            Debug.WriteLine($"{activity.ActivityName} AAA");
-
             var template = new FuncDataTemplate<YearMonthActivityCompositeItem>((x, _) =>
             {
-                Debug.WriteLine($"{activity.ActivityName} again");
-
                 var grid = new Grid
                 {
                     ColumnDefinitions = new ColumnDefinitions
@@ -162,7 +155,7 @@ public partial class YearMonthActivitiesPageView : UserControl
                     var textBlock = new TextBlock();
                     textBlock.Bind(TextBlock.TextProperty, new Binding($"YMActivities[{index}].YmwayOfPaying", BindingMode.TwoWay)
                     {
-                        Converter = new AlmanUI.ViewModels.PaymentMethodConverter()
+                        Converter = new WayOfPayingConverter()
                     });
                     return textBlock;
                 });
@@ -216,7 +209,7 @@ public partial class YearMonthActivitiesPageView : UserControl
 
             if (sumTextBox is not null && oneTimePriceTextBox is not null)
             {
-                int monthSum = selectedDates.Count * Int32.Parse(oneTimePriceTextBox.Text);
+                int monthSum = selectedDates.Count * Int32.Parse(oneTimePriceTextBox.Text!);
 
                 sumTextBox.Text = monthSum.ToString();
             }

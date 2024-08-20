@@ -79,6 +79,7 @@ public interface IKeys
     public string[] Keys { get; }
 }
 
+
 public class ContractTypeConverter : IValueConverter, IKeys
 {
     // Map string values to corresponding integer values
@@ -118,7 +119,6 @@ public class ContractTypeConverter : IValueConverter, IKeys
         return 0; // Default to 0 if no match
     }
 }
-
 
 
 public class WayOfPayingConverter : IValueConverter, IKeys

@@ -12,6 +12,7 @@ public partial class YMActivitiesCalendarWindow : Window
     public List<DateTime> SelectedDates { get; private set; }
     public YMActivitiesCalendarWindow()
     {
+        SelectedDates = new();
         InitializeComponent();
     }
 

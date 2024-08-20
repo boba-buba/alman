@@ -25,6 +25,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
     public ObservableCollection<IExpenseBase> Expenses { get; set; }
 
     [ObservableProperty]
+    public int _monthSum;
+
+    [ObservableProperty]
     private IExpenseBase? _selectedExpense = null;
 
     private IList<int> _expensesIdsToDelete;
@@ -56,6 +59,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         {
             Expenses.Add(exp);
         }
+           
+        var items = ExpensesControl.GetItemsByFilter(exp => exp.Year == CurrentYear && exp.Month == CurrentMonth && exp.WayOfPaying == (int)WayOfPaying.Cash);
+        MonthSum = (from item in items select item.ExpenseSum).Sum();
     }
 
     [RelayCommand]

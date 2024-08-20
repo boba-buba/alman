@@ -34,7 +34,7 @@ public enum StaffMemberState
 
 public enum WayOfPaying
 {
-    Cash = 0,
+    Cash = 1,
     Transfer
 }
 
@@ -51,3 +51,8 @@ public enum WasPaid
     True
 }
 
+public enum UserPermissions
+{
+    None = 0,
+    ManageUsers = 1,
+}

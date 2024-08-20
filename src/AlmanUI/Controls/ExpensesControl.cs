@@ -67,3 +67,15 @@ public static class ExpensesBaseExtensions
         return false;
     }
 }
+
+public static class IIdentifierExtensions
+{
+    public static bool InGroupId(this IIdentifier item, IReadOnlyCollection<IIdentifier> itemsGroup)
+    {
+        if (itemsGroup.Count == 0) { return false; }
+        var groupIds = (from exp in itemsGroup select exp.Id).ToList();
+
+        if (groupIds.Contains(item.Id)) { return true; }
+        return false;
+    }
+}

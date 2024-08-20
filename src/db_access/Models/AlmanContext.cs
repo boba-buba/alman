@@ -4,6 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DbAccess.Models;
 
@@ -42,6 +43,9 @@ public partial class AlmanContext : DbContext
     public virtual DbSet<YearSub> YearSubs { get; set; }
 
     public virtual DbSet<Expense> YearMonthExpenses { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<YearResult> YearResults { get; set; }
 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 
@@ -162,33 +166,6 @@ public partial class AlmanContext : DbContext
             entity.HasKey(e => new { e.Id });
 
             entity.Property(e => e.YchildId).HasColumnName("YChildID");
-            entity.Property(e => e.Yyear)
-                .HasColumnType("INT")
-                .HasColumnName("YYear");
-            entity.Property(e => e.Yapril).HasColumnName("YApril");
-            entity.Property(e => e.YaprilPayment).HasColumnName("YAprilPayment");
-            entity.Property(e => e.Yaugust).HasColumnName("YAugust");
-            entity.Property(e => e.YaugustPayment).HasColumnName("YAugustPayment");
-            entity.Property(e => e.Ydecember).HasColumnName("YDecember");
-            entity.Property(e => e.YdecemberPayment).HasColumnName("YDecemberPayment");
-            entity.Property(e => e.Yfebruary).HasColumnName("YFebruary");
-            entity.Property(e => e.YfebruaryPayment).HasColumnName("YFebruaryPayment");
-            entity.Property(e => e.Yjanuary).HasColumnName("YJanuary");
-            entity.Property(e => e.YjanuaryPayment).HasColumnName("YJanuaryPayment");
-            entity.Property(e => e.Yjuly).HasColumnName("YJuly");
-            entity.Property(e => e.YjulyPayment).HasColumnName("YJulyPayment");
-            entity.Property(e => e.Yjune).HasColumnName("YJune");
-            entity.Property(e => e.YjunePayment).HasColumnName("YJunePayment");
-            entity.Property(e => e.Ymarch).HasColumnName("YMarch");
-            entity.Property(e => e.YmarchPayment).HasColumnName("YMarchPayment");
-            entity.Property(e => e.Ymay).HasColumnName("YMay");
-            entity.Property(e => e.YmayPayment).HasColumnName("YMayPayment");
-            entity.Property(e => e.Ynovember).HasColumnName("YNovember");
-            entity.Property(e => e.YnovemberPayment).HasColumnName("YNovemberPayment");
-            entity.Property(e => e.Yoctober).HasColumnName("YOctober");
-            entity.Property(e => e.YoctoberPayment).HasColumnName("YOctoberPayment");
-            entity.Property(e => e.Yseptember).HasColumnName("YSeptember");
-            entity.Property(e => e.YseptemberPayment).HasColumnName("YSeptemberPayment");
 
             entity.HasOne(d => d.Ychild).WithMany(p => p.YearSubs)
                 .HasForeignKey(d => d.YchildId)
@@ -200,10 +177,21 @@ public partial class AlmanContext : DbContext
             entity.HasKey(e => new { e.Id });
         });
 
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e =>  e.Id);
+        });
+
+        modelBuilder.Entity<YearResult>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 
     public DbSet<TEntity> GetDeclaredDbSet<TEntity>() where TEntity : class
     {
