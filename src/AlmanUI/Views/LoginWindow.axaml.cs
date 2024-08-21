@@ -17,8 +17,16 @@ public partial class LoginWindow : Window
     public LoginWindow()
     {
         InitializeComponent();
-        LoginButton.Click += OnLoginClick;
+        UsernameTextBox.IsVisible = false;
+        PasswordBox.IsVisible = false;
+        UsernameText.IsVisible = false;
+        PasswordText.IsVisible = false;
+        EnterButton.IsVisible = false;
+        EnterButton.Click += OnLoginClick;
+        LoginActivateButton.Click += OnLOginActivateClick;
     }
+
+
 
     public Task<bool> ShowLoginDialogAsync()
     {
@@ -31,7 +39,17 @@ public partial class LoginWindow : Window
         return _loginTaskCompletionSource.Task;
     }
 
-    private void OnLoginClick(object sender, RoutedEventArgs e)
+    private void OnLOginActivateClick(object? sender, EventArgs e)
+    {
+        LoginActivateButton.IsVisible = false;
+        UsernameTextBox.IsVisible = true;
+        PasswordBox.IsVisible = true;
+        UsernameText.IsVisible = true;
+        PasswordText.IsVisible = true;
+        EnterButton.IsVisible = true;
+    }
+
+    private void OnLoginClick(object? sender, RoutedEventArgs e)
     {
         var username = UsernameTextBox.Text;
         var password = PasswordBox.Text;
@@ -48,7 +66,7 @@ public partial class LoginWindow : Window
         }
     }
 
-    private bool IsValidLogin(string username, string password)
+    private bool IsValidLogin(string? username, string? password)
     {
         // Replace with your actual validation logic
         return username is not null && password is not null && UserUIControl.UserInDb(username, password);
