@@ -2,6 +2,7 @@
 using Alman.SharedModels;
 using DbAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
 
 namespace DatabaseAccess;
 
@@ -13,7 +14,7 @@ public abstract class DbBase
     {
         if (string.IsNullOrWhiteSpace(DbPath))
         {
-            return null;
+            throw new ArgumentNullException("Database path");
         }
         var ctx = new AlmanContext(DbPath);
         ctx.Database.EnsureCreated();

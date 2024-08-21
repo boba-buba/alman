@@ -10,7 +10,7 @@ public partial class YearMonthOther : IDeleteDependable, IYearMonthOtherBase
 {
     public int Id { get; set; }
 
-    public string OtherActivityName { get; set; }
+    public string OtherActivityName { get; set; } = "";
 
     public int Month { get; set; }
 

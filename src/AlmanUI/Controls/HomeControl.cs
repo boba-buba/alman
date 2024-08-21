@@ -22,6 +22,16 @@ public static class HomeControl
 
 public class UserUIControl : ControlBase<User, IUserBase>
 {
+
+    public static bool UserInDb(string name, string password)
+    {
+        var usersFromDb = GetItemsByFilter(item => item.Name == name &&  item.Password == password);
+        if (usersFromDb.Count == 1)
+        {
+            return true;
+        }
+        return false;
+    }
     public static ReturnCode SaveItems(IReadOnlyList<IUserBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
