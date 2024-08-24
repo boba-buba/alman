@@ -7,6 +7,7 @@ using System;
 using Avalonia.Threading;
 using System.Threading.Tasks;
 using Avalonia.Interactivity;
+using AlmanUI.Resources;
 
 namespace AlmanUI.Views;
 

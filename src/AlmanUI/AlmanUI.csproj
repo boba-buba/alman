@@ -41,11 +41,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\ChildrenPageView.axaml.cs">
       <DependentUpon>ChildrenPageView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PrecontractsPageView.axaml.cs">
       <DependentUpon>PrecontractsPageView.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

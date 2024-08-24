@@ -2,21 +2,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+		xmlns:local="clr-namespace:AlmanUI.Resources"
+		mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
 		Width="500" Height="500"
         x:Class="AlmanUI.Views.LoginWindow"
 		WindowStartupLocation="CenterScreen"
         Title="LoginWindow">
+	
 	<Panel Background="DarkGray">
 		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-			<TextBlock HorizontalAlignment="Center" FontSize="30">Alman</TextBlock>
-			<Button Name="LoginActivateButton" HorizontalAlignment="Center">Login</Button>
-			<TextBlock Name="UsernameText" Text="Username:" />
+			<TextBlock HorizontalAlignment="Center" FontSize="30" Text="{x:Static local:Resources.AppName}"></TextBlock>
+			<Button Name="LoginActivateButton" HorizontalAlignment="Center" Content="{x:Static local:Resources.Login}"></Button>
+			<TextBlock Name="UsernameText">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="{}{0}:">
+						<Binding Source="{x:Static local:Resources.Username}" />
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<TextBox x:Name="UsernameTextBox" Width="200" />
-			<TextBlock Name="PasswordText" Text="Password:" />
+			<TextBlock Name="PasswordText">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="{}{0}:">
+						<Binding Source="{x:Static local:Resources.Password}" />
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<TextBox x:Name="PasswordBox" Width="200" PasswordChar="*" />
-			<Button x:Name="EnterButton" Content="Enter" Width="100" HorizontalAlignment="Center" />
-			<TextBlock Name="WrongDataTextBlock" HorizontalAlignment="Center" Text="Wrong name or password"></TextBlock>
+			<Button x:Name="EnterButton" Content="{x:Static local:Resources.Enter}" Width="150" HorizontalAlignment="Center" />
+			<TextBlock Name="WrongDataTextBlock" HorizontalAlignment="Center"  Text="{x:Static local:Resources.WrongPasswUser}"></TextBlock>
 		</StackPanel>
 	</Panel>
 </Window>

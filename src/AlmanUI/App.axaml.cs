@@ -5,6 +5,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using System.Globalization;
+using System.Threading;
 
 namespace AlmanUI
 {
@@ -19,9 +21,9 @@ namespace AlmanUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                AlmanUI.Resources.Resources.Culture = new CultureInfo("ru-RU");
 
                 var loginWindow = new LoginWindow();
-
                 // Wait for the login dialog to complete
                 bool loginSuccessful = await loginWindow.ShowLoginDialogAsync();
                 if (loginSuccessful)
