@@ -965,7 +965,7 @@ public partial class DbAccessModel_UnitTests
         //Act
 
         var child = new Child { ChildLastName = "second", ChildName = "First" };
-        child.YearSubs.Add(new YearSub { Yyear = DateTime.Now.Year, Yapril = firstSum, YaprilPayment = 1 });
+        child.YearSubs.Add(new YearSub { Yyear = DateTime.Now.Year, Month = DateTime.Now.Month, Payment = firstSum, WayOfaying = 1 });
 
         db.AddItems([child]);
         //Assert
@@ -974,12 +974,12 @@ public partial class DbAccessModel_UnitTests
 
         //Act update
         var ymAct = db.GetItems<YearSub>(pr => pr.YchildId == 1).Single();
-        ymAct.Yapril = secondSum;
+        ymAct.Payment = secondSum;
         var ret_code = db.UpdateItems([ymAct]);
 
         //Aassert
         Assert.Equal(ReturnCode.OK, ret_code);
-        Assert.Equal(secondSum, db.GetItems<YearSub>(pr => true).Single().Yapril);
+        Assert.Equal(secondSum, db.GetItems<YearSub>(pr => true).Single().Payment);
     }
 
 
