@@ -66,7 +66,6 @@ public partial class YearSubsPageViewModel : ViewModelBase
         MonthlySum = new ObservableCollection<int>(new int[12]);
         ChildYearSubs = new ObservableCollection<YearSubCompositeItem>();
         LoadItems();
-        //CalculateSum();
         ChildYearSubs.CollectionChanged += (s, e) => CalculateSum();
     }
 

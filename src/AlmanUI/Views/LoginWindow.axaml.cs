@@ -22,6 +22,7 @@ public partial class LoginWindow : Window
         UsernameText.IsVisible = false;
         PasswordText.IsVisible = false;
         EnterButton.IsVisible = false;
+        WrongDataTextBlock.IsVisible = false;
         EnterButton.Click += OnLoginClick;
         LoginActivateButton.Click += OnLOginActivateClick;
     }
@@ -61,8 +62,9 @@ public partial class LoginWindow : Window
         }
         else
         {
+            WrongDataTextBlock.IsVisible = true;
             // Show error message or handle failed login
-            _loginTaskCompletionSource.SetResult(false); // Optionally handle false for failed login
+            //_loginTaskCompletionSource.SetResult(false); // Optionally handle false for failed login
         }
     }
 

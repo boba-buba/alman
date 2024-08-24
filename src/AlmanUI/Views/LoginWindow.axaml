@@ -9,13 +9,14 @@
         Title="LoginWindow">
 	<Panel Background="DarkGray">
 		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-			<TextBlock HorizontalAlignment="Center" FontSize="30">Avalonia</TextBlock>
+			<TextBlock HorizontalAlignment="Center" FontSize="30">Alman</TextBlock>
 			<Button Name="LoginActivateButton" HorizontalAlignment="Center">Login</Button>
 			<TextBlock Name="UsernameText" Text="Username:" />
 			<TextBox x:Name="UsernameTextBox" Width="200" />
 			<TextBlock Name="PasswordText" Text="Password:" />
 			<TextBox x:Name="PasswordBox" Width="200" PasswordChar="*" />
 			<Button x:Name="EnterButton" Content="Enter" Width="100" HorizontalAlignment="Center" />
+			<TextBlock Name="WrongDataTextBlock" HorizontalAlignment="Center" Text="Wrong name or password"></TextBlock>
 		</StackPanel>
 	</Panel>
 </Window>

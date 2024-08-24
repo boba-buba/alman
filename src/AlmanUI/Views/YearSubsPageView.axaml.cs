@@ -89,7 +89,11 @@ public partial class YearSubsPageView : UserControl
 
     public void InitMonthlySumGrid()
     {
+        MonthlySumGrid.ShowGridLines = true;
+        MonthlySumGrid.Width = 150 * 12;
+        MonthlySumGrid.Height = 100;
 
+        MonthlySumGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
         for (int i = 0; i < 12; i++)
         {
             MonthlySumGrid.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(150)));
@@ -100,7 +104,7 @@ public partial class YearSubsPageView : UserControl
             };
             MonthlySumGrid.Children.Add(sumTextBlock);
             Grid.SetColumn(MonthlySumGrid, i);
-
+            Grid.SetRow(MonthlySumGrid, 0);
         }
     }
 
