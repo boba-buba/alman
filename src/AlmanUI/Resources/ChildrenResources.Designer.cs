@@ -70,11 +70,29 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activities sum.
+        /// </summary>
+        public static string ActivitiesSum {
+            get {
+                return ResourceManager.GetString("ActivitiesSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculate Child Bill.
         /// </summary>
         public static string CalculateChildBill {
             get {
                 return ResourceManager.GetString("CalculateChildBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alman Calendar for dates.
+        /// </summary>
+        public static string CalendarWindow {
+            get {
+                return ResourceManager.GetString("CalendarWindow", resourceCulture);
             }
         }
         
@@ -142,6 +160,15 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contract Fees Sum.
+        /// </summary>
+        public static string ContractFeesSum {
+            get {
+                return ResourceManager.GetString("ContractFeesSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type of Contract.
         /// </summary>
         public static string ContractType {
@@ -178,11 +205,29 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overall.
+        /// </summary>
+        public static string OverallSum {
+            get {
+                return ResourceManager.GetString("OverallSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Children Precontracts.
         /// </summary>
         public static string PrecontractsPageName {
             get {
                 return ResourceManager.GetString("PrecontractsPageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precontracts sum.
+        /// </summary>
+        public static string PrecontractsSum {
+            get {
+                return ResourceManager.GetString("PrecontractsSum", resourceCulture);
             }
         }
         
@@ -228,6 +273,15 @@ namespace AlmanUI.Resources {
         public static string YearSubsPageName {
             get {
                 return ResourceManager.GetString("YearSubsPageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year Subscriptions sum.
+        /// </summary>
+        public static string YearSubsSum {
+            get {
+                return ResourceManager.GetString("YearSubsSum", resourceCulture);
             }
         }
     }

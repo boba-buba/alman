@@ -154,4 +154,22 @@
   <data name="CalculateChildBill" xml:space="preserve">
     <value>Calculate Child Bill</value>
   </data>
+  <data name="CalendarWindow" xml:space="preserve">
+    <value>Alman Calendar for dates</value>
+  </data>
+  <data name="ActivitiesSum" xml:space="preserve">
+    <value>Activities sum</value>
+  </data>
+  <data name="PrecontractsSum" xml:space="preserve">
+    <value>Precontracts sum</value>
+  </data>
+  <data name="YearSubsSum" xml:space="preserve">
+    <value>Year Subscriptions sum</value>
+  </data>
+  <data name="ContractFeesSum" xml:space="preserve">
+    <value>Contract Fees Sum</value>
+  </data>
+  <data name="OverallSum" xml:space="preserve">
+    <value>Overall</value>
+  </data>
 </root>

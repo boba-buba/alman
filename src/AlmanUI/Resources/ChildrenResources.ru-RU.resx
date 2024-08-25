@@ -134,7 +134,7 @@
     <value>Сборы за контракт для детей</value>
   </data>
   <data name="YearSubsPageName" xml:space="preserve">
-    <value>Годовые подписки детей</value>
+    <value>Годовые взносы детей</value>
   </data>
   <data name="PrecontractType" xml:space="preserve">
     <value>Предварительный контракт</value>
@@ -153,5 +153,23 @@
   </data>
   <data name="CalculateChildBill" xml:space="preserve">
     <value>Расчет</value>
+  </data>
+  <data name="CalendarWindow" xml:space="preserve">
+    <value>Календарь</value>
+  </data>
+  <data name="ActivitiesSum" xml:space="preserve">
+    <value>Сумма за занятия</value>
+  </data>
+  <data name="PrecontractsSum" xml:space="preserve">
+    <value>Сумма по предварительному договору</value>
+  </data>
+  <data name="YearSubsSum" xml:space="preserve">
+    <value>Сумма по взносам</value>
+  </data>
+  <data name="ContractFeesSum" xml:space="preserve">
+    <value>Сумма по абонименту</value>
+  </data>
+  <data name="OverallSum" xml:space="preserve">
+    <value>Окончательная сумма</value>
   </data>
 </root>

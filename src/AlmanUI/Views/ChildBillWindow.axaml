@@ -6,8 +6,10 @@
 		xmlns:local="clr-namespace:AlmanUI.Resources"
 		xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 		xmlns:Controls="clr-namespace:AlmanUI.Controls"
-        Title="{x:Static local:ChildrenResources.ChildBillWindow}"
-		Width="400" Height="300" 
+        Title="{x:Static local:ChildrenResources.CalendarWindow}"
+		Width="400" Height="300"
+		MinHeight="300" MinWidth="400"
+		MaxWidth="400"
         WindowStartupLocation="CenterScreen"
 		x:Class="AlmanUI.Views.ChildBillWindow"
 		x:DataType="ViewModels:ChildBillWindowViewModel">
@@ -31,37 +33,85 @@
 		</Grid.ColumnDefinitions>
 
 		<!-- Child Info -->
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Child:" FontWeight="Bold"/>
+		<TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold">
+			<TextBlock.Text>
+				<MultiBinding StringFormat="{}{0}: ">
+					<Binding Source="{x:Static local:ChildrenResources.ChildFirstName}"/>
+				</MultiBinding>
+			</TextBlock.Text>
+		</TextBlock>
 		<TextBlock Name="ChildTextBlock" Grid.Row="0" Grid.Column="1"  />
 
 		<!-- Year and Month -->
 		<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10">
-			<TextBlock Text="Year:" FontWeight="Bold"/>
+			<TextBlock FontWeight="Bold">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="{}{0}: ">
+						<Binding Source="{x:Static local:CommonResources.Year}"/>
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<TextBlock Name="YearTextBlock" />
-			<TextBlock Text="Month:" FontWeight="Bold"/>
+			<TextBlock FontWeight="Bold">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="{}{0}: ">
+						<Binding Source="{x:Static local:CommonResources.Month}"/>
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<TextBlock Name="MonthTextBlock" />
 		</StackPanel>
 
 		<!-- Payments -->
 		<StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="5">
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Activities Sum:" FontWeight="Bold"/>
+				<TextBlock FontWeight="Bold">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}: ">
+							<Binding Source="{x:Static local:ChildrenResources.ActivitiesSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Name="ActivitiesSumTextBlock" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Name="PrecontractTextTextBlock" Text="Precontract Sum:" FontWeight="Bold"/>
+				<TextBlock Name="PrecontractTextTextBlock" FontWeight="Bold">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}: ">
+							<Binding Source="{x:Static local:ChildrenResources.PrecontractsSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Name="PrecontractSumTextBlock" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Year Subscription Sum:" FontWeight="Bold"/>
+				<TextBlock FontWeight="Bold">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}: ">
+							<Binding Source="{x:Static local:ChildrenResources.YearSubsSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Name="YearSubsTextBlock" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Contract Fee Sum:" FontWeight="Bold"/>
+				<TextBlock FontWeight="Bold">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}: ">
+							<Binding Source="{x:Static local:ChildrenResources.ContractFeesSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Name="ContractFeeTextBlock" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Overall:" FontWeight="Bold"/>
+				<TextBlock FontWeight="Bold">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}: ">
+							<Binding Source="{x:Static local:ChildrenResources.OverallSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Name="OverallTextBlock" />
 			</StackPanel>
 			

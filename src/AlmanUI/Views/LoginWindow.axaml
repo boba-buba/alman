@@ -8,7 +8,7 @@
 		Width="500" Height="500"
         x:Class="AlmanUI.Views.LoginWindow"
 		WindowStartupLocation="CenterScreen"
-        Title="LoginWindow">
+        Title="{x:Static local:Resources.AlmanLogin}">
 
 	<Grid Background="DarkGray">
 		<!-- Define the rows and columns -->

@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Material.Icons.Avalonia;
+using Material.Icons;
 
 namespace AlmanUI;
 
@@ -165,5 +167,16 @@ public static class UIControlElements
         comboBox.Bind(ComboBox.SelectedItemProperty, binding);
 
         return comboBox;
+    }
+
+    public static MaterialIcon CreateIcon(MaterialIconKind kind, int height, int width)
+    {
+        var icon = new MaterialIcon
+        {
+            Kind = kind,
+            Width = height,
+            Height = width
+        };
+        return icon;
     }
 }

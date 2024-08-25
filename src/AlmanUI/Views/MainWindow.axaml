@@ -6,10 +6,11 @@
 		xmlns:views="clr-namespace:AlmanUI.Views"
 		xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+		xmlns:local="clr-namespace:AlmanUI.Resources"
         x:Class="AlmanUI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Alman"
+        Title="{x:Static local:Resources.AppName}"
 		WindowStartupLocation="CenterScreen"
 		Width="1100"
 		Height="700">

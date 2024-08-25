@@ -15,6 +15,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Material.Icons;
+using Material.Icons.Avalonia;
 
 
 namespace AlmanUI.Views;
@@ -89,6 +90,7 @@ public partial class YearMonthActivitiesPageView : UserControl
     private void InitDataGrid()
     {
         MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+        MainDataGrid.MinColumnWidth = 300;
 
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
@@ -101,10 +103,10 @@ public partial class YearMonthActivitiesPageView : UserControl
                 {
                     ColumnDefinitions = new ColumnDefinitions
                     {
-                        new ColumnDefinition(GridLength.Star),
-                        new ColumnDefinition(GridLength.Star),
-                        new ColumnDefinition(GridLength.Star),
-                        new ColumnDefinition(GridLength.Star)
+                        new ColumnDefinition(GridLength.Auto),
+                        new ColumnDefinition(GridLength.Auto),
+                        new ColumnDefinition(GridLength.Auto),
+                        new ColumnDefinition(GridLength.Auto)
                     }
                 };
 
@@ -135,7 +137,7 @@ public partial class YearMonthActivitiesPageView : UserControl
                 grid.Children.Add(monthSumActivity);
                 Grid.SetColumn(monthSumActivity, 0);
 
-                var fillDatesButton = new Button { Content = MaterialIconKind.CalendarMultiselectOutline };
+                var fillDatesButton = new Button { Content = UIControlElements.CreateIcon(MaterialIconKind.CalendarMultiselectOutline, 24, 24) };
                 ToolTip.SetTip(fillDatesButton, AlmanUI.Resources.ChildrenResources.FillDatesToolTip);
                 fillDatesButton.Click += OnFillDatesClick;
                 
@@ -163,10 +165,12 @@ public partial class YearMonthActivitiesPageView : UserControl
 
         var childBillTemplate = new FuncDataTemplate<YearMonthActivityCompositeItem>((x, _) => 
         {
+            
             Button calculateButton = new Button()
             {
-                Content = MaterialIconKind.Cash,
+                Content = UIControlElements.CreateIcon(MaterialIconKind.Cash, 24, 24),
                 CommandParameter = x,
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                 
             };
 
@@ -178,7 +182,8 @@ public partial class YearMonthActivitiesPageView : UserControl
         MainDataGrid.Columns.Add(new DataGridTemplateColumn
         {
             Header = "",
-            CellTemplate = childBillTemplate
+            CellTemplate = childBillTemplate,
+            Width = new DataGridLength(40)
         });
 
         MainDataGrid.ItemsSource = _yearMonthActivities;
