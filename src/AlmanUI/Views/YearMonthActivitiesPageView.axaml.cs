@@ -109,7 +109,7 @@ public partial class YearMonthActivitiesPageView : UserControl
                     }
                 };
 
-                var monthSumActivity = new TextBox {Name = "monthSumActivityBox" };
+                
                 
 
                 if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.Id).ToList().Count == 0)
@@ -123,15 +123,13 @@ public partial class YearMonthActivitiesPageView : UserControl
                         YmwasPaid = 0,
                         YmwayOfPaying = 0,
                     });
-
-                    monthSumActivity.Text = 0.ToString();
-
                 }
 
                 IYearMonthActivityBase act = x.YMActivities.Single(act => act.YmactivityId == activity.Id);
                 int index = x.YMActivities.IndexOf(act);
-                
-                monthSumActivity.Bind(TextBox.TextProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
+
+                var monthSumActivity = UIControlElements.CreateNumericTextBox($"YMActivities[{index}].YmactivitySum");
+                //monthSumActivity.Bind(TextBox.TextProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
                 
                 grid.Children.Add(monthSumActivity);
                 Grid.SetColumn(monthSumActivity, 0);

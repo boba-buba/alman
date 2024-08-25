@@ -59,7 +59,8 @@ public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMo
         bill.ContractFeeSum = contractFees.Sum(cf => cf.CfsumPaid);
         foreach (var activity in activities)
         {
-            bill.MonthlyActivities.Add(new ActivityMonth {ActivityName = ActivitiesControl.GetItemById(activity.Id)!.ActivityName, MonthlySum = activity.YmactivitySum});
+            var act = ActivitiesControl.GetItemById(activity.YmactivityId);
+            bill.MonthlyActivities.Add(new ActivityMonth {ActivityName = act!.ActivityName, MonthlySum = activity.YmactivitySum});
         }
         return bill;
     }
