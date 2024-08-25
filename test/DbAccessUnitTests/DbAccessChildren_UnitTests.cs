@@ -1,10 +1,7 @@
-﻿using DbAccess.Models;
-using DatabaseAccess;
-using Alman.SharedDefinitions;
-//using Alman.Models;
-using System.Xml.Linq;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic;
+﻿using Alman.SharedDefinitions;
+using DbAccess;
+using DbAccess.Models;
+
 
 namespace DbAccessUnitTests;
 

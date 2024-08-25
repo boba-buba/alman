@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System.IO;
-using System.Data.Common;
+﻿using Alman;
+using Alman.SharedModels;
 using DbAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
-using Alman.SharedModels;
-using Alman;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 
 namespace DbAccess;
