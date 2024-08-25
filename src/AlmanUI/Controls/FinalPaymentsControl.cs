@@ -24,7 +24,7 @@ public class FinalPaymentsControl : ControlBase<FinalPayment, IFinalPaymentBase>
 
         if (dbCount > 0)
         {
-            var updatedFinalPayments = itemsToSave.Where(fp => fp.InGroup(finalPayementsFromDb)).ToList();
+            var updatedFinalPayments = itemsToSave.Where(fp => fp.InGroupId(finalPayementsFromDb)).ToList();
             retCode = UpdateItems(updatedFinalPayments);
             if (retCode != ReturnCode.OK)
             {

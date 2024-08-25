@@ -21,7 +21,7 @@ public class YearMonthStaffActivitiesControl : ControlBase<YearMonthStaffActivit
 
         if (dbCount > 0)
         {
-            var updatedYMStaffActivities = itemsToSave.Where(item => item.InGroup(ymStaffActivitiesFromDb)).ToList();
+            var updatedYMStaffActivities = itemsToSave.Where(item => item.InGroupId(ymStaffActivitiesFromDb)).ToList();
             retCode = UpdateItems(updatedYMStaffActivities);
             if (retCode != ReturnCode.OK)
             {

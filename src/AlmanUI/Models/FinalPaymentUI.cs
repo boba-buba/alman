@@ -1,4 +1,5 @@
 ﻿using Alman.SharedModels;
+using AlmanUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ public class FinalPaymentUI : IFinalPaymentBase
     public int PrepaymentSum { get; set; }
 
     public int? PrepaymentWasPaid { get; set; }
+
 }
 
 public class FinalPayementCompositeItem

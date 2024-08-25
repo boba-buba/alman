@@ -44,19 +44,18 @@ public class DbConnection : DbBase
 
     public DbConnection() { }
 
-    public TEntity GetItemById<TEntity>(int id)
+    public TEntity? GetItemById<TEntity>(int id)
         where TEntity : class, IIdentifier, new()
     {
         using var db = ConnectToDb();
-        TEntity item;
+        TEntity? item;
         try
         {
-            item = db.GetDeclaredDbSet<TEntity>().Where(it => it.Id == id).Single();
+            item = db.GetDeclaredDbSet<TEntity>().Where(it => it.Id == id).SingleOrDefault();
         }
         catch (Exception ex)
         {
-            DebugUtilities.WriteExceptionToDebug(ex);
-            item = new TEntity();
+            return null;
         }
         return item;
     }

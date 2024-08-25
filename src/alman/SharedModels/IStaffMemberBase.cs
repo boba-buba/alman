@@ -11,5 +11,5 @@ public interface IStaffMemberBase : IIdentifier
     public int State { get; set; }
     public string? PositionName { get; set; }
 
-    public int? PositionSalary { get; set; }
+    public int PositionSalary { get; set; }
 }

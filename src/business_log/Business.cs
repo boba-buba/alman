@@ -30,7 +30,7 @@ public class BusinessEntityMapper<TEntity, TIface> : IAlmanEntitiesMapper<TEntit
 
 
 public class BusinessEntity<TEntity, TIface>
-    where TEntity : class, TIface, IIdentifier, IDeleteDependable
+    where TEntity : class, TIface, IIdentifier, IDeleteDependable, new()
     where TIface : class, IIdentifier
 {
     BusinessEntityMapper<TEntity, TIface> EntityMapper { get; set; }
@@ -39,7 +39,7 @@ public class BusinessEntity<TEntity, TIface>
         EntityMapper = new BusinessEntityMapper<TEntity, TIface>();
     }
 
-    public IReadOnlyList<TIface> GetEntities()
+    public IReadOnlyList<TIface> GetItems()
     {
         var db = new DbConnection();
         return db.GetItems<TEntity>(ent => true);
@@ -51,7 +51,7 @@ public class BusinessEntity<TEntity, TIface>
         return db.GetItems<TEntity>(filter);
     }
 
-    public ReturnCode AddEntities(IReadOnlyList<TIface> newEntities)
+    public ReturnCode AddItems(IReadOnlyList<TIface> newEntities)
     {
         var db = new DbConnection();
         Collection<TEntity> entities = new Collection<TEntity>();
@@ -64,14 +64,14 @@ public class BusinessEntity<TEntity, TIface>
         return db.AddItems(entities);
     }
 
-    public ReturnCode DeleteEntities(IList<int> ids)
+    public ReturnCode DeleteItems(IList<int> ids)
     {
         var db = new DbConnection();
         var entitiesToDelete = db.GetItems<TEntity>(ent => ids.Contains(ent.Id));
         return db.DeleteItems(entitiesToDelete);
     }
 
-    public ReturnCode UpdateEntities(IReadOnlyList<TIface> updatedEntities)
+    public ReturnCode UpdateItems(IReadOnlyList<TIface> updatedEntities)
     {
         DbConnection db = new DbConnection();
 
@@ -83,5 +83,11 @@ public class BusinessEntity<TEntity, TIface>
             EntityMapper.EntityMapper.Map(updEntity, entityToUpd);
         }
         return db.UpdateItems(entitiesToUpdate);
+    }
+
+    public TIface? GetItemById(int id)
+    {
+        var db = new DbConnection();
+        return db.GetItemById<TEntity>(id);
     }
 }

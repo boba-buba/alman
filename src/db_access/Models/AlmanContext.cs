@@ -75,7 +75,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<ContractFee>(entity =>
         {
-            entity.HasKey(e => new { e.Id });
+            entity.HasKey(e => e.Id);
 
             entity.Property(e => e.CfchildId).HasColumnName("CFChildId");
             entity.Property(e => e.Cfmonth).HasColumnName("CFMonth");
@@ -89,7 +89,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<FinalPayment>(entity =>
         {
-            entity.HasKey(e => new { e.Id});
+            entity.HasKey(e => e.Id);
 
             entity.HasOne(d => d.StaffMember).WithMany(p => p.FinalPayments)
                 .HasForeignKey(d => d.StaffMemberId)
@@ -98,7 +98,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<Precontract>(entity =>
         {
-            entity.HasKey(e => new { e.Id });
+            entity.HasKey(e => e.Id);
 
             entity.Property(e => e.PchildId).HasColumnName("PChildID");
             entity.Property(e => e.Psum).HasColumnName("PSum");
@@ -124,7 +124,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthActivity>(entity =>
         {
-            entity.HasKey(e => new { e.Id });
+            entity.HasKey(e => e.Id);
 
             entity.Property(e => e.YmchildId).HasColumnName("YMChildId");
             entity.Property(e => e.YmactivityId).HasColumnName("YMActivityId");
@@ -143,12 +143,12 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearMonthOther>(entity =>
         {
-            entity.HasKey(e => new { e.Id});
+            entity.HasKey(e => e.Id);
         });
 
         modelBuilder.Entity<YearMonthStaffActivity>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.StaffMemberId, e.StaffActivityId, e.Month, e.Year });
+            entity.HasKey(e =>  e.Id);
 
             entity.Property(e => e.SumPaid).HasColumnType("NUMERIC");
 
@@ -163,7 +163,7 @@ public partial class AlmanContext : DbContext
 
         modelBuilder.Entity<YearSub>(entity =>
         {
-            entity.HasKey(e => new { e.Id });
+            entity.HasKey(e => e.Id);
 
             entity.Property(e => e.YchildId).HasColumnName("YChildID");
 

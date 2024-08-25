@@ -24,7 +24,7 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
 
     public string? PositionName { get; set; }
 
-    public int? PositionSalary { get; set; }
+    public int PositionSalary { get; set; }
 
     public virtual ICollection<FinalPayment> FinalPayments { get; set; } = new List<FinalPayment>();
 

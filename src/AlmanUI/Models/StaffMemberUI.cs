@@ -20,5 +20,5 @@ public class StaffMemberUI : IStaffMemberBase
 
     public string? PositionName { get; set; }
 
-    public int? PositionSalary { get; set; }
+    public int PositionSalary { get; set; }
 }

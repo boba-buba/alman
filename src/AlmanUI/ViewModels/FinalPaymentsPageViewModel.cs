@@ -76,6 +76,8 @@ public partial class FinalPaymentsPageViewModel : ViewModelBase
         {
             Debug.WriteLine($"Something went wrong saving {nameof(FinalPaymentUI)}'s. Changes were not saved.");
         }
+        Mediator.Mediator.Instance.SendWithParams("UpdateFinalPaymentsMainDataGrid", CurrentYear, CurrentMonth);
+
     }
 
 }
