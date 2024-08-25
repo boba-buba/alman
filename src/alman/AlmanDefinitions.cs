@@ -32,6 +32,7 @@ public enum StaffMemberState
     Active
 }
 
+//Basically states wether the sum was paid or not, therefore default value is 0 that means its not paid
 public enum WayOfPaying
 {
     Cash = 1,

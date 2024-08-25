@@ -82,30 +82,30 @@ public partial class ContractFeesPageView : UserControl
 
         ContractFeesMainDataGrid.Columns.Add(
             new DataGridTextColumn { 
-                Header = "Child name", 
+                Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, 
                 Binding = new Binding("CFchild.ChildName"), 
                 IsReadOnly = true,
             });
 
         ContractFeesMainDataGrid.Columns.Add(
             new DataGridTextColumn { 
-                Header = "Child Lastname", 
+                Header = AlmanUI.Resources.ChildrenResources.ChildLastName, 
                 Binding = new Binding("CFchild.ChildLastName"), 
                 IsReadOnly = true,
             });
 
-        UIControlElements.AddNumericTextBoxToGrid<ContractFeeCompositeItem>(ContractFeesMainDataGrid, "Paid Sum", "CFcontractFee.CfsumPaid");
+        UIControlElements.AddNumericTextBoxToGrid<ContractFeeCompositeItem>(ContractFeesMainDataGrid, AlmanUI.Resources.CommonResources.PaidSum, "CFcontractFee.CfsumPaid");
 
         ContractFeesMainDataGrid.Columns.Add(
             new DataGridTextColumn { 
-                Header = "Month", 
+                Header = AlmanUI.Resources.CommonResources.Month, 
                 Binding = new Binding("CFcontractFee.Cfmonth"), 
                 IsReadOnly = true,
             });
 
         ContractFeesMainDataGrid.Columns.Add(
             new DataGridTextColumn { 
-                Header = "Year", 
+                Header = AlmanUI.Resources.CommonResources.Year, 
                 Binding = new Binding("CFcontractFee.Cfyear"), 
                 IsReadOnly = true,
             });

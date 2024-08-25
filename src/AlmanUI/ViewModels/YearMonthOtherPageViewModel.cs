@@ -60,6 +60,8 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
 
     public YearMonthOtherPageViewModel()
     {
+        _idsToDelete = new List<int>();
+        OtherActivities = new ObservableCollection<IYearMonthOtherBase>();
         LoadItems();
     }
 

@@ -22,14 +22,14 @@ namespace AlmanUI.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class HomePageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal HomePageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace AlmanUI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlmanUI.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlmanUI.Resources.HomePageResources", typeof(HomePageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,47 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alman.
+        ///   Looks up a localized string similar to Calculate remainder.
         /// </summary>
-        public static string AppName {
+        public static string CalculateRemainder {
             get {
-                return ResourceManager.GetString("AppName", resourceCulture);
+                return ResourceManager.GetString("CalculateRemainder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter.
+        ///   Looks up a localized string similar to Home.
         /// </summary>
-        public static string Enter {
+        public static string HomePageName {
             get {
-                return ResourceManager.GetString("Enter", resourceCulture);
+                return ResourceManager.GetString("HomePageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language.
+        ///   Looks up a localized string similar to Remainder from last year.
         /// </summary>
-        public static string LangComboBox {
+        public static string LeftFromPrevYear {
             get {
-                return ResourceManager.GetString("LangComboBox", resourceCulture);
+                return ResourceManager.GetString("LeftFromPrevYear", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in.
+        ///   Looks up a localized string similar to Remainder.
         /// </summary>
-        public static string Login {
+        public static string ThisYearRemainder {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
+                return ResourceManager.GetString("ThisYearRemainder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Sum of all year subscriptions.
         /// </summary>
-        public static string Password {
+        public static string YearSubsSum {
             get {
-                return ResourceManager.GetString("Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Username.
-        /// </summary>
-        public static string Username {
-            get {
-                return ResourceManager.GetString("Username", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wrong password or username.
-        /// </summary>
-        public static string WrongPasswUser {
-            get {
-                return ResourceManager.GetString("WrongPasswUser", resourceCulture);
+                return ResourceManager.GetString("YearSubsSum", resourceCulture);
             }
         }
     }

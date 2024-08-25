@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
+			 xmlns:local="clr-namespace:AlmanUI.Resources"
 			 xmlns:Models="using:AlmanUI.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.HomePageView"
@@ -10,30 +11,48 @@
 	<Grid RowDefinitions="Auto, *, Auto">
 		<Border Grid.Row="0" Height="100">
 			<Grid ColumnDefinitions="2*, *, 2*">
-				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevYearCommand}">PREVIOUS</Button>
+				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevYearCommand}" Content="{x:Static local:CommonResources.Previous}"></Button>
 				<TextBlock Grid.Column="1" HorizontalAlignment="Center" FontSize="30" Margin="30" Text="{Binding CurrentYear}"></TextBlock>
-				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Left" Command="{Binding TriggerNextYearCommand}">NEXT</Button>
+				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Left" Command="{Binding TriggerNextYearCommand}" Content="{x:Static local:CommonResources.Next}"></Button>
 			</Grid>
 		</Border>
 
 		<Grid Grid.Row="1" RowDefinitions="*, *, *">
 			<Grid  Grid.Row="0" ColumnDefinitions="*, *" HorizontalAlignment="Center">
-				<TextBlock Grid.Column="0" Text="Left From Prev. Year:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="0" Margin="10" HorizontalAlignment="Center" FontSize="30">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}:">
+							<Binding Source="{x:Static local:HomePageResources.LeftFromPrevYear}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Grid.Column="1" Text="{Binding LastYearRemainder}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
 			<Grid  Grid.Row="1" ColumnDefinitions="*, *" HorizontalAlignment="Center">
-				<TextBlock Grid.Column="0" Text="Year Subs Sum:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="0" Margin="10" HorizontalAlignment="Center" FontSize="30">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}:">
+							<Binding Source="{x:Static local:HomePageResources.YearSubsSum}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Grid.Column="1" Text="{Binding YearSubsSum}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
 			<Grid  Grid.Row="2" ColumnDefinitions="*, *" HorizontalAlignment="Center">
-				<TextBlock Grid.Column="0" Text="Remainder:" Margin="10" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+				<TextBlock Grid.Column="0" Margin="10" HorizontalAlignment="Center" FontSize="30">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}:">
+							<Binding Source="{x:Static local:HomePageResources.ThisYearRemainder}"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
 				<TextBlock Grid.Column="1" Text="{Binding YearRemainder}" Margin="10" HorizontalAlignment="Center" FontSize="30"/>
 			</Grid>
 		</Grid>
 		
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
-				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerCalculateRemainder}">CALCULTAE REMAINDER</Button>
+				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerCalculateRemainder}" Content="{x:Static local:CommonResources.Save}"></Button>
 			</Grid>
 		</StackPanel>
 	</Grid>

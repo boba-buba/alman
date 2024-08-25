@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,25 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppName" xml:space="preserve">
-    <value>Alman</value>
+  <data name="Previous" xml:space="preserve">
+    <value>Предыдущий</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Log in</value>
+  <data name="Next" xml:space="preserve">
+    <value>Следующий</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username</value>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
   </data>
-  <data name="WrongPasswUser" xml:space="preserve">
-    <value>Wrong password or username</value>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
   </data>
-  <data name="Enter" xml:space="preserve">
-    <value>Enter</value>
+  <data name="FirstName" xml:space="preserve">
+    <value>Имя</value>
   </data>
-  <data name="LangComboBox" xml:space="preserve">
-    <value>Language</value>
+  <data name="LastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="StartYear" xml:space="preserve">
+    <value>Год начала</value>
+  </data>
+  <data name="StartMonth" xml:space="preserve">
+    <value>Месяц начала</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Активен(на)</value>
+  </data>
+  <data name="WayOfPayingToolTip" xml:space="preserve">
+    <value>Выберите тип оплаты</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="PaidSum" xml:space="preserve">
+    <value>Сумма, которая была оплачена</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Январь</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Февраль</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Март</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Апрель</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Июнь</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Июль</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Август</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Сентябрь</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Октябрь</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Ноябрь</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Декабрь</value>
+  </data>
+  <data name="WayOfPaying" xml:space="preserve">
+    <value>Способ оплаты</value>
+  </data>
+  <data name="MoneyTransferType" xml:space="preserve">
+    <value>Денежный перевод</value>
+  </data>
+  <data name="CashType" xml:space="preserve">
+    <value>Наличные</value>
+  </data>
+  <data name="WasPaidTrue" xml:space="preserve">
+    <value>Оплачено</value>
+  </data>
+  <data name="WasPaidFalse" xml:space="preserve">
+    <value>Не оплачено</value>
   </data>
 </root>

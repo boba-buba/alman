@@ -17,6 +17,6 @@ public partial class StaffActivitiesPageView : UserControl
     {
         StaffActivitiesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        StaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Activity Name", Binding = new Binding("ActivityName")});
+        StaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.StaffActivityName, Binding = new Binding("ActivityName")});
     }
 }

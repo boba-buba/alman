@@ -16,11 +16,11 @@ namespace AlmanUI.Views;
 
 public partial class YearMonthStaffActivitiesPageView : UserControl
 {
-    private IReadOnlyList<IYearMonthStaffActivityBase> _yearMonthStaffActivitiesTable;
+    private IReadOnlyList<IYearMonthStaffActivityBase>? _yearMonthStaffActivitiesTable;
     private IReadOnlyList<IStaffActivityBase> _staffActivitiesTable;
-    private IReadOnlyList<IStaffMemberBase> _staffMemberTable;
+    private IReadOnlyList<IStaffMemberBase>? _staffMemberTable;
 
-    private IReadOnlyList<YearMonthStaffActivityCompositeItem> _memberActivities;
+    private IReadOnlyList<YearMonthStaffActivityCompositeItem>? _memberActivities;
 
     private void LoadItems(int year, int month)
     {
@@ -68,17 +68,15 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
         YearMonthStaffActivitiesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         YearMonthStaffActivitiesMainDataGrid.ItemsSource = _memberActivities;
 
-        YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "First Name", Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
-        YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Last Name", Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
+        YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.StaffFirstName, Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
+        YearMonthStaffActivitiesMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.StaffLastName, Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
 
         var staffActivitiesLocal = new List<IStaffActivityBase>(_staffActivitiesTable);
         
         foreach (IStaffActivityBase activity in staffActivitiesLocal)
         {
-            Debug.WriteLine($"{activity.ActivityName} AAA");
             var activityTemplate = new FuncDataTemplate<YearMonthStaffActivityCompositeItem>((x, _) => 
             {
-                Debug.WriteLine($"{activity.ActivityName} again");
                 Grid grid = new Grid
                 {
                     ColumnDefinitions = new ColumnDefinitions

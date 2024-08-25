@@ -89,8 +89,8 @@ public partial class YearMonthActivitiesPageView : UserControl
     {
         MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
 
         foreach (var activity in _activitiesTable)
         {
@@ -135,7 +135,7 @@ public partial class YearMonthActivitiesPageView : UserControl
                 Grid.SetColumn(monthSumActivity, 0);
 
                 var fillDatesButton = new Button { Content = "v" };
-                ToolTip.SetTip(fillDatesButton, "Show calendar to fill dates manully.");
+                ToolTip.SetTip(fillDatesButton, AlmanUI.Resources.ChildrenResources.FillDatesToolTip);
                 fillDatesButton.Click += OnFillDatesClick;
                 
                 grid.Children.Add(fillDatesButton);
@@ -146,23 +146,9 @@ public partial class YearMonthActivitiesPageView : UserControl
                 grid.Children.Add(oneTimePrice);
                 Grid.SetColumn(oneTimePrice, 2);
 
-                var paymentMethod = new ComboBox();
-                paymentMethod.Bind(ComboBox.ItemsSourceProperty, new Binding { Path = "DataContext.PaymentMethods", Source = MainDataGrid });
-                paymentMethod.Bind(ComboBox.SelectedItemProperty, new Binding { Path = $"YMActivities[{index}].YmwayOfPaying" });
-                //doesnt work
-                paymentMethod.ItemTemplate = new FuncDataTemplate<WayOfPaying>((method, _) =>
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Bind(TextBlock.TextProperty, new Binding($"YMActivities[{index}].YmwayOfPaying", BindingMode.TwoWay)
-                    {
-                        Converter = new WayOfPayingConverter()
-                    });
-                    return textBlock;
-                });
-                
+                var paymentMethod = UIControlElements.CreateComboBox(new WayOfPayingConverter(), $"YMActivities[{index}].YmwayOfPaying");
                 grid.Children.Add(paymentMethod);
                 Grid.SetColumn(paymentMethod, 3);
-
 
                 return grid;
             });

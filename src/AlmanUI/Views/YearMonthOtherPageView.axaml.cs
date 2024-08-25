@@ -9,6 +9,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Resources;
 
 namespace AlmanUI.Views;
 
@@ -40,12 +41,12 @@ public partial class YearMonthOtherPageView : UserControl
         
         YearMonthOtherMainDataGrid.MinColumnWidth = 200;
 
-        YearMonthOtherMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Activity Name", Binding = new Binding("OtherActivityName")});
+        YearMonthOtherMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.OtherResources.OtherActivityName, Binding = new Binding("OtherActivityName")});
 
         var weeks = new string[5] { "First", "Second", "Third", "Fourth", "Fifth" };
         for (int i = 0; i < 5; i++)
         {
-            string moneyString = $"{weeks[i]}Week";
+            string moneyString = AlmanUI.Resources.OtherResources.ResourceManager.GetString($"{weeks[i]}Week", AlmanUI.Resources.OtherResources.Culture)!;
             string PayWay = $"PayingWay{weeks[i]}";
             UIControlElements.AddMoneyTextBox<IYearMonthOtherBase>(YearMonthOtherMainDataGrid, moneyString, PayWay, moneyString);
         }

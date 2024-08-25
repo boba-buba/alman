@@ -8,12 +8,21 @@ using Avalonia.Threading;
 using System.Threading.Tasks;
 using Avalonia.Interactivity;
 using AlmanUI.Resources;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Globalization;
 
 namespace AlmanUI.Views;
 
 public partial class LoginWindow : Window
 {
-    private TaskCompletionSource<bool> _loginTaskCompletionSource;
+    private TaskCompletionSource<bool>? _loginTaskCompletionSource;
+
+    private string _selectedLanguage;
+    public string SelectedLanguage
+    {
+        get => string.IsNullOrEmpty(_selectedLanguage) ? "lang" : _selectedLanguage;
+        set => _selectedLanguage = value;
+    }
 
     public LoginWindow()
     {
@@ -27,7 +36,6 @@ public partial class LoginWindow : Window
         EnterButton.Click += OnLoginClick;
         LoginActivateButton.Click += OnLOginActivateClick;
     }
-
 
 
     public Task<bool> ShowLoginDialogAsync()
@@ -64,46 +72,39 @@ public partial class LoginWindow : Window
         else
         {
             WrongDataTextBlock.IsVisible = true;
-            // Show error message or handle failed login
-            //_loginTaskCompletionSource.SetResult(false); // Optionally handle false for failed login
         }
     }
 
     private bool IsValidLogin(string? username, string? password)
     {
-        // Replace with your actual validation logic
         return username is not null && password is not null && UserUIControl.UserInDb(username, password);
     }
 
 
     public bool IsLoginSuccessful { get; private set; } = false;
 
-    private void OnLoginClicked(object? sender, EventArgs e)
+
+    private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
     {
-        var username = UsernameTextBox.Text;
-        var password = PasswordBox.Text;
-
-        // Validate the username and password (for demo purposes, we'll hard-code valid credentials)
-        if (username is not null && password is not null && UserUIControl.UserInDb(username, password))
+        if (e.AddedItems.Count > 0)
         {
-            IsLoginSuccessful = true;
-            // Close the login window and open the main window
+
+            var selectedItem = (ComboBoxItem)e.AddedItems[0]!;
+            var selectedLanguage = selectedItem.Tag.ToString();
+            SetCulture(selectedLanguage);
+            _loginTaskCompletionSource.SetResult(false);
             this.Close();
+        }
 
-            //var mainWindow = new MainWindow();
-            //mainWindow.Show();
-        }
-        else
-        {
-            // Display an error message
-            var messageBox = new Window
-            {
-                Content = new TextBlock { Text = "Invalid username or password!" },
-                Width = 300,
-                Height = 100,
-            };
-            messageBox.ShowDialog(this);
-        }
     }
 
+    private void SetCulture(string cultureString)
+    {
+        AlmanUI.Resources.Resources.Culture = new CultureInfo(cultureString);
+        AlmanUI.Resources.ChildrenResources.Culture = new CultureInfo(cultureString);
+        AlmanUI.Resources.CommonResources.Culture = new CultureInfo(cultureString);
+        AlmanUI.Resources.HomePageResources.Culture = new CultureInfo(cultureString);
+        AlmanUI.Resources.StaffResources.Culture = new CultureInfo(cultureString);
+        AlmanUI.Resources.OtherResources.Culture = new CultureInfo(cultureString);
+    }
 }

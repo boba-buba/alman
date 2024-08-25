@@ -21,7 +21,7 @@ public class ContractFeeUI : IContractFeeBase
 
 public class ContractFeeCompositeItem
 {
-    public IChildBase CFchild { get; set; }
-    public IContractFeeBase CFcontractFee { get; set; }
+    public IChildBase? CFchild { get; set; }
+    public IContractFeeBase? CFcontractFee { get; set; }
 
 }

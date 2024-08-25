@@ -97,25 +97,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Войти</value>
+  <data name="CalculateRemainder" xml:space="preserve">
+    <value>Calculate remainder</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Алман</value>
+  <data name="LeftFromPrevYear" xml:space="preserve">
+    <value>Remainder from last year</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя</value>
+  <data name="YearSubsSum" xml:space="preserve">
+    <value>Sum of all year subscriptions</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="ThisYearRemainder" xml:space="preserve">
+    <value>Remainder</value>
   </data>
-  <data name="WrongPasswUser" xml:space="preserve">
-    <value>Неправильное имя или пароль</value>
-  </data>
-  <data name="Enter" xml:space="preserve">
-    <value>Подтвердить</value>
-  </data>
-  <data name="LangComboBox" xml:space="preserve">
-    <value>Язык</value>
+  <data name="HomePageName" xml:space="preserve">
+    <value>Home</value>
   </data>
 </root>

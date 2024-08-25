@@ -56,29 +56,29 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
-        new ListItemTemplate(typeof(HomePageViewModel),  MaterialIconKind.Home),
-        new ListItemTemplate(typeof(ChildrenPageViewModel),  MaterialIconKind.BabyFaceOutline),
-        new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline),
-        new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline),
-        new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline),
-        new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign),
-        new ListItemTemplate(typeof(ContractFeesPageViewModel), MaterialIconKind.AccountCreditCardOutline),
-        new ListItemTemplate(typeof(YearSubsPageViewModel), MaterialIconKind.CashClock),
-        new ListItemTemplate(typeof(FinalPaymentsPageViewModel), MaterialIconKind.Cash),
-        new ListItemTemplate(typeof(StaffActivitiesPageViewModel), MaterialIconKind.DrawingBox),
-        new ListItemTemplate(typeof(YearMonthStaffActivitiesPageViewModel), MaterialIconKind.CalendarOutline),
-        new ListItemTemplate(typeof(YearMonthOtherPageViewModel), MaterialIconKind.Flower),
-        new ListItemTemplate(typeof(ExpensesPageViewModel), MaterialIconKind.CreditCardOutline),
+        new ListItemTemplate(typeof(HomePageViewModel),  MaterialIconKind.Home, AlmanUI.Resources.HomePageResources.HomePageName),
+        new ListItemTemplate(typeof(ChildrenPageViewModel),  MaterialIconKind.BabyFaceOutline, AlmanUI.Resources.ChildrenResources.ChildrenPageName),
+        new ListItemTemplate(typeof(StaffPageViewModel), MaterialIconKind.AccountGroupOutline, AlmanUI.Resources.StaffResources.StaffPageName),
+        new ListItemTemplate(typeof(ActivitiesPageViewModel), MaterialIconKind.PaletteOutline, AlmanUI.Resources.ChildrenResources.ActivitiesPageName),
+        new ListItemTemplate(typeof(YearMonthActivitiesPageViewModel), MaterialIconKind.CalendarMonthOutline, AlmanUI.Resources.ChildrenResources.YearMonthActivitiesPageName),
+        new ListItemTemplate(typeof(PrecontractsPageViewModel), MaterialIconKind.FileSign, AlmanUI.Resources.ChildrenResources.PrecontractsPageName),
+        new ListItemTemplate(typeof(ContractFeesPageViewModel), MaterialIconKind.AccountCreditCardOutline, AlmanUI.Resources.ChildrenResources.ContractFeesPageName),
+        new ListItemTemplate(typeof(YearSubsPageViewModel), MaterialIconKind.CashClock, AlmanUI.Resources.ChildrenResources.YearSubsPageName),
+        new ListItemTemplate(typeof(FinalPaymentsPageViewModel), MaterialIconKind.Cash, AlmanUI.Resources.StaffResources.StaffPaymentsPageName),
+        new ListItemTemplate(typeof(StaffActivitiesPageViewModel), MaterialIconKind.DrawingBox, AlmanUI.Resources.StaffResources.StaffActivitiesPageName),
+        new ListItemTemplate(typeof(YearMonthStaffActivitiesPageViewModel), MaterialIconKind.CalendarOutline, AlmanUI.Resources.StaffResources.YearMonthStaffActivitiesPageName),
+        new ListItemTemplate(typeof(YearMonthOtherPageViewModel), MaterialIconKind.Flower, AlmanUI.Resources.OtherResources.YearMonthOtherPageName),
+        new ListItemTemplate(typeof(ExpensesPageViewModel), MaterialIconKind.CreditCardOutline, AlmanUI.Resources.OtherResources.ExpensesPageName),
     };
 
 }
 
 public class ListItemTemplate
 {
-    public ListItemTemplate(Type type, MaterialIconKind icon)
+    public ListItemTemplate(Type type, MaterialIconKind icon, string label)
     {
         ModelType = type;
-        Label = type.Name.Replace("PageViewModel", ""); 
+        Label = label;
         ListItemIcon = icon;
     }
     public string Label { get; }

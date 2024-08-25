@@ -5,6 +5,7 @@
 			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 			 xmlns:Models="using:AlmanUI.Models"
 			 xmlns:SharedModels="using:Alman.SharedModels"
+			 xmlns:local="clr-namespace:AlmanUI.Resources"
 			 xmlns:SharedDefs="using:Alman.SharedDefinitions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.YearSubsPageView"
@@ -12,9 +13,9 @@
 	<Grid RowDefinitions="2*, 6*, *, 2*">
 		<Border Grid.Row="0" Height="100">
 			<Grid ColumnDefinitions="2*, *, 2*">
-				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevYearCommand}">PREVIOUS</Button>
+				<Button Grid.Column="0" Margin="5" HorizontalAlignment="Right" Command="{Binding TriggerPrevYearCommand}" Content="{x:Static local:CommonResources.Previous}"></Button>
 				<TextBlock Grid.Column="1" HorizontalAlignment="Center" FontSize="30" Margin="30" Text="{Binding CurrentYear}"></TextBlock>
-				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Left" Command="{Binding TriggerNextYearCommand}">NEXT</Button>
+				<Button Grid.Column="3" Margin="5" HorizontalAlignment="Left" Command="{Binding TriggerNextYearCommand}" Content="{x:Static local:CommonResources.Previous}"></Button>
 			</Grid>
 		</Border>
 
@@ -37,7 +38,7 @@
 		
 		<StackPanel Grid.Row="3" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
-				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}">SAVE</Button>
+				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerSaveCommand}" Content="{x:Static local:CommonResources.Save}"></Button>
 			</Grid>
 		</StackPanel>
 	</Grid>

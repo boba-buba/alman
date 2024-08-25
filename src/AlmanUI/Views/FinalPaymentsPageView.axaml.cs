@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace AlmanUI.Views;
-
+//TODO: final payment id : salary + activities - prepayment (Count automatically)?
 public partial class FinalPaymentsPageView : UserControl
 {
     private IReadOnlyList<IStaffMemberBase>? _staffMembersTable;
@@ -69,14 +69,14 @@ public partial class FinalPaymentsPageView : UserControl
     {
         FinalPaymentsMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Staff Member Name", Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
-        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Staff Member LastName", Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
+        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.StaffFirstName, Binding = new Binding("StaffMember.FirstName"), IsReadOnly = true });
+        FinalPaymentsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.StaffLastName, Binding = new Binding("StaffMember.LastName"), IsReadOnly = true });
 
-        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "PrePayment", "FinalPayment.PrepaymentSum");
-        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Prepayment Was Paid", "FinalPayment.PrepaymentWasPaid");
+        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, AlmanUI.Resources.StaffResources.Prepayment, "FinalPayment.PrepaymentSum");
+        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, AlmanUI.Resources.StaffResources.PrepaymentWasPaid, "FinalPayment.PrepaymentWasPaid");
 
-        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Final Payment", "FinalPayment.FinalPaymentSum");
-        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, "Final payment Was Paid", "FinalPayment.FinalPaymentWasPaid");
+        UIControlElements.AddNumericTextBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, AlmanUI.Resources.StaffResources.FinalPayment, "FinalPayment.FinalPaymentSum");
+        UIControlElements.AddCheckBoxToGrid<FinalPayementCompositeItem>(FinalPaymentsMainDataGrid, AlmanUI.Resources.StaffResources.FinalPaymentWasPaid, "FinalPayment.FinalPaymentWasPaid");
 
         FinalPaymentsMainDataGrid.ItemsSource = _memberFinalPayments;
         SaveFinalPaymentsButton.CommandParameter = _memberFinalPayments;

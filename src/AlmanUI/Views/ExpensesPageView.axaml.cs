@@ -33,11 +33,11 @@ public partial class ExpensesPageView : UserControl
         ExpensesDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         ExpensesDataGrid.MinColumnWidth = 100;
 
-        ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = "Name", Binding = new Binding("Name") });
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, "Year", "Year", 2000, 2100);
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, "Month", "Month", 1, 12);
+        ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.OtherResources.ExpenseName, Binding = new Binding("Name") });
+        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Year, "Year", 2000, 2100);
+        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Month, "Month", 1, 12);
 
-        UIControlElements.AddMoneyTextBox<IExpenseBase>(ExpensesDataGrid, "ExpenseSum", "WayOfPaying", "Paid");
+        UIControlElements.AddMoneyTextBox<IExpenseBase>(ExpensesDataGrid, "ExpenseSum", "WayOfPaying", AlmanUI.Resources.CommonResources.PaidSum);
 
     }
 }

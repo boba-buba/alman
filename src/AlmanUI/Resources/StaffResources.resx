@@ -97,25 +97,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Войти</value>
+  <data name="PositionName" xml:space="preserve">
+    <value>Position</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Алман</value>
+  <data name="PositionSalary" xml:space="preserve">
+    <value>Salary</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя</value>
+  <data name="StaffPageName" xml:space="preserve">
+    <value>Staff Members</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="StaffFirstName" xml:space="preserve">
+    <value>Staff Member Name</value>
   </data>
-  <data name="WrongPasswUser" xml:space="preserve">
-    <value>Неправильное имя или пароль</value>
+  <data name="StaffLastName" xml:space="preserve">
+    <value>Staff Member Lastname</value>
   </data>
-  <data name="Enter" xml:space="preserve">
-    <value>Подтвердить</value>
+  <data name="Prepayment" xml:space="preserve">
+    <value>Prepayment</value>
   </data>
-  <data name="LangComboBox" xml:space="preserve">
-    <value>Язык</value>
+  <data name="WasPaid" xml:space="preserve">
+    <value>Was Paid</value>
+  </data>
+  <data name="FinalPayment" xml:space="preserve">
+    <value>Final Payment</value>
+  </data>
+  <data name="FinalPaymentWasPaid" xml:space="preserve">
+    <value>Final Payment was paid</value>
+  </data>
+  <data name="PrepaymentWasPaid" xml:space="preserve">
+    <value>Prepayment was paid</value>
+  </data>
+  <data name="StaffPaymentsPageName" xml:space="preserve">
+    <value>Staff Monthly Payments</value>
+  </data>
+  <data name="StaffActivitiesPageName" xml:space="preserve">
+    <value>Staff Monthly Activities </value>
+  </data>
+  <data name="StaffActivityName" xml:space="preserve">
+    <value>Staff Activity</value>
+  </data>
+  <data name="YearMonthStaffActivitiesPageName" xml:space="preserve">
+    <value>Monthly Staff Activities</value>
   </data>
 </root>

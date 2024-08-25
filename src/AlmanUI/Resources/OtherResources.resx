@@ -97,25 +97,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Войти</value>
+  <data name="YearMonthOtherPageName" xml:space="preserve">
+    <value>Monthly Other Activities</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Алман</value>
+  <data name="OtherActivityName" xml:space="preserve">
+    <value>Other Activity</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя</value>
+  <data name="FirstWeek" xml:space="preserve">
+    <value>First Week</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="SecondWeek" xml:space="preserve">
+    <value>Second Week</value>
   </data>
-  <data name="WrongPasswUser" xml:space="preserve">
-    <value>Неправильное имя или пароль</value>
+  <data name="ThirdWeek" xml:space="preserve">
+    <value>Third Week</value>
   </data>
-  <data name="Enter" xml:space="preserve">
-    <value>Подтвердить</value>
+  <data name="FourthWeek" xml:space="preserve">
+    <value>Fourth Week</value>
   </data>
-  <data name="LangComboBox" xml:space="preserve">
-    <value>Язык</value>
+  <data name="FifthWeek" xml:space="preserve">
+    <value>Fifth Week</value>
+  </data>
+  <data name="OverallSum" xml:space="preserve">
+    <value>Overall Sum</value>
+  </data>
+  <data name="ExpensesPageName" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="ExpenseName" xml:space="preserve">
+    <value>Name</value>
   </data>
 </root>

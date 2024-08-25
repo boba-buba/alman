@@ -17,7 +17,7 @@ public partial class ActivitiesPageView : UserControl
     private void InitDataGrid()
     {
         ActivitiesDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
-        ActivitiesDataGrid.Columns.Add(new DataGridTextColumn { Header = "Activity Name", Binding = new Binding("ActivityName") });
-        UIControlElements.AddNumericTextBoxToGrid<IActivityBase>(ActivitiesDataGrid, "Price", "ActivityPrice");
+        ActivitiesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildActivityName, Binding = new Binding("ActivityName") });
+        UIControlElements.AddNumericTextBoxToGrid<IActivityBase>(ActivitiesDataGrid, AlmanUI.Resources.ChildrenResources.Price, "ActivityPrice");
     }
 }

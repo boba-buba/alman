@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AlmanUI.Resources;
 
 namespace AlmanUI;
 
@@ -85,20 +86,22 @@ public class ContractTypeConverter : IValueConverter, IKeys
     // Map string values to corresponding integer values
     private readonly Dictionary<string, int> stringToIntMap = new Dictionary<string, int>
     {
-        { "Option 1", 1 },
-        { "Option 2", 2 },
-        { "Option 3", 3 }
+        { Resources.ChildrenResources.PrecontractType, 0 },
+        { Resources.ChildrenResources.MotherCapitalType, 1 },
+        { Resources.ChildrenResources.OrdinaryContractType, 2 },
+        { Resources.ChildrenResources.StaffChildType, 3},
     };
 
     // Map integer values back to corresponding string values
     private readonly Dictionary<int, string> intToStringMap = new Dictionary<int, string>
     {
-        { 1, "Option 1" },
-        { 2, "Option 2" },
-        { 3, "Option 3" }
+        { 0, Resources.ChildrenResources.PrecontractType },
+        { 1, Resources.ChildrenResources.MotherCapitalType},
+        { 2, Resources.ChildrenResources.OrdinaryContractType},
+        { 3, Resources.ChildrenResources.StaffChildType},
     };
 
-    public string[] Keys { get; } = ["Option 1", "Option 2", "Option 3" ];
+    public string[] Keys { get; } = [Resources.ChildrenResources.PrecontractType, Resources.ChildrenResources.MotherCapitalType, Resources.ChildrenResources.OrdinaryContractType, Resources.ChildrenResources.StaffChildType];
 
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -126,18 +129,18 @@ public class WayOfPayingConverter : IValueConverter, IKeys
     // Map string values to corresponding integer values
     private readonly Dictionary<string, int> stringToIntMap = new Dictionary<string, int>
     {
-        { "Cash", 1 },
-        { "Money Transfer", 2 }
+        { Resources.CommonResources.CashType, 1 },
+        { Resources.CommonResources.MoneyTransferType, 2 }
     };
 
     // Map integer values back to corresponding string values
     private readonly Dictionary<int, string> intToStringMap = new Dictionary<int, string>
     {
-        { 1, "Cash" },
-        { 2, "Money Transfer" }
+        { 1, Resources.CommonResources.CashType},
+        { 2, Resources.CommonResources.MoneyTransferType }
     };
 
-    public string[] Keys { get; } = [ "Cash", "Money Transfer" ];
+    public string[] Keys { get; } = [Resources.CommonResources.CashType, Resources.CommonResources.MoneyTransferType ];
 
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -154,6 +157,43 @@ public class WayOfPayingConverter : IValueConverter, IKeys
         if (value is string stringValue && stringToIntMap.ContainsKey(stringValue))
         {
             return stringToIntMap[stringValue];
+        }
+        return 0; // Default to 0 if no match
+    }
+}
+
+
+public class CultureConverter : IValueConverter, IKeys
+{
+    private readonly Dictionary<string, string> UIToCultureStrMap = new Dictionary<string, string>
+    {
+        { "RUS", "ru-RU" },
+        { "EN", "en-EN"}
+    };
+
+    private readonly Dictionary<string, string> CultureToUIStrMap = new Dictionary<string, string>
+    {
+        { "ru-RU", "RUS" },
+        { "en-EN", "EN"}
+    };
+
+    public string[] Keys { get; } = ["RUS", "EN"];
+
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is string cultureStr && CultureToUIStrMap.ContainsKey(cultureStr))
+        {
+            return CultureToUIStrMap[cultureStr];
+        }
+        return string.Empty; // Default if no match
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is string stringValue && UIToCultureStrMap.ContainsKey(stringValue))
+        {
+            return UIToCultureStrMap[stringValue];
         }
         return 0; // Default to 0 if no match
     }

@@ -21,32 +21,31 @@ namespace AlmanUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                AlmanUI.Resources.Resources.Culture = new CultureInfo("ru-RU");
+                bool loginSuccessful = false;
+                while(!loginSuccessful)
+                {
+                    var loginWindow = new LoginWindow();
+                    // Wait for the login dialog to complete
+                    loginSuccessful = await loginWindow.ShowLoginDialogAsync();
+                }
 
-                var loginWindow = new LoginWindow();
-                // Wait for the login dialog to complete
-                bool loginSuccessful = await loginWindow.ShowLoginDialogAsync();
-                if (loginSuccessful)
+                
+
+                // Line below is needed to remove Avalonia data validation.
+                // Without this line you will get duplicate validations from both Avalonia and CT
+
+                BindingPlugins.DataValidators.RemoveAt(0);
+                desktop.MainWindow = new MainWindow
                 {
-                    // Line below is needed to remove Avalonia data validation.
-                    // Without this line you will get duplicate validations from both Avalonia and CT
-                    BindingPlugins.DataValidators.RemoveAt(0);
-                    desktop.MainWindow = new MainWindow
-                    {
-                        DataContext = new MainWindowViewModel(),
-                    };
-                    desktop.MainWindow.Show();
-                }
-                else
-                {
-                    // Exit the application if the login was not successful
-                    desktop.Shutdown();
-                }
+                    DataContext = new MainWindowViewModel(),
+                };
+                desktop.MainWindow.Show();
                 
                 
             }
             
             base.OnFrameworkInitializationCompleted();
         }
+
     }
 }

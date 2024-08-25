@@ -97,25 +97,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Войти</value>
+  <data name="ChildrenPageName" xml:space="preserve">
+    <value>Children</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Алман</value>
+  <data name="ChildGroup" xml:space="preserve">
+    <value>Group</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя</value>
+  <data name="ContractType" xml:space="preserve">
+    <value>Type of Contract</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="ChildActivityName" xml:space="preserve">
+    <value>Child Activity</value>
   </data>
-  <data name="WrongPasswUser" xml:space="preserve">
-    <value>Неправильное имя или пароль</value>
+  <data name="Price" xml:space="preserve">
+    <value>Price for one time</value>
   </data>
-  <data name="Enter" xml:space="preserve">
-    <value>Подтвердить</value>
+  <data name="ActivitiesPageName" xml:space="preserve">
+    <value>Children Activities</value>
   </data>
-  <data name="LangComboBox" xml:space="preserve">
-    <value>Язык</value>
+  <data name="YearMonthActivitiesPageName" xml:space="preserve">
+    <value>Monthly Children Activities</value>
+  </data>
+  <data name="FillDatesToolTip" xml:space="preserve">
+    <value>Fill dates of presence</value>
+  </data>
+  <data name="PrecontractsPageName" xml:space="preserve">
+    <value>Children Precontracts</value>
+  </data>
+  <data name="ChildFirstName" xml:space="preserve">
+    <value>Child Name</value>
+  </data>
+  <data name="ChildLastName" xml:space="preserve">
+    <value>Child Last Name</value>
+  </data>
+  <data name="ContractFeesPageName" xml:space="preserve">
+    <value>Children Contract Fees</value>
+  </data>
+  <data name="YearSubsPageName" xml:space="preserve">
+    <value>Children Year Subscriptions</value>
+  </data>
+  <data name="PrecontractType" xml:space="preserve">
+    <value>Precontract</value>
+  </data>
+  <data name="MotherCapitalType" xml:space="preserve">
+    <value>Mother Capital</value>
+  </data>
+  <data name="OrdinaryContractType" xml:space="preserve">
+    <value>Ordinary</value>
+  </data>
+  <data name="StaffChildType" xml:space="preserve">
+    <value>Staff Child</value>
   </data>
 </root>

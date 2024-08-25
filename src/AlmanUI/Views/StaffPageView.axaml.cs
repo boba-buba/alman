@@ -19,12 +19,12 @@ public partial class StaffPageView : UserControl
     {
         StaffMembersMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "First Name", Binding = new Binding("FirstName") });
-        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Last Name", Binding = new Binding("LastName") });
-        UIControlElements.AddCheckBoxToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, "Is Active", "State");
-        UIControlElements.AddNumericUpDownToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, "Start month", "StartMonth", 1, 12);
-        UIControlElements.AddNumericUpDownToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, "Start year", "StartYear", 2000, 2100);
-        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Position Name", Binding = new Binding("PositionName") });
-        UIControlElements.AddNumericTextBoxToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, "Position Salary", "PositionSalary");
+        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.FirstName, Binding = new Binding("FirstName") });
+        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.LastName, Binding = new Binding("LastName") });
+        UIControlElements.AddCheckBoxToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, AlmanUI.Resources.CommonResources.IsActive, "State");
+        UIControlElements.AddNumericUpDownToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, AlmanUI.Resources.CommonResources.StartMonth, "StartMonth", 1, 12);
+        UIControlElements.AddNumericUpDownToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, AlmanUI.Resources.CommonResources.StartYear, "StartYear", 2000, 2100);
+        StaffMembersMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.StaffResources.PositionName, Binding = new Binding("PositionName") });
+        UIControlElements.AddNumericTextBoxToGrid<IStaffMemberBase>(StaffMembersMainDataGrid, AlmanUI.Resources.StaffResources.PositionSalary, "PositionSalary");
     }
 }

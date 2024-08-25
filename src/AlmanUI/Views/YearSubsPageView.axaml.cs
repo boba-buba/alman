@@ -48,7 +48,7 @@ public partial class YearSubsPageView : UserControl
                 IsReadOnly = true,
             });
         
-        var months = new List<string> {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
+        var months = new List<string> {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
         foreach (var month in months)
         {
@@ -81,7 +81,7 @@ public partial class YearSubsPageView : UserControl
 
             YearSubsMainDataGrid.Columns.Add(new DataGridTemplateColumn
             {
-                Header = month,
+                Header = AlmanUI.Resources.CommonResources.ResourceManager.GetString(month, AlmanUI.Resources.CommonResources.Culture)!,
                 CellTemplate = moneyTemplate,
             });
         }

@@ -2,15 +2,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 		xmlns:local="clr-namespace:AlmanUI.Resources"
 		mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
 		Width="500" Height="500"
         x:Class="AlmanUI.Views.LoginWindow"
 		WindowStartupLocation="CenterScreen"
         Title="LoginWindow">
-	
-	<Panel Background="DarkGray">
-		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+
+	<Grid Background="DarkGray">
+		<!-- Define the rows and columns -->
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<!-- Row for the ComboBox -->
+			<RowDefinition Height="*"/>
+			<!-- Row for the rest of the content -->
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<!-- Left side -->
+			<ColumnDefinition Width="150"/>
+			<!-- Right side for the ComboBox -->
+		</Grid.ColumnDefinitions>
+		
+		<!-- ComboBox in the upper right corner -->
+		<ComboBox Grid.Row="0" Grid.Column="1"
+                  HorizontalAlignment="Left" VerticalAlignment="Top"
+                  Margin="10 10 10 10"  SelectionChanged="OnLanguageChanged"
+                  Width="110"
+				  PlaceholderText="{x:Static local:Resources.LangComboBox}"
+				  Padding="5"
+				  Name="CultureComboBox">
+			<ComboBoxItem Content="EN" Tag="en-US"/>
+			<ComboBoxItem Content="RU" Tag="ru-RU"/>
+		</ComboBox>
+
+		<!-- The existing StackPanel content -->
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 			<TextBlock HorizontalAlignment="Center" FontSize="30" Text="{x:Static local:Resources.AppName}"></TextBlock>
 			<Button Name="LoginActivateButton" HorizontalAlignment="Center" Content="{x:Static local:Resources.Login}"></Button>
 			<TextBlock Name="UsernameText">
@@ -32,5 +61,5 @@
 			<Button x:Name="EnterButton" Content="{x:Static local:Resources.Enter}" Width="150" HorizontalAlignment="Center" />
 			<TextBlock Name="WrongDataTextBlock" HorizontalAlignment="Center"  Text="{x:Static local:Resources.WrongPasswUser}"></TextBlock>
 		</StackPanel>
-	</Panel>
+	</Grid>
 </Window>

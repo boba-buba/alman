@@ -22,14 +22,14 @@ namespace AlmanUI.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class OtherResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal OtherResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace AlmanUI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlmanUI.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlmanUI.Resources.OtherResources", typeof(OtherResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,92 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alman.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string AppName {
+        public static string ExpenseName {
             get {
-                return ResourceManager.GetString("AppName", resourceCulture);
+                return ResourceManager.GetString("ExpenseName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter.
+        ///   Looks up a localized string similar to Expenses.
         /// </summary>
-        public static string Enter {
+        public static string ExpensesPageName {
             get {
-                return ResourceManager.GetString("Enter", resourceCulture);
+                return ResourceManager.GetString("ExpensesPageName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language.
+        ///   Looks up a localized string similar to Fifth Week.
         /// </summary>
-        public static string LangComboBox {
+        public static string FifthWeek {
             get {
-                return ResourceManager.GetString("LangComboBox", resourceCulture);
+                return ResourceManager.GetString("FifthWeek", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in.
+        ///   Looks up a localized string similar to First Week.
         /// </summary>
-        public static string Login {
+        public static string FirstWeek {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
+                return ResourceManager.GetString("FirstWeek", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Fourth Week.
         /// </summary>
-        public static string Password {
+        public static string FourthWeek {
             get {
-                return ResourceManager.GetString("Password", resourceCulture);
+                return ResourceManager.GetString("FourthWeek", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Username.
+        ///   Looks up a localized string similar to Other Activity.
         /// </summary>
-        public static string Username {
+        public static string OtherActivityName {
             get {
-                return ResourceManager.GetString("Username", resourceCulture);
+                return ResourceManager.GetString("OtherActivityName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrong password or username.
+        ///   Looks up a localized string similar to Overall Sum.
         /// </summary>
-        public static string WrongPasswUser {
+        public static string OverallSum {
             get {
-                return ResourceManager.GetString("WrongPasswUser", resourceCulture);
+                return ResourceManager.GetString("OverallSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Second Week.
+        /// </summary>
+        public static string SecondWeek {
+            get {
+                return ResourceManager.GetString("SecondWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third Week.
+        /// </summary>
+        public static string ThirdWeek {
+            get {
+                return ResourceManager.GetString("ThirdWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Other Activities.
+        /// </summary>
+        public static string YearMonthOtherPageName {
+            get {
+                return ResourceManager.GetString("YearMonthOtherPageName", resourceCulture);
             }
         }
     }

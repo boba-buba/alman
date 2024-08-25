@@ -88,15 +88,15 @@ public partial class PrecontractsPageView : UserControl
     {
         PrecontractsMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Name", Binding = new Binding("PChild.ChildName"), IsReadOnly = true });
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Child Lastname", Binding = new Binding("PChild.ChildLastName"), IsReadOnly = true });
+        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("PChild.ChildName"), IsReadOnly = true });
+        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("PChild.ChildLastName"), IsReadOnly = true });
 
-        UIControlElements.AddNumericTextBoxToGrid<PrecontractCompositeItem>(PrecontractsMainDataGrid, "Paid Sum", "Precontract.Psum");
+        UIControlElements.AddNumericTextBoxToGrid<PrecontractCompositeItem>(PrecontractsMainDataGrid, AlmanUI.Resources.CommonResources.PaidSum, "Precontract.Psum");
 
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Comment", Binding = new Binding("Precontract.Pcomment") });
+        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Comment, Binding = new Binding("Precontract.Pcomment") });
 
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Month", Binding = new Binding("Precontract.PMonth"), IsReadOnly = true });
-        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Year", Binding = new Binding("Precontract.PYear"), IsReadOnly = true});
+        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Month, Binding = new Binding("Precontract.PMonth"), IsReadOnly = true });
+        PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Year, Binding = new Binding("Precontract.PYear"), IsReadOnly = true});
 
         PrecontractsMainDataGrid.ItemsSource = _childPrecontracts;
         SavePrecontractsButton.CommandParameter = _childPrecontracts;
