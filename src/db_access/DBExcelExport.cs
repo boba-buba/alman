@@ -11,6 +11,7 @@ using DbAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 using Alman.SharedModels;
+using Alman;
 
 
 namespace DbAccess;
@@ -19,7 +20,8 @@ public partial class DbConnection : DbBase
 {
     public Task<string> ExportToExcel()
     {
-        var filePath = $"{DateTime.Now.Year}_{DateTime.Now.Month}_{DateTime.Now.Day}_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.xlsx";
+        string folderName = AlmanConfig.GetConfigString("ExcelDumping:FlderPath");
+        var filePath = $"{folderName}{DateTime.Now.Year}_{DateTime.Now.Month}_{DateTime.Now.Day}_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.xlsx";
 
         // Load data from the database
         using (var context = ConnectToDb())

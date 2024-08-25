@@ -47,8 +47,6 @@ public partial class AlmanContext : DbContext
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<YearResult> YearResults { get; set; }
 
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionString = new SqliteConnectionStringBuilder();

@@ -1,4 +1,5 @@
-﻿using Alman.SharedDefinitions;
+﻿using Alman;
+using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace DbAccess;
 public abstract class DbBase
 {
 
-    protected string DbPath { get; init; } = "C:\\Users\\ncoro\\source\\repos\\alman\\src\\db_access\\Database\\alman.db";
+    protected string DbPath { get; init; } = AlmanConfig.GetConfigString("Database:DataBaseFilePath");
     public virtual AlmanContext ConnectToDb()
     {
         if (string.IsNullOrWhiteSpace(DbPath))
@@ -20,7 +21,9 @@ public abstract class DbBase
         ctx.Database.EnsureCreated();
         if (!ctx.Users.Any())
         {
-            ctx.Users.Add(new User { Name = "Admin", Password = "1234", Id = 1, Permissions = 1 });
+            int id = int.Parse(AlmanConfig.GetConfigString("Database:AdminId"));
+            int permissions = int.Parse(AlmanConfig.GetConfigString("Database:AdminPermissions"));
+            ctx.Users.Add(new User { Name = AlmanConfig.GetConfigString("Database:AdminName"), Password = AlmanConfig.GetConfigString("Database:AdminPassword"), Id = id, Permissions = permissions });
             ctx.SaveChanges();
         }
         return ctx;
