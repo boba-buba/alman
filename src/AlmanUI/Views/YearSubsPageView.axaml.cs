@@ -19,7 +19,6 @@ public partial class YearSubsPageView : UserControl
     {
         InitializeComponent();
         InitYearSubsMainDataGrid();
-        InitMonthlySumGrid();
         Mediator.Mediator.Instance.NotifyWithOneParam += OnNotifyWithOneParam;
     }
 
@@ -74,8 +73,9 @@ public partial class YearSubsPageView : UserControl
                 cellGrid.Children.Add(moneyTextBox);
                 Grid.SetColumn(moneyTextBox, 0);
                 cellGrid.Children.Add(wayOfPayCombobox);
+                if (x.YsChild.Id == 0) { wayOfPayCombobox.IsVisible = false; }
                 Grid.SetColumn(wayOfPayCombobox, 1);
-
+                
                 return cellGrid;
             });
 
@@ -87,31 +87,11 @@ public partial class YearSubsPageView : UserControl
         }
     }
 
-    public void InitMonthlySumGrid()
-    {
-        MonthlySumGrid.ShowGridLines = true;
-        MonthlySumGrid.Width = 150 * 12;
-        MonthlySumGrid.Height = 100;
-
-        MonthlySumGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-        for (int i = 0; i < 12; i++)
-        {
-            MonthlySumGrid.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(150)));
-            var sumTextBlock = new TextBlock()
-            {
-                Margin = new Thickness(1),
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
-            };
-            MonthlySumGrid.Children.Add(sumTextBlock);
-            Grid.SetColumn(MonthlySumGrid, i);
-            Grid.SetRow(MonthlySumGrid, 0);
-        }
-    }
+    
 
     private void UpdateYearSubsMainDataGrid()
     {
         YearSubsMainDataGrid.Columns.Clear();
         InitYearSubsMainDataGrid();
-        InitMonthlySumGrid();
     }
 }

@@ -4,6 +4,7 @@ using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,7 +58,7 @@ public partial class YearSubsPageViewModel : ViewModelBase
             }
             ChildYearSubs.Add(newItem);
         }
-        CalculateSum();
+        ChildYearSubs.Add(CalculateSum());
         
     }
     
@@ -66,22 +67,23 @@ public partial class YearSubsPageViewModel : ViewModelBase
         MonthlySum = new ObservableCollection<int>(new int[12]);
         ChildYearSubs = new ObservableCollection<YearSubCompositeItem>();
         LoadItems();
-        ChildYearSubs.CollectionChanged += (s, e) => CalculateSum();
     }
 
-    private void CalculateSum()
+    private YearSubCompositeItem CalculateSum()
     {
         if (_yearSubsTable is null)
         {
-            return;
+            return null;
         }
+        var monthSum = new YearSubCompositeItem { YsChild = new ChildUI { Id = 0, ChildLastName = "", ChildName = "" } };
         for (int i = 0; i < 12; i++)
         {
             var items = _yearSubsTable.Where(sub => sub.Month == i + 1);
-            int monthSum = items.Sum(i => i.Payment);
-            MonthlySum[i] = monthSum;
+            IYearSubBase subsSum = new YearSubUI { Payment = items.Sum(i => i.Payment), Month = i + 1, Yyear = CurrentYear };
+            monthSum.YsYearSubscriptions.Add(subsSum);
 
         }
+        return monthSum;
     }
 
     [RelayCommand]
@@ -107,14 +109,14 @@ public partial class YearSubsPageViewModel : ViewModelBase
         if (ChildYearSubs.Count == 0) return;
         List<IYearSubBase> yearSubs = new List<IYearSubBase>();
 
-        foreach (var item in ChildYearSubs)
+        for (int i = 0; i < ChildYearSubs.Count - 1; i++)
         {
-            if (item.YsChild is null || item.YsYearSubscriptions is null)
+            if (ChildYearSubs[i].YsChild is null || ChildYearSubs[i].YsYearSubscriptions is null)
             {
-                Debug.WriteLine($"Null {nameof(item.YsChild)} or {nameof(item.YsYearSubscriptions)}");
+                Debug.WriteLine($"Null {nameof(IChildBase)} or {nameof(List<IYearSubBase>)}");
                 continue;
             }
-            yearSubs.AddRange(item.YsYearSubscriptions);
+            yearSubs.AddRange(ChildYearSubs[i].YsYearSubscriptions);
         }
 
         ReturnCode retCode = YearSubsControl.SaveItems(yearSubs);
@@ -122,6 +124,6 @@ public partial class YearSubsPageViewModel : ViewModelBase
         {
             Debug.WriteLine($"Something went wrong saving {nameof(YearSubUI)}'s. Changes were not saved.");
         }
-        CalculateSum();
+        LoadItems();
     }
 }

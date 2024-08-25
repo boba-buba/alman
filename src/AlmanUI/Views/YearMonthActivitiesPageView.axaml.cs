@@ -89,11 +89,10 @@ public partial class YearMonthActivitiesPageView : UserControl
 
     private void InitDataGrid()
     {
-        MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
-        MainDataGrid.MinColumnWidth = 300;
+        //MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("YMChild.ChildName"), IsReadOnly = true });
-        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("YMChild.ChildName"), IsReadOnly = true, MinWidth = 300 });
+        MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true, MinWidth = 300 });
 
         foreach (var activity in _activitiesTable)
         {
@@ -159,7 +158,8 @@ public partial class YearMonthActivitiesPageView : UserControl
             MainDataGrid.Columns.Add(new DataGridTemplateColumn
             {
                 Header = activity.ActivityName,
-                CellTemplate = template
+                CellTemplate = template,
+                MinWidth = 300
             });
         }
 
