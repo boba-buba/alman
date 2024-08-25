@@ -1,7 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Business;
-using DatabaseAccess;
+using DbAccess;
 using DbAccess.Models;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Alman.SharedDefinitions;
-namespace DatabaseAccess;
+namespace DbAccess;
 
 
 public static class DebugUtilities
@@ -97,7 +97,6 @@ public static class DbAccessUtilities
         {
             foreach (var entity in entitiesToDelete)
             {
-                //DeleteFunction(db, entity);
                 entity.DeleteDependable(db);
 
                 db.Remove(entity);

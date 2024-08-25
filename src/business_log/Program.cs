@@ -3,7 +3,7 @@ using System.Collections;
 using DbAccess.Models;
 using Microsoft.Extensions.Logging;
 using System.Xml.Linq;
-using DatabaseAccess;
+using DbAccess;
 using Alman.SharedModels;
 
 namespace Business
@@ -17,6 +17,8 @@ namespace Business
             var acts = businessOther.GetEntities();
             //acts[0].OtherName = "Test";
             businessOther.DeleteEntities([1, 3]);*/
+            /*BusinessDbDump businessDbDump = new BusinessDbDump();
+            BusinessDbDump.DumpDb();*/
         }
     }
 }

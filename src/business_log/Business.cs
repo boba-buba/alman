@@ -1,7 +1,7 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using AutoMapper;
-using DatabaseAccess;
+using DbAccess;
 using DbAccess.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
@@ -28,6 +28,16 @@ public class BusinessEntityMapper<TEntity, TIface> : IAlmanEntitiesMapper<TEntit
     }
 }
 
+public static class BusinessDbDump
+{
+    public static async Task<string> DumpDb()
+    {
+        var db = new DbConnection();
+        var res = await db.ExportToExcel();
+        
+        return res;
+    }
+}
 
 public class BusinessEntity<TEntity, TIface>
     where TEntity : class, TIface, IIdentifier, IDeleteDependable, new()

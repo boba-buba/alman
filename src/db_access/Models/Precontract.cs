@@ -1,5 +1,5 @@
 ﻿using Alman.SharedModels;
-using DatabaseAccess;
+using DbAccess;
 using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 

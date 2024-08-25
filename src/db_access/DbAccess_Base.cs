@@ -4,13 +4,13 @@ using DbAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 
-namespace DatabaseAccess;
+namespace DbAccess;
 
 public abstract class DbBase
 {
 
     protected string DbPath { get; init; } = "C:\\Users\\ncoro\\source\\repos\\alman\\src\\db_access\\Database\\alman.db";
-    protected virtual AlmanContext ConnectToDb()
+    public virtual AlmanContext ConnectToDb()
     {
         if (string.IsNullOrWhiteSpace(DbPath))
         {
@@ -35,7 +35,7 @@ public abstract class DbBase
 }
 
 
-public class DbConnection : DbBase
+public partial class DbConnection : DbBase
 {
     public DbConnection(string dbPath)
     {

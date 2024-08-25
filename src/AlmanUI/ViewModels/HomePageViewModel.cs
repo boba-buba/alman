@@ -2,6 +2,7 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
+using Avalonia.Metadata;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -71,6 +72,7 @@ namespace AlmanUI.ViewModels
             }
             LoadItems();
         }
+
 
     }
 }

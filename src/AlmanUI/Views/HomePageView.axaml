@@ -5,6 +5,7 @@
 			 xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 			 xmlns:local="clr-namespace:AlmanUI.Resources"
 			 xmlns:Models="using:AlmanUI.Models"
+			 xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.HomePageView"
 			 x:DataType="ViewModels:HomePageViewModel">
@@ -50,10 +51,12 @@
 			</Grid>
 		</Grid>
 		
-		<StackPanel Grid.Row="2" Margin="10">
-			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">
-				<Button Name="SaveYearSubsButton" Grid.Column="0" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerCalculateRemainder}" Content="{x:Static local:CommonResources.Save}"></Button>
-			</Grid>
+		<StackPanel Grid.Row="2" Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+			
+			<Button Name="SaveYearSubsButton" Margin="5" HorizontalAlignment="Center" Command="{Binding TriggerCalculateRemainder}" Content="{x:Static local:CommonResources.Save}"></Button>
+			<Button Name="ExportToExcelDumpButton">
+				<material:MaterialIcon Kind="FileExcel"></material:MaterialIcon>
+			</Button>
 		</StackPanel>
 	</Grid>
 

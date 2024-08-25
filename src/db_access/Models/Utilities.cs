@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Alman.SharedModels;
-using DatabaseAccess;
+using DbAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Models;
