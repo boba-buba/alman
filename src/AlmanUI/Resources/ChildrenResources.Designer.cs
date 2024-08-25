@@ -70,11 +70,29 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculate Child Bill.
+        /// </summary>
+        public static string CalculateChildBill {
+            get {
+                return ResourceManager.GetString("CalculateChildBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child Activity.
         /// </summary>
         public static string ChildActivityName {
             get {
                 return ResourceManager.GetString("ChildActivityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alman Child Bill.
+        /// </summary>
+        public static string ChildBillWindow {
+            get {
+                return ResourceManager.GetString("ChildBillWindow", resourceCulture);
             }
         }
         

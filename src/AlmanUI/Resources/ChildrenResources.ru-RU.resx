@@ -148,4 +148,10 @@
   <data name="StaffChildType" xml:space="preserve">
     <value>Ребёнок сотрудника</value>
   </data>
+  <data name="ChildBillWindow" xml:space="preserve">
+    <value>Чек ребенка</value>
+  </data>
+  <data name="CalculateChildBill" xml:space="preserve">
+    <value>Расчет</value>
+  </data>
 </root>

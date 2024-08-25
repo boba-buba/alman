@@ -138,4 +138,7 @@
   <data name="LangComboBox" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="AlmanLogin" xml:space="preserve">
+    <value>Alman login</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@
 			 xmlns:Models="using:AlmanUI.Models"
 			 xmlns:SharedModels="using:Alman.SharedModels"
 			 xmlns:SharedDefs="using:Alman.SharedDefinitions"
+			 xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:local="clr-namespace:AlmanUI.Resources"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.YearMonthActivitiesPageView"

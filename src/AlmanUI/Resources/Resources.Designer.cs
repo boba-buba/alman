@@ -61,6 +61,15 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alman login.
+        /// </summary>
+        public static string AlmanLogin {
+            get {
+                return ResourceManager.GetString("AlmanLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alman.
         /// </summary>
         public static string AppName {

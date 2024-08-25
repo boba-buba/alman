@@ -2,7 +2,6 @@
 
 public interface IContractFeeBase : IIdentifier
 {
-    //public int Id { get; set; }
 
     public int CfchildId { get; set; }
 
@@ -10,6 +9,6 @@ public interface IContractFeeBase : IIdentifier
 
     public int Cfyear { get; set; }
 
-    public int? CfsumPaid { get; set; }
+    public int CfsumPaid { get; set; }
 
 }

@@ -13,7 +13,7 @@ public partial class ContractFee : IContractFeeBase, IDeleteDependable
 
     public int Cfyear { get; set; }
 
-    public int? CfsumPaid { get; set; }
+    public int CfsumPaid { get; set; }
 
     public virtual Child Cfchild { get; set; } = null!;
 

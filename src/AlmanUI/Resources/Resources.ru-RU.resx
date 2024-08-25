@@ -118,4 +118,7 @@
   <data name="LangComboBox" xml:space="preserve">
     <value>Язык</value>
   </data>
+  <data name="AlmanLogin" xml:space="preserve">
+    <value>Алман вход</value>
+  </data>
 </root>

@@ -16,7 +16,7 @@ public class ContractFeeUI : IContractFeeBase
 
     public int Cfyear { get; set; }
 
-    public int? CfsumPaid { get; set; }
+    public int CfsumPaid { get; set; }
 }
 
 public class ContractFeeCompositeItem

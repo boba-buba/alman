@@ -71,6 +71,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StaffResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\ChildBillWindow.axaml.cs">
+      <DependentUpon>ChildBillWindow.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ChildrenPageView.axaml.cs">
       <DependentUpon>ChildrenPageView.axaml</DependentUpon>
     </Compile>

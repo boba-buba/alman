@@ -148,4 +148,10 @@
   <data name="StaffChildType" xml:space="preserve">
     <value>Staff Child</value>
   </data>
+  <data name="ChildBillWindow" xml:space="preserve">
+    <value>Alman Child Bill</value>
+  </data>
+  <data name="CalculateChildBill" xml:space="preserve">
+    <value>Calculate Child Bill</value>
+  </data>
 </root>

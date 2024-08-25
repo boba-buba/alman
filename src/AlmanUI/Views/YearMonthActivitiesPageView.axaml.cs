@@ -14,6 +14,7 @@ using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Material.Icons;
 
 
 namespace AlmanUI.Views;
@@ -134,7 +135,7 @@ public partial class YearMonthActivitiesPageView : UserControl
                 grid.Children.Add(monthSumActivity);
                 Grid.SetColumn(monthSumActivity, 0);
 
-                var fillDatesButton = new Button { Content = "v" };
+                var fillDatesButton = new Button { Content = MaterialIconKind.CalendarMultiselectOutline };
                 ToolTip.SetTip(fillDatesButton, AlmanUI.Resources.ChildrenResources.FillDatesToolTip);
                 fillDatesButton.Click += OnFillDatesClick;
                 
@@ -160,8 +161,49 @@ public partial class YearMonthActivitiesPageView : UserControl
             });
         }
 
+        var childBillTemplate = new FuncDataTemplate<YearMonthActivityCompositeItem>((x, _) => 
+        {
+            Button calculateButton = new Button()
+            {
+                Content = MaterialIconKind.Cash,
+                CommandParameter = x,
+                
+            };
+
+            calculateButton.Click += OnCalculateBillClick;
+            
+            return calculateButton;
+        });
+        
+        MainDataGrid.Columns.Add(new DataGridTemplateColumn
+        {
+            Header = "",
+            CellTemplate = childBillTemplate
+        });
+
         MainDataGrid.ItemsSource = _yearMonthActivities;
         SaveMonthActivitiesButton.CommandParameter = _yearMonthActivities;
+    }
+
+    private async void OnCalculateBillClick(object? sender, RoutedEventArgs e)
+    {
+        
+        if (sender is null) { return; }
+        var compositeItem = ((Button)sender).CommandParameter;
+        if (compositeItem is null) { return; }
+
+        
+        YearMonthActivityCompositeItem item = (YearMonthActivityCompositeItem)compositeItem;
+            
+        ChildBill bill = YearMonthActivitiesControl.ComputeChildBill(item.YMChild!.Id, item.YMActivities![0].Year, item.YMActivities![0].Month);
+
+        var billWindow = new ChildBillWindow();
+        billWindow.SetChildBill(bill);
+        if (VisualRoot is null) { return; }
+        await billWindow.ShowDialog((Window)VisualRoot);
+       
+
+        
     }
 
     private async void OnFillDatesClick(object? sender, RoutedEventArgs e)
