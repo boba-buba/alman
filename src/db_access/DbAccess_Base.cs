@@ -10,12 +10,12 @@ namespace DbAccess;
 public abstract class DbBase
 {
 
-    protected string DbPath { get; init; } = AlmanConfig.GetConfigString("Database:DataBaseFilePath");
+    protected string DbPath { get; set; } = "";
     public virtual AlmanContext ConnectToDb()
     {
         if (string.IsNullOrWhiteSpace(DbPath))
         {
-            throw new ArgumentNullException("Database path");
+            DbPath = AlmanConfig.GetConfigString("Database:DataBaseFilePath");
         }
         var ctx = new AlmanContext(DbPath);
         ctx.Database.EnsureCreated();
@@ -89,5 +89,25 @@ public partial class DbConnection : DbBase
     {
         using var db = ConnectToDb();
         return DbAccessUtilities.DeleteEntities(entities, db);
+    }
+}
+
+
+public partial class DbConnectionTest : DbConnection
+{
+    public DbConnectionTest(string dbPath)
+    {
+        DbPath = dbPath;
+    }
+    public override AlmanContext ConnectToDb()
+    {
+        var ctx = new AlmanContext(DbPath);
+        ctx.Database.EnsureCreated();
+        if (!ctx.Users.Any())
+        {
+            ctx.Users.Add(new User { Name = "Admin", Password = "1234", Id = 1, Permissions = 1 });
+            ctx.SaveChanges();
+        }
+        return ctx;
     }
 }

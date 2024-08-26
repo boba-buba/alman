@@ -15,7 +15,7 @@ public partial class DbAccessModel_UnitTests
     public void AddChild_ReadChild_MustPass(string dbName, string firstName, string lastName, int childGroup, ChildState childState)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
         //Act
@@ -38,7 +38,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoChildren_ReadTwoChildren_MustPass(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -57,7 +57,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTheSameChildTwice_ReadTwoChildrenWithDifferentIds_MustPass(string dbName, string firstName, string lastName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -79,7 +79,7 @@ public partial class DbAccessModel_UnitTests
     public void GetChildrenWithFilter_MustPAss(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -96,7 +96,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangeContractTypeForChild_MustPass(string dbName, ContractType oldContract, ContractType newContract)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
 
         //Act
@@ -124,7 +124,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteChildren_MustPass(string dbName, string firstName, string lastName, string secondFirstName, string secondLastName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
 
@@ -144,7 +144,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteChildrenWIthDependencies_MustPass(string dbName, string firstName, string lastName, int month, int year, int sum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedAfterAdding = 1;
         int expectedAfterDeleteing = 0;
@@ -181,7 +181,7 @@ public partial class DbAccessModel_UnitTests
     public void AddActvity_ReadActvity_MustPass(string dbName, string name, int price)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
         int expectedCount = 1;
@@ -204,7 +204,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoActvities_ReadTwoActivities_MustPass(string dbName, string firstName, string secondName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -224,7 +224,7 @@ public partial class DbAccessModel_UnitTests
     public void GetActivitiesWithFilter_MustPass(string dbName, string firstName, string secondName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -242,7 +242,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangeActvityPrice_MustPass(string dbName, int oldPrice, int newPrice)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedId = 1;
 
@@ -272,7 +272,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteActvities_MustPass(string dbName, string firstName, string secondFirstName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
 
@@ -294,7 +294,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteActvitiesWIthDependencies_MustPass(string dbName, string firstName, string lastName, string actName, int month, int year)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedAfterAdding = 1;
         int expectedAfterDeleteing = 0;
@@ -338,7 +338,7 @@ public partial class DbAccessModel_UnitTests
     public void AddPrecontract_ReadPrecontract_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -361,7 +361,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoPrecontracts_ReadTwoPrecontracts_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -388,7 +388,7 @@ public partial class DbAccessModel_UnitTests
     public void GetPrecontractsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -414,7 +414,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangePrecontractComment_MustPass(string dbName, string firstComment, string secondComment)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "second", ChildName = "First" };
@@ -441,7 +441,7 @@ public partial class DbAccessModel_UnitTests
     public void DeletePrecontracts_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         //Act
@@ -467,7 +467,7 @@ public partial class DbAccessModel_UnitTests
     public void DeletePrecontracts_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -496,7 +496,7 @@ public partial class DbAccessModel_UnitTests
     public void AddContractFee_REadContractFee_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -520,7 +520,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoContractFees_ReadTwoContractFees_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -546,7 +546,7 @@ public partial class DbAccessModel_UnitTests
     public void GetContractFeesWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -572,7 +572,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangeContractFeeSum_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "second", ChildName = "First" };
@@ -599,7 +599,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteContractFees_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         //Act
@@ -626,7 +626,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteContractFees_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -651,7 +651,7 @@ public partial class DbAccessModel_UnitTests
     public void AddContract_GetContractById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         //Act
         var child = new Child { ChildLastName = "name", ChildName = "first" };
@@ -674,7 +674,7 @@ public partial class DbAccessModel_UnitTests
     public void AddYearMonthAct_ReadYearMonthAct_MustPass(string dbName, int sum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -701,7 +701,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoYearMonthActs_ReadTwoYearMonthActs_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -734,7 +734,7 @@ public partial class DbAccessModel_UnitTests
     public void GetYearMonthActsWithFilter_MustPass(string dbName, int firstSum, int secondSum, int condition)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -762,7 +762,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangeYearMonthActivitySum_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
         db.AddItems([activity]);
@@ -792,7 +792,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearMonthActivities_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
@@ -821,7 +821,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearMonthActivities_WithFilter_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = firstSum };
@@ -849,7 +849,7 @@ public partial class DbAccessModel_UnitTests
     public void AddYearMonthACtivity_GetYearMonthActivityById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectdCount = 1;
         var activity = new Activity { ActivityName = "Doctor", ActivityPrice = 700 };
@@ -875,7 +875,7 @@ public partial class DbAccessModel_UnitTests
     public void AddYearSub_ReadYearSub_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -899,7 +899,7 @@ public partial class DbAccessModel_UnitTests
     public void AddTwoYearSubs_ReadTwoYearSubs_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 2;
         //Act
@@ -929,7 +929,7 @@ public partial class DbAccessModel_UnitTests
     public void GetYearSubsWithFilter_MustPass(string dbName, int firstYear, int secondYear, int condition)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
         //Act
@@ -956,7 +956,7 @@ public partial class DbAccessModel_UnitTests
     public void ChangeYearSub_MustPass(string dbName, int firstSum, int secondSum)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
 
         //Act
@@ -986,7 +986,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearSubs_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 0;
 
@@ -1016,7 +1016,7 @@ public partial class DbAccessModel_UnitTests
     public void DeleteYearSubs_WithFilter_MustPass(string dbName, int firstYear, int secondYear)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
         int expectedCount = 1;
 
@@ -1046,7 +1046,7 @@ public partial class DbAccessModel_UnitTests
     public void AddYearSub_GetYearSubById_MustPass(string dbName)
     {
         //Arrange
-        var db = new DbConnection(dbName);
+        var db = new DbConnectionTest(dbName);
         db.DeleteDb(dbName);
 
         //Act
