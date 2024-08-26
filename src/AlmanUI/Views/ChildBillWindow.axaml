@@ -6,7 +6,7 @@
 		xmlns:local="clr-namespace:AlmanUI.Resources"
 		xmlns:ViewModels="clr-namespace:AlmanUI.ViewModels"
 		xmlns:Controls="clr-namespace:AlmanUI.Controls"
-        Title="{x:Static local:ChildrenResources.CalendarWindow}"
+        Title="{x:Static local:ChildrenResources.CalculateChildBill}"
 		Width="400" Height="300"
 		MinHeight="300" MinWidth="400"
 		MaxWidth="400"

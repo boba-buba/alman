@@ -8,6 +8,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AlmanUI.Views.ExpensesPageView"
 			 x:DataType="ViewModels:ExpensesPageViewModel">
+	<UserControl.Styles>
+		<StyleInclude Source="../Assets/GridDbTableStyle.axaml"/>
+	</UserControl.Styles>
 	<Grid RowDefinitions="Auto, *, Auto">
 		<Border Grid.Row="0" Height="100">
 			<Grid ColumnDefinitions="2*, *, *, 2*">
@@ -18,14 +21,7 @@
 			</Grid>
 		</Border>
 
-		<DataGrid Name="ExpensesDataGrid" Grid.Row="1" CornerRadius="0 0 12 12"
-				  Margin="10" ItemsSource="{Binding Expenses}"
-				  IsReadOnly="False" SelectedItem="{Binding SelectedExpense}"
-				  GridLinesVisibility="All"
-				  CanUserSortColumns="True"
-				  CanUserResizeColumns="True"
-				  BorderThickness="4" BorderBrush="Gray">
-		</DataGrid>
+		<DataGrid Name="ExpensesDataGrid" Grid.Row="1" Classes="db-table" ItemsSource="{Binding Expenses}" IsReadOnly="False" SelectedItem="{Binding SelectedExpense}" />
 
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto, Auto, Auto, Auto" HorizontalAlignment="Center">

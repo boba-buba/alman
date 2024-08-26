@@ -1,0 +1,16 @@
+<Styles  xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  
+
+  <!-- Add Styles Here -->
+	<Style Selector="DataGrid.db-table">
+		<Setter Property="Margin" Value="10"/>
+		<Setter Property="IsReadOnly" Value="False"/>
+		<Setter Property="CornerRadius" Value="0 0 12 12"/>
+		<Setter Property="BorderBrush" Value="#2f7bad"/>
+		<Setter Property="BorderThickness" Value="4"/>
+		<Setter Property="GridLinesVisibility" Value="All"/>
+		<Setter Property="CanUserResizeColumns" Value="True"/>
+		<Setter Property="CanUserSortColumns" Value="True"/>
+	</Style>
+</Styles >

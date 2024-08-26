@@ -172,4 +172,7 @@
   <data name="OverallSum" xml:space="preserve">
     <value>Окончательная сумма</value>
   </data>
+  <data name="SaveDatesChoise" xml:space="preserve">
+    <value>Сохранить выбор</value>
+  </data>
 </root>

@@ -10,7 +10,7 @@
 		WindowStartupLocation="CenterScreen"
         Title="{x:Static local:Resources.AlmanLogin}">
 
-	<Grid Background="DarkGray">
+	<Grid>
 		<!-- Define the rows and columns -->
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>

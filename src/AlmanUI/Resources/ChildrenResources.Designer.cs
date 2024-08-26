@@ -250,6 +250,15 @@ namespace AlmanUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save choise.
+        /// </summary>
+        public static string SaveDatesChoise {
+            get {
+                return ResourceManager.GetString("SaveDatesChoise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff Child.
         /// </summary>
         public static string StaffChildType {

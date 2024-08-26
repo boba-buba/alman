@@ -10,6 +10,7 @@ using Avalonia.Interactivity;
 using AlmanUI.Resources;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Globalization;
+using System.Threading;
 
 namespace AlmanUI.Views;
 
@@ -106,5 +107,8 @@ public partial class LoginWindow : Window
         AlmanUI.Resources.HomePageResources.Culture = new CultureInfo(cultureString);
         AlmanUI.Resources.StaffResources.Culture = new CultureInfo(cultureString);
         AlmanUI.Resources.OtherResources.Culture = new CultureInfo(cultureString);
+        Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureString);
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureString);
+
     }
 }

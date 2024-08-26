@@ -172,4 +172,7 @@
   <data name="OverallSum" xml:space="preserve">
     <value>Overall</value>
   </data>
+  <data name="SaveDatesChoise" xml:space="preserve">
+    <value>Save choise</value>
+  </data>
 </root>
