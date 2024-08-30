@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Alman.SharedModels;
 
-namespace Alman.SharedModels;
-
+/// <summary>
+/// Common model for the Staff activity entity.
+/// </summary>
 public interface IStaffActivityBase : IIdentifier
 {
-
+    /// <summary>
+    /// Name of the activity staff member can do.
+    /// </summary>
     public string? ActivityName { get; set; }
 
 }

@@ -5,11 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
-
 namespace DbAccess;
 
+/// <summary>
+/// Provides functionality to dump database to the excel file.
+/// </summary>
 public partial class DbConnection : DbBase
 {
+    /// <summary>
+    /// Export all tables to sheet of one excel file. Every table for a separate sheet.
+    /// </summary>
+    /// <returns> Task from result of dumping. </returns>
     public Task<string> ExportToExcel()
     {
         string folderName = AlmanConfig.GetConfigString("ExcelDumping:FlderPath");
@@ -43,7 +49,12 @@ public partial class DbConnection : DbBase
         return Task.FromResult(filePath);
     }
 
-
+    /// <summary>
+    /// Export one table to one sheet of excel file.
+    /// </summary>
+    /// <typeparam name="TEntity"> Type of the table. </typeparam>
+    /// <param name="items"> Table from database itself. </param>
+    /// <param name="sheet"> Sheet to write table to. </param>
     private void ExportTable<TEntity>(DbSet<TEntity> items, ISheet sheet) where TEntity : class
     {
         // Load data from the database

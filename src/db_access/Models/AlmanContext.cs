@@ -10,6 +10,9 @@ namespace DbAccess.Models;
 
 public partial class AlmanContext : DbContext
 {
+    /// <summary>
+    /// default ctor
+    /// </summary>
     public AlmanContext()
     {
     }
@@ -19,32 +22,74 @@ public partial class AlmanContext : DbContext
     {
     }
 
+    /// <summary>
+    /// Activities table.
+    /// </summary>
     public virtual DbSet<Activity> Activities { get; set; }
 
+    /// <summary>
+    /// Children table.
+    /// </summary>
     public virtual DbSet<Child> Children { get; set; }
 
+    /// <summary>
+    /// Contract fees table.
+    /// </summary>
     public virtual DbSet<ContractFee> ContractFees { get; set; }
 
+    /// <summary>
+    /// Final Payments table.
+    /// </summary>
     public virtual DbSet<FinalPayment> FinalPayments { get; set; }
 
+    /// <summary>
+    /// Precontracts table.
+    /// </summary>
     public virtual DbSet<Precontract> Precontracts { get; set; }
 
-
+    /// <summary>
+    /// Staff activities table.
+    /// </summary>
     public virtual DbSet<StaffActivity> StaffActivities { get; set; }
 
+    /// <summary>
+    /// Staff members table.
+    /// </summary>
     public virtual DbSet<StaffMember> StaffMembers { get; set; }
 
+    /// <summary>
+    /// Monthly children activities table.
+    /// </summary>
     public virtual DbSet<YearMonthActivity> YearMonthActivities { get; set; }
 
+    /// <summary>
+    /// Monthly other activities that are not staff or child activities.
+    /// </summary>
     public virtual DbSet<YearMonthOther> YearMonthOthers { get; set; }
 
+    /// <summary>
+    /// Monthly staff activities table.
+    /// </summary>
     public virtual DbSet<YearMonthStaffActivity> YearMonthStaffActivities { get; set; }
 
+    /// <summary>
+    /// Yearly children subscriptions.
+    /// </summary>
     public virtual DbSet<YearSub> YearSubs { get; set; }
 
+    /// <summary>
+    /// Monthly Expenses table.
+    /// </summary>
     public virtual DbSet<Expense> YearMonthExpenses { get; set; }
 
+    /// <summary>
+    /// Users that can access database table.
+    /// </summary>
     public virtual DbSet<User> Users { get; set; }
+
+    /// <summary>
+    /// Year results (sums of income and expenses) table.
+    /// </summary>
     public virtual DbSet<YearResult> YearResults { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -191,6 +236,13 @@ public partial class AlmanContext : DbContext
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 
+    /// <summary>
+    /// Returns instance of one of the declared DbSets, that represents the table.
+    /// </summary>
+    /// <typeparam name="TEntity"> Type of the entity that reperesents the row of the table. </typeparam>
+    /// <returns> Instance of the DbSet </returns>
+    /// <exception cref="InvalidOperationException"> If trying to find dbSet for the TEntity that was not defined in DbContext. </exception>
+    /// <exception cref="ArgumentNullException"> If found dbSet is null </exception>
     public DbSet<TEntity> GetDeclaredDbSet<TEntity>() where TEntity : class
     {
         Type contextType = this.GetType();
