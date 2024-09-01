@@ -4,32 +4,45 @@ using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
+/// <summary>
+/// ViewModel for the Activities. Buttons commands, data.
+/// </summary>
 public partial class ActivitiesPageViewModel : ViewModelBase
 {
-
+    /// <summary>
+    /// Read activities table.
+    /// </summary>
     public ObservableCollection<IActivityBase> Activities { get; set; }
 
+    /// <summary>
+    /// The row that is selected in UI View at the moment.
+    /// </summary>
     [ObservableProperty]
     private IActivityBase? _selectedActivity = null;
 
+    /// <summary>
+    /// Ids of the items that were deleted in UI and must be deleted from database.
+    /// </summary>
     private IList<int> _activitiesIdsToDelete;
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public ActivitiesPageViewModel()
     {
         Activities = new ObservableCollection<IActivityBase>(ActivitiesControl.GetItems());
         _activitiesIdsToDelete = new List<int>();
     }
 
+    /// <summary>
+    /// Save the changes and read the table again. Reading the table again is neccessary to get ids of newly inserted items.
+    /// </summary>
     [RelayCommand]
     public void TriggerSaveCommand()
     {
@@ -48,6 +61,9 @@ public partial class ActivitiesPageViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Add new item to the table in UI.
+    /// </summary>
     [RelayCommand]
     public void TriggerAddNewActivityCommand()
     {
@@ -55,6 +71,9 @@ public partial class ActivitiesPageViewModel : ViewModelBase
         Activities.Add(activity);
     }
 
+    /// <summary>
+    /// Remove selected item <see cref="_selectedActivity"/> from UI table and set it to null.
+    /// </summary>
     [RelayCommand]
     public void TriggerRemoveActivityCommand()
     {

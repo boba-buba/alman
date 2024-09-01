@@ -4,31 +4,45 @@ using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
+/// <summary>
+/// ViewModel for fetching and managing data for Staff activities.
+/// </summary>
 public partial class StaffActivitiesPageViewModel : ViewModelBase
 {
+    /// <summary>
+    /// Read from the database StaffActivities table.
+    /// </summary>
     public ObservableCollection<IStaffActivityBase> StaffActivities { get; set; }
     
+    /// <summary>
+    /// Selected row of th UI table.
+    /// </summary>
     [ObservableProperty]
     private IStaffActivityBase? _selectedStaffActivity = null;
 
+    /// <summary>
+    /// Ids of the rows to be deleted from the database.
+    /// </summary>
     private IList<int> _staffActivitiesIdsToDelete;
 
+    /// <summary>
+    /// ctor ttha initializes <seealso cref="StaffActivities"/> and <seealso cref="_staffActivitiesIdsToDelete"/>.
+    /// </summary>
     public StaffActivitiesPageViewModel()
     {
         StaffActivities = new ObservableCollection<IStaffActivityBase>(StaffActivitiesControl.GetItems());
         _staffActivitiesIdsToDelete = new List<int>();
     }
 
+    /// <summary>
+    /// Save the modified UI vIew table and fetch the latest data from the database.
+    /// </summary>
     [RelayCommand]
     public void TriggerSaveCommand()
     {
@@ -47,6 +61,9 @@ public partial class StaffActivitiesPageViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Add new row to the UI table.
+    /// </summary>
     [RelayCommand]
     public void TriggerAddNewStaffActivity()
     {
@@ -54,6 +71,9 @@ public partial class StaffActivitiesPageViewModel : ViewModelBase
         StaffActivities.Add(activity);
     }
 
+    /// <summary>
+    /// Remove the selected row from the UI table. Set <seealso cref="_selectedStaffActivity"/> to null.
+    /// </summary>
     [RelayCommand]
     public void TriggerRemoveStaffActivityCommand()
     {

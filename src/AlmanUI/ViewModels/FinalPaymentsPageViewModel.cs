@@ -4,26 +4,37 @@ using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
+/// <summary>
+/// ViewModel for fetching and managing Final Payments.
+/// </summary>
 public partial class FinalPaymentsPageViewModel : ViewModelBase
 {
+    /// <summary>
+    /// The month that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month;
 
+    /// <summary>
+    /// The year that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public FinalPaymentsPageViewModel() { }
 
+    /// <summary>
+    /// Set month to the previous. Send notification to the view to load data for new month.
+    /// </summary>
     [RelayCommand]
     public void TriggerPrevMonth()
     {
@@ -40,6 +51,9 @@ public partial class FinalPaymentsPageViewModel : ViewModelBase
         Mediator.Mediator.Instance.SendWithParams("UpdateFinalPaymentsMainDataGrid", CurrentYear, CurrentMonth);
     }
 
+    /// <summary>
+    /// Set month to the next. Send notification to the view to load data for new month.
+    /// </summary>
     [RelayCommand]
     public void TriggerNextMonthCommand()
     {
@@ -56,7 +70,10 @@ public partial class FinalPaymentsPageViewModel : ViewModelBase
 
     }
 
-
+    /// <summary>
+    /// Save the modified UI vIew table and fetch the latest data from the database.
+    /// </summary>
+    /// <param name="items">Modified UI table.</param>
     [RelayCommand]
     public void TriggerSaveCommand(IReadOnlyList<FinalPayementCompositeItem> items)
     {

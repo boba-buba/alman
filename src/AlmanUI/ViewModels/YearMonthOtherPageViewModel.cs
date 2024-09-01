@@ -2,23 +2,19 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
-using AlmanUI.Views;
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-
 
 namespace AlmanUI.ViewModels;
 
-public partial class YearMonthOtherPageViewModel : ViewModelBase
+/// <summary>
+/// ViewModel for fetching and managing data for Monthly other activities.
+/// </summary>
+public partial class YearMonthOtherPageViewModel : ViewModelBase, IMonthButtons, ISaveButtonWithoutParam, IAddRemoveButtons, ICurrentMonth, ICurrentYear
 {
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month; //TODO converter
@@ -26,13 +22,25 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
-
+    /// <summary>
+    /// Selected row in UI table view.
+    /// </summary>
     [ObservableProperty]
     private IYearMonthOtherBase? _selectedOther = null;
 
+    /// <summary>
+    /// Read OtherActivities table from the database.
+    /// </summary>
     public ObservableCollection<IYearMonthOtherBase> OtherActivities { get; set; }
+
+    /// <summary>
+    /// Ids of the items to delete from database.
+    /// </summary>
     private List<int> _idsToDelete;
 
+    /// <summary>
+    /// Fetch all necessary data from that databse.
+    /// </summary>
     private void LoadItems()
     {
         if (_idsToDelete is null)
@@ -58,6 +66,9 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// ctor that initializes <seealso cref="_idsToDelete"/> and <seealso cref="OtherActivities"/>.
+    /// </summary>
     public YearMonthOtherPageViewModel()
     {
         _idsToDelete = new List<int>();

@@ -9,33 +9,59 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
+/// <summary>
+/// ViewModel for getting and managing data for Expenses.
+/// </summary>
 public partial class ExpensesPageViewModel : ViewModelBase
 {
+    /// <summary>
+    /// The month that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month;
 
+    /// <summary>
+    /// The year that is shownd and the data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
+    /// <summary>
+    /// Read Expenses table from the database.
+    /// </summary>
     public ObservableCollection<IExpenseBase> Expenses { get; set; }
 
+    /// <summary>
+    /// Overall sum of all expenses for the month.
+    /// </summary>
     [ObservableProperty]
     public int _monthSum;
 
+    /// <summary>
+    /// Selected item in the UI View.
+    /// </summary>
     [ObservableProperty]
     private IExpenseBase? _selectedExpense = null;
 
+    /// <summary>
+    /// Ids of the rows to be deleted from the database.
+    /// </summary>
     private IList<int> _expensesIdsToDelete;
+
+    /// <summary>
+    /// ctor taht loads the items for the view.
+    /// </summary>
     public ExpensesPageViewModel() 
     {
         LoadItems();   
     }
 
+    /// <summary>
+    /// Load all UI View data from the database.
+    /// </summary>
     private void LoadItems()
     {
         if (_expensesIdsToDelete is null)
@@ -64,6 +90,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         MonthSum = (from item in items select item.ExpenseSum).Sum();
     }
 
+    /// <summary>
+    /// Add new row to the UI table.
+    /// </summary>
     [RelayCommand]
     public void TriggerAddNewCommand()
     {
@@ -71,7 +100,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         Expenses.Add(expense);
     }
 
-
+    /// <summary>
+    /// Remove the row from the UI View table.
+    /// </summary>
     [RelayCommand]
     public void TriggerRemoveCommand()
     {
@@ -87,7 +118,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         SelectedExpense = null;
     }
 
-
+    /// <summary>
+    /// Save the modified UI View table <seealso cref="Expenses"/> and fetch the latest data from the database.
+    /// </summary>
     [RelayCommand]
     public void TriggerSaveCommand()
     {
@@ -100,7 +133,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         LoadItems();
     }
 
-
+    /// <summary>
+    /// Set month to the previous. Send notification to the view to load data for new month.
+    /// </summary>
     [RelayCommand]
     public void TriggerPrevMonthCommand()
     {
@@ -117,7 +152,9 @@ public partial class ExpensesPageViewModel : ViewModelBase
         Mediator.Mediator.Instance.Send("UpdateExpensesDataGrid");
     }
 
-
+    /// <summary>
+    /// Set month to the next. Send notification to the view to load data for new month.
+    /// </summary>
     [RelayCommand]
     public void TriggerNextMonthCommand()
     {

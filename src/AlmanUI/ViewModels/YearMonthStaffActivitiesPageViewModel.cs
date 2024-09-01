@@ -14,7 +14,11 @@ using System.Threading.Tasks;
 
 namespace AlmanUI.ViewModels;
 
-public partial class YearMonthStaffActivitiesPageViewModel : ViewModelBase
+/// <summary>
+/// ViewModel for fetching and managing the data for Monthly staff activities.
+/// </summary>
+public partial class YearMonthStaffActivitiesPageViewModel : 
+    ViewModelBase, ICurrentYear, ICurrentMonth, IMonthButtons, ISaveButtonWithParam<YearMonthStaffActivityCompositeItem>
 {
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month; //TODO converter
@@ -22,6 +26,9 @@ public partial class YearMonthStaffActivitiesPageViewModel : ViewModelBase
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearMonthStaffActivitiesPageViewModel() { }
 
     [RelayCommand]
@@ -81,7 +88,6 @@ public partial class YearMonthStaffActivitiesPageViewModel : ViewModelBase
         {
             Debug.WriteLine($"Something went wrong updating {nameof(YearMonthStaffActivityUI)}'s. Changes were not saved.");
         }
+        Mediator.Mediator.Instance.SendWithParams("UpdateYearMonthStaffActivities", CurrentYear, CurrentMonth);
     }
-
-
 }

@@ -4,32 +4,46 @@ using AlmanUI.Controls;
 using AlmanUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace AlmanUI.ViewModels;
 
-public partial class YearSubsPageViewModel : ViewModelBase
+/// <summary>
+/// ViewModel for fetching and managing data for yearly subscriptions.
+/// </summary>
+public partial class YearSubsPageViewModel : ViewModelBase, ICurrentYear, ISaveButtonWithoutParam, IYearButtons
 {
 
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
    
-
+    /// <summary>
+    /// Monthly sums for all 12 months during the year.
+    /// </summary>
     public ObservableCollection<int> MonthlySum { get; private set; }
 
+    /// <summary>
+    /// Read children table from the database.
+    /// </summary>
     private IReadOnlyList<IChildBase>? _childrenTable;
 
+    /// <summary>
+    /// Read from the database yearly subscriptions.
+    /// </summary>
     private IReadOnlyList<IYearSubBase>? _yearSubsTable;
 
+    /// <summary>
+    /// Collection of elements to be shown in UI View.
+    /// </summary>
     public ObservableCollection<YearSubCompositeItem> ChildYearSubs { get; set; }
     
+    /// <summary>
+    /// Fetch all necessary data from the database.
+    /// </summary>
     private void LoadItems()
     {
         ChildYearSubs.Clear();
@@ -62,6 +76,9 @@ public partial class YearSubsPageViewModel : ViewModelBase
         
     }
     
+    /// <summary>
+    /// ctor that initializes <seealso cref="MonthlySum"/>, <seealso cref="ChildYearSubs"/> and loads data from database.
+    /// </summary>
     public YearSubsPageViewModel() 
     {
         MonthlySum = new ObservableCollection<int>(new int[12]);
@@ -69,6 +86,10 @@ public partial class YearSubsPageViewModel : ViewModelBase
         LoadItems();
     }
 
+    /// <summary>
+    /// Calculate sums for all 12 months for the moment.
+    /// </summary>
+    /// <returns></returns>
     private YearSubCompositeItem CalculateSum()
     {
         if (_yearSubsTable is null)
@@ -85,6 +106,7 @@ public partial class YearSubsPageViewModel : ViewModelBase
         }
         return monthSum;
     }
+
 
     [RelayCommand]
     public void TriggerPrevYearCommand()

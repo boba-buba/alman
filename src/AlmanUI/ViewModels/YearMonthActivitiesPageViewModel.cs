@@ -1,28 +1,36 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
+using AlmanUI.Controls;
 using AlmanUI.Models;
-using AlmanUI.Views;
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using AlmanUI.Controls;
 namespace AlmanUI.ViewModels;
 
-public partial class YearMonthActivitiesPageViewModel : ViewModelBase
+
+
+/// <summary>
+/// ViewModel for fetching and managing the data for YearMonthActivities.
+/// </summary>
+public partial class YearMonthActivitiesPageViewModel : ViewModelBase, IMonthButtons, ISaveButtonWithParam<YearMonthActivityCompositeItem>, ICurrentMonth
 {
+    
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month; //TODO converter
 
+    /// <summary>
+    /// The year that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
-    public List<int> PaymentMethods { get; } = new List<int>() { (int)WayOfPaying.Cash, (int)WayOfPaying.Transfer};
+    
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearMonthActivitiesPageViewModel() {}
 
 

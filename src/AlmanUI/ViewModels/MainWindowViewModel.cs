@@ -1,38 +1,47 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Material.Icons.Avalonia;
-
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Material.Icons;
-
+using System;
+using System.Collections.ObjectModel;
 
 namespace AlmanUI.ViewModels;
 
+/// <summary>
+/// ViewModel for the main window data.
+/// </summary>
 public partial class MainWindowViewModel : ViewModelBase
 {
+    /// <summary>
+    /// Flag that indicates if the pane is open.
+    /// </summary>
     [ObservableProperty]
     private bool _isPaneOpen = true;
 
+    /// <summary>
+    /// The page that is shown currenb=ntly in the View.
+    /// </summary>
     [ObservableProperty]
     private ViewModelBase _currentPage = new HomePageViewModel();
 
+    /// <summary>
+    /// Selected page in the view.
+    /// </summary>
     [ObservableProperty]
     private ListItemTemplate? _selectedListItem;
 
+    /// <summary>
+    /// Change the state of the pane (close/open) to the opposite.
+    /// </summary>
     [RelayCommand]
     public void TriggerPaneCommand()
     {
         IsPaneOpen = !IsPaneOpen;
     }
 
+    /// <summary>
+    /// Load newly chosen page to show in the view.
+    /// </summary>
+    /// <param name="value"></param>
     partial void OnSelectedListItemChanged(ListItemTemplate? value)
     {
         if (value is null)
@@ -54,6 +63,9 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Collection of possible pages.
+    /// </summary>
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
         new ListItemTemplate(typeof(HomePageViewModel),  MaterialIconKind.Home, AlmanUI.Resources.HomePageResources.HomePageName),
@@ -70,19 +82,38 @@ public partial class MainWindowViewModel : ViewModelBase
         new ListItemTemplate(typeof(YearMonthOtherPageViewModel), MaterialIconKind.Flower, AlmanUI.Resources.OtherResources.YearMonthOtherPageName),
         new ListItemTemplate(typeof(ExpensesPageViewModel), MaterialIconKind.CreditCardOutline, AlmanUI.Resources.OtherResources.ExpensesPageName),
     };
-
 }
 
+/// <summary>
+/// Utility class to store data of the page.
+/// </summary>
 public class ListItemTemplate
 {
+    /// <summary>
+    /// ctor.
+    /// </summary>
+    /// <param name="type">Type of the page.</param>
+    /// <param name="icon">Icon for the pane.</param>
+    /// <param name="label">Name of the page.</param>
     public ListItemTemplate(Type type, MaterialIconKind icon, string label)
     {
         ModelType = type;
         Label = label;
         ListItemIcon = icon;
     }
+
+    /// <summary>
+    /// Name of the page for the view.
+    /// </summary>
     public string Label { get; }
+
+    /// <summary>
+    /// Type of the ViewModel.
+    /// </summary>
     public Type ModelType { get; }
 
+    /// <summary>
+    /// Icon for the pane.
+    /// </summary>
     public MaterialIconKind ListItemIcon { get; }
 }

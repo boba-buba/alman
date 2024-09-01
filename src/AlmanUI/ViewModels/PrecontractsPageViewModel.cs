@@ -1,29 +1,37 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Alman.SharedDefinitions;
+using Alman.SharedModels;
+using AlmanUI.Controls;
+using AlmanUI.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using AlmanUI.Views;
-using AlmanUI.Models;
-using AlmanUI.Controls;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SkiaSharp;
 using System.Diagnostics;
-using Alman.SharedDefinitions;
-using Alman.SharedModels;
 
 namespace AlmanUI.ViewModels;
 
-public partial class PrecontractsPageViewModel : ViewModelBase
+/// <summary>
+/// ViewModel for fetching and managing the data for Precontracts.
+/// </summary>
+public partial class PrecontractsPageViewModel : ViewModelBase, IMonthButtons
 {
+    /// <summary>
+    /// The month that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentMonth = DateTime.Now.Month;
 
+    /// <summary>
+    /// The year that is shown and data are fetched for.
+    /// </summary>
     [ObservableProperty]
     public int _currentYear = DateTime.Now.Year;
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public PrecontractsPageViewModel() { }
+
 
     [RelayCommand]
     public void TriggerPrevMonthCommand()
@@ -42,6 +50,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
 
     }
 
+
     [RelayCommand]
     public void TriggerNextMonthCommand() 
     {
@@ -55,10 +64,12 @@ public partial class PrecontractsPageViewModel : ViewModelBase
             CurrentMonth = CurrentMonth + 1;
         }
         Mediator.Mediator.Instance.SendWithParams("UpdatePrecontractsMainDataGrid", CurrentYear, CurrentMonth);
-
     }
 
-
+    /// <summary>
+    /// Save the modified UI vIew table and fetch the latest data from the database.
+    /// </summary>
+    /// <param name="items">Modified UI table.</param>
     [RelayCommand]
     public void TriggerSaveCommand(IReadOnlyList<PrecontractCompositeItem> items)
     {
@@ -79,7 +90,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
         {
             Debug.WriteLine($"Something went wrong saving {nameof(PrecontractUI)}'s. Changes were not saved.");
         }
+        Mediator.Mediator.Instance.SendWithParams("UpdatePrecontractsMainDataGrid", CurrentYear, CurrentMonth);
     }
-     
 }
 
