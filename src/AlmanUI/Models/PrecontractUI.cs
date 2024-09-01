@@ -1,12 +1,10 @@
 ﻿using Alman.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the Precontract entity.
+/// </summary>
 internal class PrecontractUI : IPrecontractBase
 {
     public int Id { get; set; }
@@ -21,9 +19,19 @@ internal class PrecontractUI : IPrecontractBase
     public int? PMonth { get; set; }
 }
 
+/// <summary>
+/// Utility class for Precontracts View.
+/// </summary>
 public class PrecontractCompositeItem
 {
+    /// <summary>
+    /// Child.
+    /// </summary>
     public IChildBase? PChild { get; set; }
+
+    /// <summary>
+    /// Child's precontract.
+    /// </summary>
     public IPrecontractBase? Precontract { get; set; }
 }
 

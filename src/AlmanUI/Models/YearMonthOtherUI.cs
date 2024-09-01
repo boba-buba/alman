@@ -1,12 +1,10 @@
 ﻿using Alman.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the YearMonthOther entity.
+/// </summary>
 public class YearMonthOtherUI : IYearMonthOtherBase
 {
     public int Id { get; set; }

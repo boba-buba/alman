@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alman.SharedModels;
+﻿using Alman.SharedModels;
 
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the YearResult entity.
+/// </summary>
 public class YearResultUI : IYearResultBase
 {
     public int Id { get; set; }

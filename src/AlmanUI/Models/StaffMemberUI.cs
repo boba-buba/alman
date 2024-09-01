@@ -1,12 +1,10 @@
 ﻿using Alman.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the Staff member entity.
+/// </summary>
 public class StaffMemberUI : IStaffMemberBase
 {
     public int Id { get; set; }

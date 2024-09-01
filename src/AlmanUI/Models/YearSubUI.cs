@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the Yearly subscription model.
+/// </summary>
 public class YearSubUI : IYearSubBase
 {
     public int Id { get; set; }
@@ -16,12 +19,24 @@ public class YearSubUI : IYearSubBase
 
 }
 
-
+/// <summary>
+/// Utility class for the YearSubsView.
+/// </summary>
 public class YearSubCompositeItem
 {
+    /// <summary>
+    /// Child.
+    /// </summary>
     public IChildBase YsChild { get; set; }
+
+    /// <summary>
+    /// All child's yearly subscriptions for the particular year.
+    /// </summary>
     public List<IYearSubBase> YsYearSubscriptions { get; set; }
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearSubCompositeItem()
     {
         YsChild = new ChildUI();

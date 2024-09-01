@@ -1,13 +1,10 @@
 ﻿using Alman.SharedModels;
-using AlmanUI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of the Final payment entity.
+/// </summary>
 public class FinalPaymentUI : IFinalPaymentBase
 {
     public FinalPaymentUI(int id, int year, int month)
@@ -38,8 +35,18 @@ public class FinalPaymentUI : IFinalPaymentBase
 
 }
 
+/// <summary>
+/// Utility class for FinalPaymentsView.
+/// </summary>
 public class FinalPayementCompositeItem
 {
+    /// <summary>
+    /// Staff member.
+    /// </summary>
     public IStaffMemberBase? StaffMember { get; set; }
+
+    /// <summary>
+    /// Staff member's payments for the particular month for the particular year.
+    /// </summary>
     public IFinalPaymentBase? FinalPayment { get; set; }
 }

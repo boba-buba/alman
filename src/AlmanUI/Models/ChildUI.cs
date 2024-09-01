@@ -1,6 +1,9 @@
 ﻿using Alman.SharedModels;
 namespace AlmanUI.Models;
 
+/// <summary>
+/// UI model of child entity.
+/// </summary>
 public partial class ChildUI : IChildBase
 {
     public int Id { get; set; }
