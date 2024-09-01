@@ -1,14 +1,17 @@
-﻿using Alman.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Alman.SharedModels;
 
-namespace Alman.SharedModels;
-
+/// <summary>
+/// Common model for yearly results (yearly remainder).
+/// </summary>
 public interface IYearResultBase : IIdentifier
 {
+    /// <summary>
+    /// Year during for ehich the remainder is.
+    /// </summary>
     public int Year { get; set; }
+
+    /// <summary>
+    /// Sum that remained.
+    /// </summary>
     public int YearRemainder { get; set; }
 }

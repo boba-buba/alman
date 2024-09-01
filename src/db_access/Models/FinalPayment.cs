@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Alman.SharedModels;
-using DbAccess;
+﻿using Alman.SharedModels;
 using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the final payment entity.
+/// </summary>
 public partial class FinalPayment : IFinalPaymentBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -23,6 +23,9 @@ public partial class FinalPayment : IFinalPaymentBase, IDeleteDependable
 
     public int? PrepaymentWasPaid { get; set; }
 
+    /// <summary>
+    /// Staff member that the final payment belongs to.
+    /// </summary>
     public virtual StaffMember StaffMember { get; set; } = null!;
 
     public void DeleteDependable(DbContext dbContext) { }

@@ -1,14 +1,11 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the expense entity model.
+/// </summary>
 public class Expense : IExpenseBase, IDeleteDependable
 {
     public int Id { get; set; }

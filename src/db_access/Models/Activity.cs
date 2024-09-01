@@ -1,8 +1,10 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the activity entity.
+/// </summary>
 public partial class Activity : IActivityBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -11,6 +13,9 @@ public partial class Activity : IActivityBase, IDeleteDependable
 
     public int ActivityPrice { get; set; }
 
+    /// <summary>
+    /// Collection of the monthly activity expenses that belong to the activity.
+    /// </summary>
     public virtual ICollection<YearMonthActivity> YearMonthActivities { get; set; } = new List<YearMonthActivity>();
 
     public void DeleteDependable(DbContext db)

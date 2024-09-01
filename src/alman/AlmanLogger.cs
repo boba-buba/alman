@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-//using business_log;
 using Alman;
 
 var loggerFactory = LoggerFactory.Create(builder => _ = builder

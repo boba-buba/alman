@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Alman.SharedModels;
-using DbAccess;
+﻿using Alman.SharedModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the monthly staff activity expense wntity.
+/// </summary>
 public partial class YearMonthStaffActivity : IYearMonthStaffActivityBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -21,8 +21,15 @@ public partial class YearMonthStaffActivity : IYearMonthStaffActivityBase, IDele
     public int Year { get; set; }
 
     public int WasPaid { get; set; }
+
+    /// <summary>
+    /// Staff activity that was during the month.
+    /// </summary>
     public virtual StaffActivity StaffActivity { get; set; } = null!;
 
+    /// <summary>
+    /// Staff member thet carried out the actiity.
+    /// </summary>
     public virtual StaffMember StaffMember { get; set; } = null!;
 
     public void DeleteDependable(DbContext dbContext)

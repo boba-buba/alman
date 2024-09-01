@@ -1,24 +1,27 @@
-﻿using Avalonia.Controls.Templates;
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
-using Alman.SharedModels;
-using AlmanUI.ViewModels;
-using Avalonia;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Material.Icons.Avalonia;
+using Avalonia.Data.Converters;
 using Material.Icons;
+using Material.Icons.Avalonia;
+using System.Diagnostics;
 
 namespace AlmanUI;
 
+/// <summary>
+/// API to create controls for UI.
+/// </summary>
 public static class UIControlElements
 {
+    /// <summary>
+    /// Create numeric upDown and add it to the datagrid <paramref name="gridToAddTo"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity from which the data are bound to the control.</typeparam>
+    /// <param name="gridToAddTo">DataGrid to whic the controll is added.</param>
+    /// <param name="headerName">Name of the column in datagrid.</param>
+    /// <param name="bindingName">Name of the property in <typeparamref name="TEntity"/> that is bound as source for the control.</param>
+    /// <param name="min">Minimal value (down)</param>
+    /// <param name="max">Maximal value (up)</param>
     public static void AddNumericUpDownToGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName, int min, int max) where TEntity : class
     {
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
@@ -52,6 +55,13 @@ public static class UIControlElements
 
     }
 
+    /// <summary>
+    /// Create the checkbox and add to the datagrid <paramref name="gridToAddTo"/>.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity from which the data are bound to the control.</typeparam>
+    /// <param name="gridToAddTo">DataGrid to whic the controll is added.</param>
+    /// <param name="headerName">Name of the column in datagrid.</param>
+    /// <param name="bindingName">Name of the property in <typeparamref name="TEntity"/> that is bound as source for the control.</param>
     public static void AddCheckBoxToGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName) where TEntity : class
     {
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
@@ -64,6 +74,13 @@ public static class UIControlElements
         });
     }
 
+    /// <summary>
+    /// Create numeric text box and add it to the datagrid.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity from which the data are bound to the control.</typeparam>
+    /// <param name="gridToAddTo">DataGrid to whic the controll is added.</param>
+    /// <param name="headerName">Name of the column in datagrid.</param>
+    /// <param name="bindingName">Name of the property in <typeparamref name="TEntity"/> that is bound as source for the control.</param>
     public static void AddNumericTextBoxToGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName) where TEntity : class
     {
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
@@ -76,7 +93,15 @@ public static class UIControlElements
         });
     }
 
-    public static void AddComboBoxToDataGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName, IValueConverter converter)
+    /// <summary>
+    /// Create combobox and add it to the datagrid <paramref name="gridToAddTo"/>. 
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity from which the data are bound to the control.</typeparam>
+    /// <param name="gridToAddTo">DataGrid to whic the controll is added.</param>
+    /// <param name="headerName">Name of the column in datagrid.</param>
+    /// <param name="bindingName">Name of the property in <typeparamref name="TEntity"/> that is bound as source for the control.</param>
+    /// <param name="converter">Converter for the possible values in combobox as the values in database usually stored as numbers.</param>
+    public static void AddComboBoxToDataGrid<TEntity>(DataGrid gridToAddTo, string headerName, string bindingName, ICustomValueConverter converter)
     {
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
         {
@@ -88,6 +113,14 @@ public static class UIControlElements
         });
     }
 
+    /// <summary>
+    /// Create textbox that consists of textbox (for sum input) and combobox (for way of paying) and add it to the datagrid <paramref name="gridToAddTo"/>. 
+    /// </summary>
+    /// <typeparam name="TEntity">Type of entity from which the data are bound to the control.</typeparam>
+    /// <param name="gridToAddTo">DataGrid to whic the controll is added.</param>
+    /// <param name="headerName">Name of the column in datagrid.</param>
+    /// <param name="textBoxProperty">Property of the entity <typeparamref name="TEntity"/> that is bound to the textbox as source.</param>
+    /// <param name="WayOfPayProperty">Property of the entity <typeparamref name="TEntity"/> that is bound to the combobox as source.</param>
     public static void AddMoneyTextBox<TEntity>(DataGrid gridToAddTo, string textBoxProperty, string WayOfPayProperty, string headerName)
     {
         var moneyTemplate = new FuncDataTemplate<TEntity>((x, _) =>
@@ -121,6 +154,11 @@ public static class UIControlElements
         });
     }
 
+    /// <summary>
+    /// Create textbox that accepts only numeric input.
+    /// </summary>
+    /// <param name="bindingName">Property of the entity that is bound to the textbox as source.</param>
+    /// <returns>Instance of textbox.</returns>
     public static TextBox CreateNumericTextBox(string bindingName)
     {
         var textBox = new TextBox();
@@ -136,6 +174,11 @@ public static class UIControlElements
         return textBox;
     }
 
+    /// <summary>
+    /// Create checkbox.
+    /// </summary>
+    /// <param name="bindingName">Property of the entity that is bound to the Checkbox as source.</param>
+    /// <returns>Instance of the checkbox.</returns>
     public static CheckBox CreateCheckBox(string bindingName)
     {
         var checkBox = new CheckBox();
@@ -149,11 +192,17 @@ public static class UIControlElements
         return checkBox;
     }
 
-    public static ComboBox CreateComboBox(IValueConverter converter, string bindingName)
+    /// <summary>
+    /// Create combobox with converter <paramref name="converter"/>.
+    /// </summary>
+    /// <param name="converter">Converter for possible values of thecombobox, because in the databse the values are represented as numbers.</param>
+    /// <param name="bindingName">Property of the entity that is bound to the Combobox as source.</param>
+    /// <returns>Insatnce of the Combobox.</returns>
+    public static ComboBox CreateComboBox(ICustomValueConverter converter, string bindingName)
     {
         var comboBox = new ComboBox
         {
-            ItemsSource = ((IKeys)converter).Keys,  // Options to display
+            ItemsSource = (converter).Keys,  // Options to display
         };
 
         var binding = new Binding(bindingName) // Bind to the 'Role' property of the data item
@@ -169,6 +218,13 @@ public static class UIControlElements
         return comboBox;
     }
 
+    /// <summary>
+    /// Create icon for the buttons.
+    /// </summary>
+    /// <param name="kind">Kind of the icon (name).</param>
+    /// <param name="height">Height of the icon inside the control.</param>
+    /// <param name="width">Width of the icon inside the control.</param>
+    /// <returns>Instance of the Icon.</returns>
     public static MaterialIcon CreateIcon(MaterialIconKind kind, int height, int width)
     {
         var icon = new MaterialIcon

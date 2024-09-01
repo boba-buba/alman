@@ -1,11 +1,11 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the montly activity model.
+/// </summary>
 public partial class YearMonthActivity : IYearMonthActivityBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -24,8 +24,14 @@ public partial class YearMonthActivity : IYearMonthActivityBase, IDeleteDependab
 
     public int YmwasPaid { get; set; }
 
+    /// <summary>
+    /// Activity to which the monthly expens belongs.
+    /// </summary>
     public virtual Activity Ymactivity { get; set; } = null!;
 
+    /// <summary>
+    /// Child to whom the monthly expense for the activity belongs.
+    /// </summary>
     public virtual Child Ymchild { get; set; } = null!;
 
     public void DeleteDependable(DbContext dbContext) { }

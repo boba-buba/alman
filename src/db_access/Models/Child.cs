@@ -1,12 +1,12 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
-public partial class Child : IChildBase, IIdentifier, IDeleteDependable
+/// <summary>
+/// Database model for child entity.
+/// </summary>
+public partial class Child : IChildBase, IDeleteDependable
 {
     public int Id { get; set; }
 
@@ -24,12 +24,24 @@ public partial class Child : IChildBase, IIdentifier, IDeleteDependable
 
     public int ChildStartMonth { get; set; }
 
+    /// <summary>
+    /// Collection of contract fees that belong to the child.
+    /// </summary>
     public virtual ICollection<ContractFee> ContractFees { get; set; } = new List<ContractFee>();
 
+    /// <summary>
+    /// Collection of the precontracts that belong to the child.
+    /// </summary>
     public virtual ICollection<Precontract> Precontracts { get; set; } = new List<Precontract>();
 
+    /// <summary>
+    /// Collection of monthly activities that the child took part in.
+    /// </summary>
     public virtual ICollection<YearMonthActivity> YearMonthActivities { get; set; } = new List<YearMonthActivity>();
 
+    /// <summary>
+    /// Collection of yearly child's subscriptions.
+    /// </summary>
     public virtual ICollection<YearSub> YearSubs { get; set; } = new List<YearSub>();
 
     public void DeleteDependable(DbContext dbContext)

@@ -5,6 +5,9 @@
 /// </summary>
 public interface IIdentifier
 {
+    /// <summary>
+    /// Id of the row in database.
+    /// </summary>
     public int Id { get; set; }
 }
 

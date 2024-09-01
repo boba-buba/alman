@@ -11,8 +11,16 @@ using AlmanUI.Resources;
 
 namespace AlmanUI;
 
+/// <summary>
+/// Class that peovides utility checks for UI controls.
+/// </summary>
 public static class UIUtilities
 {
+    /// <summary>
+    /// Secures that textbox that accept numeric input will accept only numbers and nothing els.
+    /// </summary>
+    /// <param name="sender">Control (TextBox here)</param>
+    /// <param name="e"></param>
     public static void TextBox_NumericInput_KeyDown(object sender, KeyEventArgs e)
     {
         if (sender is TextBox)
@@ -34,10 +42,12 @@ public static class UIUtilities
             }
         }
     }
-
-
 }
 
+/// <summary>
+/// Secure that if there is nothing in textbox that accepts numeric input, there is 0 by default.
+/// It is done to get rid of the exception that is shown when user deletes everything from textbox.
+/// </summary>
 public class IntToStringConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -57,6 +67,9 @@ public class IntToStringConverter : IValueConverter
     }
 }
 
+/// <summary>
+/// Boolean Coverter for the checkbox control.
+/// </summary>
 public class IntToBoolConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -74,16 +87,28 @@ public class IntToBoolConverter : IValueConverter
     }
 }
 
-
+/// <summary>
+/// Requires the arry of the keys for the converters.
+/// </summary>
 public interface IKeys
 {
+    /// <summary>
+    /// Array of keys of possible values.
+    /// </summary>
     public string[] Keys { get; }
 }
 
+public interface ICustomValueConverter : IValueConverter, IKeys
+{ }
 
-public class ContractTypeConverter : IValueConverter, IKeys
+/// <summary>
+/// Child contract type converter, because in database the types stored as numbers.
+/// </summary>
+public class ContractTypeConverter : ICustomValueConverter
 {
-    // Map string values to corresponding integer values
+    /// <summary>
+    /// Map string values to corresponding integer values
+    /// </summary>
     private readonly Dictionary<string, int> stringToIntMap = new Dictionary<string, int>
     {
         { Resources.ChildrenResources.PrecontractType, 0 },
@@ -92,7 +117,9 @@ public class ContractTypeConverter : IValueConverter, IKeys
         { Resources.ChildrenResources.StaffChildType, 3},
     };
 
-    // Map integer values back to corresponding string values
+    /// <summary>
+    /// Map integer values back to corresponding string values
+    /// </summary>
     private readonly Dictionary<int, string> intToStringMap = new Dictionary<int, string>
     {
         { 0, Resources.ChildrenResources.PrecontractType },
@@ -102,7 +129,6 @@ public class ContractTypeConverter : IValueConverter, IKeys
     };
 
     public string[] Keys { get; } = [Resources.ChildrenResources.PrecontractType, Resources.ChildrenResources.MotherCapitalType, Resources.ChildrenResources.OrdinaryContractType, Resources.ChildrenResources.StaffChildType];
-
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -123,17 +149,23 @@ public class ContractTypeConverter : IValueConverter, IKeys
     }
 }
 
-
-public class WayOfPayingConverter : IValueConverter, IKeys
+/// <summary>
+/// Way of paying converter, because in database it is tored as number.
+/// </summary>
+public class WayOfPayingConverter : ICustomValueConverter
 {
-    // Map string values to corresponding integer values
+    /// <summary>
+    /// Map string values to corresponding integer values
+    /// </summary>
     private readonly Dictionary<string, int> stringToIntMap = new Dictionary<string, int>
     {
         { Resources.CommonResources.CashType, 1 },
         { Resources.CommonResources.MoneyTransferType, 2 }
     };
 
-    // Map integer values back to corresponding string values
+    /// <summary>
+    /// Map integer values back to corresponding string values
+    /// </summary>
     private readonly Dictionary<int, string> intToStringMap = new Dictionary<int, string>
     {
         { 1, Resources.CommonResources.CashType},
@@ -162,9 +194,12 @@ public class WayOfPayingConverter : IValueConverter, IKeys
     }
 }
 
-
-public class CultureConverter : IValueConverter, IKeys
+/// <summary>
+/// Language converter.
+/// </summary>
+public class CultureConverter : ICustomValueConverter
 {
+
     private readonly Dictionary<string, string> UIToCultureStrMap = new Dictionary<string, string>
     {
         { "RUS", "ru-RU" },

@@ -1,9 +1,10 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the contract fee entity.
+/// </summary>
 public partial class ContractFee : IContractFeeBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -15,6 +16,9 @@ public partial class ContractFee : IContractFeeBase, IDeleteDependable
 
     public int CfsumPaid { get; set; }
 
+    /// <summary>
+    /// Child that the contract fee belong to.
+    /// </summary>
     public virtual Child Cfchild { get; set; } = null!;
 
     public void DeleteDependable(DbContext dbContext) { }

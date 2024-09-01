@@ -1,11 +1,11 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model of the staff member entity.
+/// </summary>
 public partial class StaffMember : IStaffMemberBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -26,10 +26,19 @@ public partial class StaffMember : IStaffMemberBase, IDeleteDependable
 
     public int PositionSalary { get; set; }
 
+    /// <summary>
+    /// Collection of the final payments tha belong to the staff member.
+    /// </summary>
     public virtual ICollection<FinalPayment> FinalPayments { get; set; } = new List<FinalPayment>();
 
+    /// <summary>
+    /// Collection of the other activities that were carried out by the staff member.
+    /// </summary>
     public virtual ICollection<YearMonthOther> YearMonthOthers { get; set; } = new List<YearMonthOther>();
 
+    /// <summary>
+    /// Collection of the monthly staff activities.
+    /// </summary>
     public virtual ICollection<YearMonthStaffActivity> YearMonthStaffActivities { get; set; } = new List<YearMonthStaffActivity>();
     
     public void DeleteDependable(DbContext dbContext)

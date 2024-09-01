@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alman.SharedModels;
-using DbAccess;
+﻿using Alman.SharedModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the User entity.
+/// </summary>
 public class User : IUserBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -22,7 +19,9 @@ public class User : IUserBase, IDeleteDependable
     }
 }
 
-
+/// <summary>
+/// Database model for the yearly results model.
+/// </summary>
 public class YearResult : IYearResultBase, IDeleteDependable
 {
     public int Id { get; set; }

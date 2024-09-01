@@ -1,11 +1,11 @@
-﻿using DbAccess;
+﻿using Alman.SharedModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using Alman.SharedModels;
 
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the monthly other activities.
+/// </summary>
 public partial class YearMonthOther : IDeleteDependable, IYearMonthOtherBase
 {
     public int Id { get; set; }

@@ -1,8 +1,10 @@
 ﻿using Alman.SharedModels;
-using DbAccess;
 using Microsoft.EntityFrameworkCore;
 namespace DbAccess.Models;
 
+/// <summary>
+/// Database model for the yearly subscription entity.
+/// </summary>
 public partial class YearSub : IYearSubBase, IDeleteDependable
 {
     public int Id { get; set; }
@@ -16,6 +18,9 @@ public partial class YearSub : IYearSubBase, IDeleteDependable
 
     public int WayOfaying { get; set; }
 
+    /// <summary>
+    /// Child that to whom the subscription belongs.
+    /// </summary>
     public virtual Child Ychild { get; set; } = null!;
 
     public void DeleteDependable(DbContext dbContext) { }
