@@ -1,19 +1,23 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
 
 namespace AlmanUI.Views;
 
-public partial class StaffActivitiesPageView : UserControl
+/// <summary>
+/// View for the staff activities.
+/// </summary>
+public partial class StaffActivitiesPageView : UserControl, IInitDataGrid
 {
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public StaffActivitiesPageView()
     {
         InitializeComponent();
         InitDataGrid();
     }
 
-    private void InitDataGrid()
+    public void InitDataGrid()
     {
         StaffActivitiesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 

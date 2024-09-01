@@ -1,19 +1,27 @@
 using AlmanUI.Controls;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using System.Threading.Tasks;
 
 namespace AlmanUI.Views;
 
+/// <summary>
+/// View for the home page.
+/// </summary>
 public partial class HomePageView : UserControl
 {
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public HomePageView()
     {
         InitializeComponent();
         ExportToExcelDumpButton.Click += async (sender, e) => await OnExportToExcelDumpButtonClickAsync();
     }
 
+    /// <summary>
+    /// Process click on button to dump database to Excel file.
+    /// </summary>
+    /// <returns></returns>
     private async Task OnExportToExcelDumpButtonClickAsync()
     {
         // Disable the entire window

@@ -1,23 +1,21 @@
 using Alman.SharedModels;
-using AlmanUI.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using System.Linq;
 
 namespace AlmanUI.Views;
 
-public partial class ChildrenPageView : UserControl
+public partial class ChildrenPageView : UserControl, IInitDataGrid
 {
+    /// <summary>
+    /// ctor that initializes data grid.
+    /// </summary>
     public ChildrenPageView()
     {
         InitializeComponent();
         InitDataGrid();
     }
 
-    private void InitDataGrid()
+    public void InitDataGrid()
     {
         ChildrenDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 

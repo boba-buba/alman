@@ -2,27 +2,36 @@ using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using DbAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AlmanUI.Views;
 //TODO: final payment id : salary + activities - prepayment (Compute automatically)?
-public partial class FinalPaymentsPageView : UserControl
+
+/// <summary>
+/// View for staff final payments.
+/// </summary>
+public partial class FinalPaymentsPageView : UserControl, ILoadItemsWithParams, IInitDataGrid, IUpdateDataGrid
 {
+    /// <summary>
+    /// Read from the database staff members table.
+    /// </summary>
     private IReadOnlyList<IStaffMemberBase>? _staffMembersTable;
 
+    /// <summary>
+    /// Read from the database final payments table.
+    /// </summary>
     private IReadOnlyList<IFinalPaymentBase>? _finalPaymentsTable;
 
+    /// <summary>
+    /// Collection to be shown in the view.
+    /// </summary>
     private IReadOnlyList<FinalPayementCompositeItem> _memberFinalPayments { get; set; }
 
-    private void LoadItems(int year, int month)
+    public void LoadItems(int year, int month)
     {
         DateTime now = new(year, month, 1);
 
@@ -44,13 +53,17 @@ public partial class FinalPaymentsPageView : UserControl
 
             }
             newItem.FinalPayment = newItemFinalPayment;
-            ComputeFinalPayment(newItem.FinalPayment);
+            CalculateFinalPayment(newItem.FinalPayment);
             memberFinalPayments.Add(newItem);
         }
         _memberFinalPayments = memberFinalPayments;
     }
 
-    private void ComputeFinalPayment(IFinalPaymentBase fp)
+    /// <summary>
+    /// Based on salary + activities - prepayment calculate final payments for staff automatically.
+    /// </summary>
+    /// <param name="fp">Row with data from the table.</param>
+    private void CalculateFinalPayment(IFinalPaymentBase fp)
     {
         if (fp.Month is 0 || fp.Year is 0)
         {
@@ -76,7 +89,9 @@ public partial class FinalPaymentsPageView : UserControl
         fp.FinalPaymentSum = salary + activitiesPayment - (fp.PrepaymentWasPaid==1?fp.PrepaymentSum:0);
     }
 
-
+    /// <summary>
+    /// ctor that initializes data for the view.
+    /// </summary>
     public FinalPaymentsPageView()
     {
         LoadItems(DateTime.Now.Year, DateTime.Now.Month);
@@ -85,18 +100,24 @@ public partial class FinalPaymentsPageView : UserControl
             _memberFinalPayments = new List<FinalPayementCompositeItem>();
         }
         InitializeComponent();
-        InitiFinalPaymentsMainDataGrid();
+        InitDataGrid();
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
         
     }
 
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+    /// <param name="month">2nd param.</param>
     private void OnNotifyWithParams(string message, int year, int month)
     {
         if (message == "UpdateFinalPaymentsMainDataGrid")
-            UpdateFinalPaymentsMainDataGrid(year, month);
+            UpdateDataGrid(year, month);
     }
 
-    private void InitiFinalPaymentsMainDataGrid()
+    public void InitDataGrid()
     {
         FinalPaymentsMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
@@ -113,10 +134,10 @@ public partial class FinalPaymentsPageView : UserControl
         SaveFinalPaymentsButton.CommandParameter = _memberFinalPayments;
     }
 
-    private void UpdateFinalPaymentsMainDataGrid(int year, int month)
+    public void UpdateDataGrid(int year, int month)
     {
         LoadItems(year, month);
         FinalPaymentsMainDataGrid.Columns.Clear();
-        InitiFinalPaymentsMainDataGrid();
+        InitDataGrid();
     }
 }

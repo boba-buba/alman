@@ -1,30 +1,35 @@
-using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using AlmanUI.Controls;
-using AlmanUI;
 using AlmanUI.Models;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AlmanUI.Views;
 
-public partial class ContractFeesPageView : UserControl
+/// <summary>
+/// View for the Contract fees.
+/// </summary>
+public partial class ContractFeesPageView : UserControl, ILoadItemsWithParams, IInitDataGrid, IUpdateDataGrid
 {
+    /// <summary>
+    /// Read children table from the database.
+    /// </summary>
     private IReadOnlyList<IChildBase>? _childrenTable;
 
+    /// <summary>
+    /// Read contract fees table from the database.
+    /// </summary>
     private IReadOnlyList<IContractFeeBase>? _contractFeesTable;
 
+    /// <summary>
+    /// Read child contracts table from the database. 
+    /// </summary>
     private IReadOnlyList<ContractFeeCompositeItem>? _childContractFees;
 
-    private void LoadItems(int year, int month)
+    public void LoadItems(int year, int month)
     {
         _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
                 new DateTime(ch.ChildStartYear, ch.ChildStartMonth, 1) <= new DateTime(year, month, 1));
@@ -57,6 +62,9 @@ public partial class ContractFeesPageView : UserControl
         _childContractFees = childContractFees;
     }
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public ContractFeesPageView()
     {
         LoadItems(DateTime.Now.Year, DateTime.Now.Month);
@@ -65,18 +73,22 @@ public partial class ContractFeesPageView : UserControl
             _childContractFees = new List<ContractFeeCompositeItem>();
         }
         InitializeComponent();
-        InitContractFeesMainGrid();
+        InitDataGrid();
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
-
-
     }
 
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+    /// <param name="month">2nd param.</param>
     private void OnNotifyWithParams(string message, int year, int month)
     {
-        if (message == "UpdateContractFeesMainDataGrid") UpdateContractFeesMainDataGrid(year, month);
+        if (message == "UpdateContractFeesMainDataGrid") UpdateDataGrid(year, month);
     }
     
-    private void InitContractFeesMainGrid()
+    public void InitDataGrid()
     {
         ContractFeesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
@@ -115,12 +127,10 @@ public partial class ContractFeesPageView : UserControl
 
     }
 
-    private void UpdateContractFeesMainDataGrid(int year, int month)
+    public void UpdateDataGrid(int year, int month)
     {
         LoadItems(year, month);
         ContractFeesMainDataGrid.Columns.Clear();
-        InitContractFeesMainGrid();
+        InitDataGrid();
     }
-
-    
 }

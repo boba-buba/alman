@@ -1,24 +1,32 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Layout;
-using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Templates;
 
 namespace AlmanUI.Views;
 
-public partial class ChildBillWindow : Window
+/// <summary>
+/// Child bill window view.
+/// </summary>
+public partial class ChildBillWindow : Window, ILoadItems
 {
-
+    /// <summary>
+    /// Bill for the particular child.
+    /// </summary>
     public ChildBill Bill { get; private set; }
+
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public ChildBillWindow()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Set <paramref name="childBill"/> to the public property <seealso cref="Bill"/> for the view.
+    /// </summary>
+    /// <param name="childBill">The bill to be set.</param>
     public void SetChildBill(ChildBill childBill)
     {
         Bill = childBill;
@@ -26,7 +34,7 @@ public partial class ChildBillWindow : Window
         LoadItems();
     }
 
-    private void LoadItems()
+    public void LoadItems()
     {
         IChildBase child = ChildrenControl.GetItemById(Bill.ChildId)!;
 

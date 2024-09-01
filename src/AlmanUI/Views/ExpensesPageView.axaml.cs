@@ -1,34 +1,39 @@
 using Alman.SharedModels;
-using AlmanUI.Models;
-using AlmanUI.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using SkiaSharp;
 
 namespace AlmanUI.Views;
 
-public partial class ExpensesPageView : UserControl
+/// <summary>
+/// View for the expenses.
+/// </summary>
+public partial class ExpensesPageView : UserControl, IInitDataGrid, IUpdateDataGridWithoutParams
 {
+    /// <summary>
+    /// ctor that initializes data grid.
+    /// </summary>
     public ExpensesPageView()
     {
         InitializeComponent();
         InitDataGrid();
         Mediator.Mediator.Instance.Notify += OnNotify;
     }
-
+    
+    /// <summary>
+    /// Process notification from view model.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
     private void OnNotify(string message)
     {
         if (message == "UpdateExpensesDataGrid") UpdateDataGrid();
     }
 
-    private void UpdateDataGrid()
+    public void UpdateDataGrid()
     {
         ExpensesDataGrid.Columns.Clear();
         InitDataGrid();
     }
-    private void InitDataGrid()
+    public void InitDataGrid()
     {
         ExpensesDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         ExpensesDataGrid.MinColumnWidth = 100;

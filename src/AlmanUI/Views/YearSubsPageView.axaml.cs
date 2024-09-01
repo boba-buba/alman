@@ -1,33 +1,37 @@
 using Alman.SharedModels;
-using AlmanUI.Controls;
 using AlmanUI.Models;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using Avalonia.Data;
 using Avalonia.Controls.Templates;
-using System.Diagnostics;
+using Avalonia.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AlmanUI.Views;
 
-public partial class YearSubsPageView : UserControl
+public partial class YearSubsPageView : UserControl, IInitDataGrid, IUpdateDataGridWithoutParams
 {
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearSubsPageView()
     {
         InitializeComponent();
-        InitYearSubsMainDataGrid();
+        InitDataGrid();
         Mediator.Mediator.Instance.NotifyWithOneParam += OnNotifyWithOneParam;
     }
 
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+
     private void OnNotifyWithOneParam(string message, int year)
     {
-        if (message == "UpdateYearSubsMainDataGrid") UpdateYearSubsMainDataGrid();
+        if (message == "UpdateYearSubsMainDataGrid") UpdateDataGrid();
     }
 
-    public void InitYearSubsMainDataGrid()
+    public void InitDataGrid()
     {
         YearSubsMainDataGrid.MinColumnWidth = 150;
 
@@ -87,11 +91,9 @@ public partial class YearSubsPageView : UserControl
         }
     }
 
-    
-
-    private void UpdateYearSubsMainDataGrid()
+    public void UpdateDataGrid()
     {
         YearSubsMainDataGrid.Columns.Clear();
-        InitYearSubsMainDataGrid();
+        InitDataGrid();
     }
 }

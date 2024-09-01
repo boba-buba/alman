@@ -1,28 +1,41 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using DbAccess.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace AlmanUI.Views;
 
-public partial class YearMonthStaffActivitiesPageView : UserControl
+/// <summary>
+/// View for monthly staff activities.
+/// </summary>
+public partial class YearMonthStaffActivitiesPageView : UserControl, ILoadItemsWithParams, IUpdateDataGrid
 {
+    /// <summary>
+    /// Monthly activities table read from the table.
+    /// </summary>
     private IReadOnlyList<IYearMonthStaffActivityBase>? _yearMonthStaffActivitiesTable;
+
+    /// <summary>
+    /// Staff activities table read from the database.
+    /// </summary>
     private IReadOnlyList<IStaffActivityBase> _staffActivitiesTable;
+
+    /// <summary>
+    /// Staff members table from the database.
+    /// </summary>
     private IReadOnlyList<IStaffMemberBase>? _staffMemberTable;
 
+    /// <summary>
+    /// Result collection that will be shown in UI view.
+    /// </summary>
     private IReadOnlyList<YearMonthStaffActivityCompositeItem>? _memberActivities;
 
-    private void LoadItems(int year, int month)
+    public void LoadItems(int year, int month)
     {
         _yearMonthStaffActivitiesTable = 
             YearMonthStaffActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
@@ -40,6 +53,9 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
         _memberActivities = compositeItems;
     }
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearMonthStaffActivitiesPageView()
     {
         int year = DateTime.Now.Year;
@@ -50,20 +66,32 @@ public partial class YearMonthStaffActivitiesPageView : UserControl
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
     }
 
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+    /// <param name="month">2nd param.</param>
     private void OnNotifyWithParams(string message, int year, int month)
     {
         if (message == "UpdateYearMonthStaffActivities")
             UpdateDataGrid(year, month);
     }
 
-    private void UpdateDataGrid(int year, int month)
+
+    public void UpdateDataGrid(int year, int month)
     {
         LoadItems(year, month);
         YearMonthStaffActivitiesMainDataGrid.Columns.Clear();
         InitDataGrid(year, month);
     }
 
-    private void InitDataGrid(int year, int month)
+    /// <summary>
+    /// Initialize data grid of the table for the UI view.
+    /// </summary>
+    /// <param name="year">Year for which the data are fetched.</param>
+    /// <param name="month">Month for which the data are fetched.</param>
+    public void InitDataGrid(int year, int month)
     {
         YearMonthStaffActivitiesMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         YearMonthStaffActivitiesMainDataGrid.ItemsSource = _memberActivities;

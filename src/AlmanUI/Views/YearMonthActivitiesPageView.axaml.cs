@@ -1,33 +1,47 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
-using AlmanUI.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.Interactivity;
+using Material.Icons;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using AlmanUI.Mediator;
-using Alman.SharedDefinitions;
-using Avalonia.Interactivity;
-using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using Material.Icons;
-using Material.Icons.Avalonia;
+using System.Linq;
 
 
 namespace AlmanUI.Views;
 
-public partial class YearMonthActivitiesPageView : UserControl
+/// <summary>
+/// View for monthly children activities.
+/// </summary>
+public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, IUpdateDataGrid
 {
+    /// <summary>
+    /// Monthly activities table read from the database.
+    /// </summary>
     private IReadOnlyList<IYearMonthActivityBase> _yearMonthActivitiesTable;
+
+    /// <summary>
+    /// Activities table read from the database.
+    /// </summary>
     private IReadOnlyList<IActivityBase> _activitiesTable;
+
+    /// <summary>
+    /// Children table raed from the database.
+    /// </summary>
     private IReadOnlyList<IChildBase> _childrenTable;
+
+    /// <summary>
+    /// Result collection that will be shown in UI view.
+    /// </summary>
     private IReadOnlyList<YearMonthActivityCompositeItem> _yearMonthActivities { get; set; }
 
-
+    /// <summary>
+    /// ctor
+    /// </summary>
     public YearMonthActivitiesPageView()
     {
         _yearMonthActivitiesTable = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month);
@@ -52,7 +66,12 @@ public partial class YearMonthActivitiesPageView : UserControl
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
     }
 
-
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+    /// <param name="month">2nd param.</param>
     private void OnNotifyWithParams(string message, int year, int  month)
     {
         if (message == "UpdateDataGrid")
@@ -61,7 +80,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         }
     }
 
-    private void UpdateDataGrid(int year, int month)
+    public void UpdateDataGrid(int year, int month)
     {
         var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
         _yearMonthActivitiesTable = yearMonthActivities;
@@ -86,8 +105,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         InitDataGrid();
     }
 
-
-    private void InitDataGrid()
+    public void InitDataGrid()
     {
         //MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
@@ -188,6 +206,11 @@ public partial class YearMonthActivitiesPageView : UserControl
         SaveMonthActivitiesButton.CommandParameter = _yearMonthActivities;
     }
 
+    /// <summary>
+    /// Calculate Bill button is clicked, show the window with the bill.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void OnCalculateBillClick(object? sender, RoutedEventArgs e)
     {
         
@@ -204,11 +227,13 @@ public partial class YearMonthActivitiesPageView : UserControl
         billWindow.SetChildBill(bill);
         if (VisualRoot is null) { return; }
         await billWindow.ShowDialog((Window)VisualRoot);
-       
-
-        
     }
 
+    /// <summary>
+    /// Fill dates button is clicked. Show calendar and save chosen dates.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void OnFillDatesClick(object? sender, RoutedEventArgs e)
     {
         var calendarWindow = new YMActivitiesCalendarWindow();
@@ -229,6 +254,11 @@ public partial class YearMonthActivitiesPageView : UserControl
         }
     }
 
+    /// <summary>
+    /// Update chosen dates in calendar window.
+    /// </summary>
+    /// <param name="selectedDates"></param>
+    /// <param name="button"></param>
     public void UpdateSelectedDates(IReadOnlyList<DateTime> selectedDates, Button button)
     {
         var parentGrid = button.Parent as Grid;

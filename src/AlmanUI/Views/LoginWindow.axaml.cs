@@ -1,30 +1,40 @@
 using AlmanUI.Controls;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using SQLitePCL;
-using System;
-using Avalonia.Threading;
-using System.Threading.Tasks;
 using Avalonia.Interactivity;
-using AlmanUI.Resources;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AlmanUI.Views;
 
+/// <summary>
+/// View for login window.
+/// </summary>
 public partial class LoginWindow : Window
 {
+    /// <summary>
+    /// Completeion of the login.
+    /// </summary>
     private TaskCompletionSource<bool>? _loginTaskCompletionSource;
 
-    private string _selectedLanguage;
+    /// <summary>
+    /// Chosen language for the UI.
+    /// </summary>
+    private string _selectedLanguage = "";
+
+    /// <summary>
+    /// Selected language for the UI.
+    /// </summary>
     public string SelectedLanguage
     {
         get => string.IsNullOrEmpty(_selectedLanguage) ? "lang" : _selectedLanguage;
         set => _selectedLanguage = value;
     }
 
+    /// <summary>
+    /// ctor that initializes all controls.
+    /// </summary>
     public LoginWindow()
     {
         InitializeComponent();
@@ -38,7 +48,10 @@ public partial class LoginWindow : Window
         LoginActivateButton.Click += OnLOginActivateClick;
     }
 
-
+    /// <summary>
+    /// Simulation of show dialog (like windows have).
+    /// </summary>
+    /// <returns>Task result that indicates if the login was successful or not.</returns>
     public Task<bool> ShowLoginDialogAsync()
     {
         _loginTaskCompletionSource = new TaskCompletionSource<bool>();
@@ -50,6 +63,11 @@ public partial class LoginWindow : Window
         return _loginTaskCompletionSource.Task;
     }
 
+    /// <summary>
+    /// Login button is clicked, the load the tex boxes to write password and name.
+    /// </summary>
+    /// <param name="sender">Button <seealso cref="LoginActivateButton"/>.</param>
+    /// <param name="e"></param>
     private void OnLOginActivateClick(object? sender, EventArgs e)
     {
         LoginActivateButton.IsVisible = false;
@@ -60,6 +78,11 @@ public partial class LoginWindow : Window
         EnterButton.IsVisible = true;
     }
 
+    /// <summary>
+    /// Enter button is clicked, then check if login is valid.
+    /// </summary>
+    /// <param name="sender">Button <seealso cref="EnterButton"/>.</param>
+    /// <param name="e"></param>
     private void OnLoginClick(object? sender, RoutedEventArgs e)
     {
         var username = UsernameTextBox.Text;
@@ -76,15 +99,27 @@ public partial class LoginWindow : Window
         }
     }
 
+    /// <summary>
+    /// Check  if login data are valid.
+    /// </summary>
+    /// <param name="username">User's username.</param>
+    /// <param name="password">User's password.</param>
+    /// <returns>True if user with such name and password is in database, false otherwise.</returns>
     private bool IsValidLogin(string? username, string? password)
     {
         return username is not null && password is not null && UserUIControl.UserInDb(username, password);
     }
 
+    /// <summary>
+    /// Flag that indicates 
+    /// </summary>
+    //public bool IsLoginSuccessful { get; private set; } = false;
 
-    public bool IsLoginSuccessful { get; private set; } = false;
-
-
+    /// <summary>
+    /// Another language is chosen, load the necessary resources.
+    /// </summary>
+    /// <param name="sender">Combobox.</param>
+    /// <param name="e"></param>
     private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.Count > 0)
@@ -96,9 +131,12 @@ public partial class LoginWindow : Window
             _loginTaskCompletionSource.SetResult(false);
             this.Close();
         }
-
     }
 
+    /// <summary>
+    /// Set culture based on user's choise.
+    /// </summary>
+    /// <param name="cultureString">Language string.</param>
     private void SetCulture(string cultureString)
     {
         AlmanUI.Resources.Resources.Culture = new CultureInfo(cultureString);

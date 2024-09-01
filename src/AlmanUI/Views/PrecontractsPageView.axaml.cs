@@ -1,31 +1,35 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
-using AlmanUI;
-using Avalonia.Data.Converters;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AlmanUI.Views;
 
-
-public partial class PrecontractsPageView : UserControl
+/// <summary>
+/// View for precontracts.
+/// </summary>
+public partial class PrecontractsPageView : UserControl, IInitDataGrid, IUpdateDataGrid, ILoadItemsWithParams
 {
+    /// <summary>
+    /// Children table read from the database.
+    /// </summary>
     private IReadOnlyList<IChildBase>? _childrenTable;
 
+    /// <summary>
+    /// Precontracts table read from the database.
+    /// </summary>
     private IReadOnlyList<IPrecontractBase>? _precontractsTable;
 
+    /// <summary>
+    /// Collection of the items to be shown in UI view.
+    /// </summary>
     private IReadOnlyList<PrecontractCompositeItem>? _childPrecontracts { get; set; }
 
-    private void LoadItems(int year, int month)
+    public void LoadItems(int year, int month)
     {
         
         _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
@@ -63,6 +67,9 @@ public partial class PrecontractsPageView : UserControl
 
     }
 
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public PrecontractsPageView()
     {
         LoadItems(DateTime.Now.Year, DateTime.Now.Month);
@@ -71,20 +78,26 @@ public partial class PrecontractsPageView : UserControl
             _childPrecontracts = new List<PrecontractCompositeItem>();
         }
         InitializeComponent();
-        InitPrecontractsMainDataGrid();
+        InitDataGrid();
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
 
     }
 
+    /// <summary>
+    /// Process notification that came from the Mediator.
+    /// </summary>
+    /// <param name="message">Message from view model.</param>
+    /// <param name="year">1st param.</param>
+    /// <param name="month">2nd param.</param>
     private void OnNotifyWithParams(string message, int year, int month)
     {
         if (message == "UpdatePrecontractsMainDataGrid")
         {
-            UpdatePrecontractsMainDataGrid(year, month);
+            UpdateDataGrid(year, month);
         }
     }
 
-    private void InitPrecontractsMainDataGrid()
+    public void InitDataGrid()
     {
         PrecontractsMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
 
@@ -102,11 +115,11 @@ public partial class PrecontractsPageView : UserControl
         SavePrecontractsButton.CommandParameter = _childPrecontracts;
     }
 
-    private void UpdatePrecontractsMainDataGrid(int year, int month)
+    public void UpdateDataGrid(int year, int month)
     {
         LoadItems(year, month);
         PrecontractsMainDataGrid.Columns.Clear();
-        InitPrecontractsMainDataGrid();
+        InitDataGrid();
     }
 }
 

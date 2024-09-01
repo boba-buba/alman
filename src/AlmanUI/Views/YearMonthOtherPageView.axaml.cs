@@ -1,41 +1,41 @@
 using Alman.SharedModels;
-using AlmanUI.Controls;
-using AlmanUI.Models;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Resources;
 
 namespace AlmanUI.Views;
 
-public partial class YearMonthOtherPageView : UserControl
+/// <summary>
+/// View for monthly otehr expenses.
+/// </summary>
+public partial class YearMonthOtherPageView : UserControl, IInitDataGrid, IUpdateDataGridWithoutParams
 {
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public YearMonthOtherPageView()
     {
         InitializeComponent();
         InitDataGrid();
         
         Mediator.Mediator.Instance.Notify += OnNotify;
-
     }
 
+    /// <summary>
+    /// Process notification from view model.
+    /// </summary>
+    /// <param name="message"></param>
     private void OnNotify(string message)
     {
         if (message == "UpdateYearMonthOtherDataGrid") UpdateDataGrid();
     }
 
-    private void UpdateDataGrid()
+    public void UpdateDataGrid()
     {
         YearMonthOtherMainDataGrid.Columns.Clear();
         InitDataGrid();
     }
 
-    private void InitDataGrid()
+    public void InitDataGrid()
     {
         YearMonthOtherMainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
         
