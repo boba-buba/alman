@@ -1,17 +1,24 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for managing data in YearMonthStaffActivitiesViewModel.
+/// </summary>
 public class YearMonthStaffActivitiesControl : ControlBase<YearMonthStaffActivity, IYearMonthStaffActivityBase>
 {
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="year">Year for which tha data are saved.</param>
+    /// <param name="month">Month during which the data are saved.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
     public static ReturnCode SaveItems(IReadOnlyList<IYearMonthStaffActivityBase> itemsToSave, int year, int month)
     {
         ReturnCode retCode = ReturnCode.OK;

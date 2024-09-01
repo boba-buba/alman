@@ -1,17 +1,24 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for for managing the data n StaffActivitiesViewModel.
+/// </summary>
 public class StaffActivitiesControl : ControlBase<StaffActivity, IStaffActivityBase>
 {
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="itemsIdsToDelete">Ids of the items that must be deleted from database.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
+
     public static ReturnCode SaveItems(IReadOnlyList<IStaffActivityBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;

@@ -74,7 +74,7 @@ public partial class PrecontractsPageViewModel : ViewModelBase
             precontracts.Add(item.Precontract);
         }
 
-        ReturnCode retCode = PrecontractsControl.SavePrecontracts(precontracts);
+        ReturnCode retCode = PrecontractsControl.SaveItems(precontracts);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Something went wrong saving {nameof(PrecontractUI)}'s. Changes were not saved.");

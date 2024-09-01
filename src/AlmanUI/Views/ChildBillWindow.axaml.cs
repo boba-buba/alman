@@ -43,10 +43,10 @@ public partial class ChildBillWindow : Window
         ChildTextBlock.Text = $"{child.ChildName} {child.ChildLastName}";
         YearTextBlock.Text = Bill.Year.ToString();
         MonthTextBlock.Text = Bill.Month.ToString();
-        ActivitiesSumTextBlock.Text = Bill.ActivitesSum.ToString();
+        ActivitiesSumTextBlock.Text = Bill.ActivitiesSum.ToString();
         YearSubsTextBlock.Text = Bill.YearSubsSum.ToString();
         ContractFeeTextBlock.Text = Bill.ContractFeeSum.ToString();
-        OverallTextBlock.Text = (Bill.ActivitesSum + Bill.PrecontractSum + Bill.YearSubsSum + Bill.ContractFeeSum).ToString();
+        OverallTextBlock.Text = (Bill.ActivitiesSum + Bill.PrecontractSum + Bill.YearSubsSum + Bill.ContractFeeSum).ToString();
     }
    
 }

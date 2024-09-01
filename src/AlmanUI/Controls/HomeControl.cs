@@ -1,17 +1,22 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
+using AlmanUI.Models;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AlmanUI.Models;
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for HomeViewModel.
+/// </summary>
 public static class HomeControl
 {
+    /// <summary>
+    /// Calculate the sum of all expenses for that year.
+    /// </summary>
+    /// <param name="year">The year for which the calculations are provided. </param>
+    /// <returns>Result sum.</returns>
     public static int CalculateExpenses(int year)
         => ExpensesControl.GetItemsByFilter(item => item.Year == year).Sum(item => item.ExpenseSum);
 
@@ -20,9 +25,17 @@ public static class HomeControl
 
 }
 
+/// <summary>
+/// API for the UsersViewModel (which is not implemented yet.)
+/// </summary>
 public class UserUIControl : ControlBase<User, IUserBase>
 {
-
+    /// <summary>
+    /// Check if the user is in database.
+    /// </summary>
+    /// <param name="name">Name of the user.</param>
+    /// <param name="password">Password of the user.</param>
+    /// <returns>True if the user is in database, false otherwise.</returns>
     public static bool UserInDb(string name, string password)
     {
         var usersFromDb = GetItemsByFilter(item => item.Name == name &&  item.Password == password);
@@ -82,9 +95,16 @@ public class UserUIControl : ControlBase<User, IUserBase>
     }
 }
 
-
+/// <summary>
+/// API for calculating results for the year for HomeViewModel.
+/// </summary>
 public class YearResultsControl : ControlBase<YearResult, IYearResultBase>
 {
+    /// <summary>
+    /// Get the remaindar for the year from the database, if not in database create one and set to 0.
+    /// </summary>
+    /// <param name="year">Year the remainder for which is asked.</param>
+    /// <returns>Remainder sum.</returns>
     public static int GetYearRemainder(int year)
     {
         var yearRemainders = GetItemsByFilter(item => year == item.Year);
@@ -96,6 +116,11 @@ public class YearResultsControl : ControlBase<YearResult, IYearResultBase>
         return yearRemainders.Single().YearRemainder;
     }
 
+    /// <summary>
+    /// Calculate the remainder of the year from all incomes and expenses and write the value to te database.
+    /// </summary>
+    /// <param name="year">The year for which all the data are collected for the calculation.</param>
+    /// <returns>ReturnCode.OK if successfully calculated and written, ERR otherwise.</returns>
     public static ReturnCode CalculateYearRemainder(int year)
     {
         int lastYearRemainder = GetYearRemainder(year - 1);

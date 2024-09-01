@@ -48,7 +48,7 @@ public partial class YearMonthOtherPageView : UserControl
         {
             string moneyString = AlmanUI.Resources.OtherResources.ResourceManager.GetString($"{weeks[i]}Week", AlmanUI.Resources.OtherResources.Culture)!;
             string PayWay = $"PayingWay{weeks[i]}";
-            UIControlElements.AddMoneyTextBox<IYearMonthOtherBase>(YearMonthOtherMainDataGrid, moneyString, PayWay, moneyString);
+            UIControlElements.AddMoneyTextBox<IYearMonthOtherBase>(YearMonthOtherMainDataGrid, $"{weeks[i]}Week", PayWay, moneyString);
         }
     }
 

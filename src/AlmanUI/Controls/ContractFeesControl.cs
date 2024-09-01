@@ -1,20 +1,22 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
-using Business;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for ContractFeesViewModel.
+/// </summary>
 public class ContractFeesControl : ControlBase<ContractFee, IContractFeeBase>
 {
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
     public static ReturnCode SaveItems(IReadOnlyList<IContractFeeBase> itemsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;
@@ -27,7 +29,7 @@ public class ContractFeesControl : ControlBase<ContractFee, IContractFeeBase>
 
         if (dbCount > 0)
         {
-            var updatedContractFees = itemsToSave.Where(cf => cf.InGroup(contractFeesFromDb)).ToList();
+            var updatedContractFees = itemsToSave.Where(cf => cf.InGroupId(contractFeesFromDb)).ToList();
             retCode = UpdateItems(updatedContractFees);
             if (retCode != ReturnCode.OK)
             {
@@ -38,7 +40,7 @@ public class ContractFeesControl : ControlBase<ContractFee, IContractFeeBase>
 
         if (difference > 0)
         {
-            var newContractFees = itemsToSave.Where(cf => !cf.InGroup(contractFeesFromDb)).ToList();
+            var newContractFees = itemsToSave.Where(cf => !cf.InGroupId(contractFeesFromDb)).ToList();
             retCode = AddItems(newContractFees);
             if (retCode != ReturnCode.OK)
             {

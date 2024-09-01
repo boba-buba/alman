@@ -1,17 +1,23 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for the FinalPaymentsViewModel.
+/// </summary>
 public class FinalPaymentsControl : ControlBase<FinalPayment, IFinalPaymentBase>
 {
+
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
     public static ReturnCode SaveItems(IReadOnlyList<IFinalPaymentBase> itemsToSave)
     {
         ReturnCode retCode = ReturnCode.OK;

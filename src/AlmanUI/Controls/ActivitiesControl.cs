@@ -7,7 +7,7 @@ namespace AlmanUI.Controls;
 
 
 /// <summary>
-/// API for the viewmodel. Intermediate layer between business logic and ViewModels.
+/// API for ActivitiesViewModel.
 /// </summary>
 public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivityBase>
 {    
@@ -15,15 +15,15 @@ public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivity
     /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
     /// </summary>
     /// <param name="itemsToSave">List of items that was modified bu user.</param>
-    /// <param name="activitiesIdsToDelete">Ids of the items that must be deleted from database.</param>
-    /// <returns></returns>
-    public static ReturnCode SaveItems(IReadOnlyList<IActivityBase> itemsToSave, IList<int> activitiesIdsToDelete)
+    /// <param name="itemsIdsToDelete">Ids of the items that must be deleted from database.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
+    public static ReturnCode SaveItems(IReadOnlyList<IActivityBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
 
-        if (activitiesIdsToDelete.Count > 0)
+        if (itemsIdsToDelete.Count > 0)
         {
-            retCode = DeleteItems(activitiesIdsToDelete);
+            retCode = DeleteItems(itemsIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IActivityBase)}'s.");

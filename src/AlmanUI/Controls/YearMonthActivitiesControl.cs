@@ -1,16 +1,23 @@
-﻿using Alman.SharedModels;
-using Alman.SharedDefinitions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
+﻿using Alman.SharedDefinitions;
+using Alman.SharedModels;
 using DbAccess.Models;
-using AlmanUI.Controls;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 namespace AlmanUI.Controls;
 
-
+/// <summary>
+/// API for managing the data in YearMonthActivitiesViewModel.
+/// </summary>
 public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMonthActivityBase>
 {
-    
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="year">Year for which data are saved.</param>
+    /// <param name="month">Month for which the data are saved.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
     public static ReturnCode SaveItems(IReadOnlyList<IYearMonthActivityBase> itemsToSave, int year, int month)
     {
         ReturnCode retCode = ReturnCode.OK;
@@ -39,7 +46,14 @@ public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMo
         return retCode;
     }
 
-    public static ChildBill ComputeChildBill(int childId, int year, int month)
+    /// <summary>
+    /// Calculate the child bill for the month.
+    /// </summary>
+    /// <param name="childId"> Id of the child to calcultae the bill for.</param>
+    /// <param name="year">Year for which the data for the calculation are collected.</param>
+    /// <param name="month">Month for which the data for the calculation are collected.</param>
+    /// <returns></returns>
+    public static ChildBill CalculateChildBill(int childId, int year, int month)
     {
         ChildBill bill = new ChildBill();
         bill.ChildId = childId;
@@ -47,7 +61,7 @@ public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMo
         bill.Year = year;
         var activities = YearMonthActivitiesControl.GetItemsByFilter(act => act.YmchildId == childId && act.Year == year && act.Month == month);
         int activitiesSum = activities.Sum(act => act.YmactivitySum);
-        bill.ActivitesSum = activitiesSum;
+        bill.ActivitiesSum = activitiesSum;
         var precontracts = PrecontractsControl.GetItemsByFilter(pr => pr.PchildId == childId && pr.PMonth == month &&  pr.PYear == year);
         if (precontracts.Count == 1)
         {
@@ -68,28 +82,79 @@ public class YearMonthActivitiesControl : ControlBase<YearMonthActivity, IYearMo
 }
 
 
-
+/// <summary>
+/// Utility child bill structure to get all childs expenses together.
+/// </summary>
 public struct ChildBill
 {
+    /// <summary>
+    /// Id of the child.
+    /// </summary>
     public int ChildId { get; set; } = 0;
+
+    /// <summary>
+    /// Year the bill is for.
+    /// </summary>
     public int Year { get; set; } = 0;
+
+    /// <summary>
+    /// Month the bill is for.
+    /// </summary>
     public int Month { get; set; } = 0;
-    public int ActivitesSum { get; set; } = 0;
+
+    /// <summary>
+    /// Overall sum for all activities the child took part in.
+    /// </summary>
+    public int ActivitiesSum { get; set; } = 0;
+
+    /// <summary>
+    /// Sum for the Precontract.
+    /// </summary>
     public int PrecontractSum { get; set; } = 0;
+
+    /// <summary>
+    /// Sum for the yearly subscriptions.
+    /// </summary>
     public int YearSubsSum { get; set; } = 0;
+
+    /// <summary>
+    /// Sum for the contract fees.
+    /// </summary>
     public int ContractFeeSum { get; set; } = 0;
 
+    /// <summary>
+    /// All pairs activity-sum for it the child must pay for.
+    /// </summary>
     public List<ActivityMonth> MonthlyActivities { get; set; }
+
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public ChildBill()
     {
         MonthlyActivities = new List<ActivityMonth>();
     }
 }
 
+
+/// <summary>
+/// Utility structure that stores the name of the activity and the sum that was spent on the activity.
+/// </summary>
 public struct ActivityMonth
 {
+    /// <summary>
+    /// Name of the activity.
+    /// </summary>
     public string ActivityName { get; set; } = "";
+
+    /// <summary>
+    /// Sum that msut e paid for the activity.
+    /// </summary>
     public int MonthlySum { get; set; } = 0;
+
+    /// <summary>
+    /// ctor.
+    /// </summary>
     public ActivityMonth()
     {
 

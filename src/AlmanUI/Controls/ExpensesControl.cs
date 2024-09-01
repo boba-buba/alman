@@ -1,23 +1,29 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for the ExpenseViewModel.
+/// </summary>
 public class ExpensesControl : ControlBase<Expense, IExpenseBase>
 {
-    public static ReturnCode SaveItems(IReadOnlyList<IExpenseBase> itemsToSave, int year, int month, IList<int> itemIdsToDelete)
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="itemsIdsToDelete">Ids of the items that must be deleted from database.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
+    public static ReturnCode SaveItems(IReadOnlyList<IExpenseBase> itemsToSave, int year, int month, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
-        if (itemIdsToDelete.Count > 0)
+        if (itemsIdsToDelete.Count > 0)
         {
-            retCode = DeleteItems(itemIdsToDelete);
+            retCode = DeleteItems(itemsIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Smth went wrong with deleting {nameof(IExpenseBase)}");

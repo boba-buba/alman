@@ -1,25 +1,29 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
-using Business;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for managing the data in StaffMembersViewModel.
+/// </summary>
 public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 {
-    
-    public static ReturnCode SaveStaffMembers(IReadOnlyList<IStaffMemberBase> membersToSave, IList<int> memberIdsToDelete)
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="itemsIdsToDelete">Ids of the items that must be deleted from database.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
+    public static ReturnCode SaveItems(IReadOnlyList<IStaffMemberBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
-        if (memberIdsToDelete.Count > 0)
+        if (itemsIdsToDelete.Count > 0)
         {
-            retCode = DeleteItems(memberIdsToDelete);
+            retCode = DeleteItems(itemsIdsToDelete);
             if (retCode != ReturnCode.OK)
             {
                 Debug.WriteLine($"Something went wrong wile deleting {nameof(IStaffMemberBase)}'s.");
@@ -29,11 +33,11 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 
         var staffMembersFromDb = GetItems();
         int dbCount = staffMembersFromDb.Count;
-        int difference = membersToSave.Count - dbCount;
+        int difference = itemsToSave.Count - dbCount;
 
         if (dbCount > 0)
         {
-            var updatedStaffMembers = membersToSave.Where(m => m.InGroup(staffMembersFromDb)).ToList();
+            var updatedStaffMembers = itemsToSave.Where(m => m.InGroup(staffMembersFromDb)).ToList();
             retCode = UpdateItems(updatedStaffMembers);
             if (retCode != ReturnCode.OK)
             {
@@ -44,7 +48,7 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 
         if (difference > 0)
         {
-            var newStaffMembers = membersToSave.Where(m => !m.InGroup(staffMembersFromDb)).ToList();
+            var newStaffMembers = itemsToSave.Where(m => !m.InGroup(staffMembersFromDb)).ToList();
             retCode = AddItems(newStaffMembers);
             if (retCode != ReturnCode.OK)
             {

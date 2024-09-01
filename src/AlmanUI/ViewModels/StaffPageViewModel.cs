@@ -32,7 +32,7 @@ public partial class StaffPageViewModel : ViewModelBase
     [RelayCommand]
     public void TriggerSaveCommand()
     {
-        var retCode = StaffMembersControl.SaveStaffMembers(StaffMembers, _staffMembersIdsToDelete);
+        var retCode = StaffMembersControl.SaveItems(StaffMembers, _staffMembersIdsToDelete);
         if (retCode != ReturnCode.OK)
         {
             Debug.WriteLine($"Smth went wrong saving {nameof(IStaffMemberBase)}'s");

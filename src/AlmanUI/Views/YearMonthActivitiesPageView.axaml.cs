@@ -198,7 +198,7 @@ public partial class YearMonthActivitiesPageView : UserControl
         
         YearMonthActivityCompositeItem item = (YearMonthActivityCompositeItem)compositeItem;
             
-        ChildBill bill = YearMonthActivitiesControl.ComputeChildBill(item.YMChild!.Id, item.YMActivities![0].Year, item.YMActivities![0].Month);
+        ChildBill bill = YearMonthActivitiesControl.CalculateChildBill(item.YMChild!.Id, item.YMActivities![0].Year, item.YMActivities![0].Month);
 
         var billWindow = new ChildBillWindow();
         billWindow.SetChildBill(bill);

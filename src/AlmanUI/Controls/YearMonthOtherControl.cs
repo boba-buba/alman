@@ -1,17 +1,23 @@
 ﻿using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using DbAccess.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlmanUI.Controls;
 
+/// <summary>
+/// API for managing the data for YearMonthOthersViewModel.
+/// </summary>
 public class YearMonthOtherControl : ControlBase<YearMonthOther, IYearMonthOtherBase>
 {
+    /// <summary>
+    /// Save items based on the read-only list <paramref name="itemsToSave"/>. Delete, update, add.
+    /// </summary>
+    /// <param name="itemsToSave">List of items that was modified bu user.</param>
+    /// <param name="itemsIdsToDelete">Ids of the items that must be deleted from database.</param>
+    /// <returns>RetuenCode.OK if successfully saved, ERR otherwise.</returns>
     public static ReturnCode SaveItems(IReadOnlyList<IYearMonthOtherBase> itemsToSave, IList<int> itemsIdsToDelete)
     {
         ReturnCode retCode = ReturnCode.OK;
@@ -19,6 +25,17 @@ public class YearMonthOtherControl : ControlBase<YearMonthOther, IYearMonthOther
         {
             return retCode;
         }
+        if (itemsIdsToDelete.Any())
+        {
+            retCode = DeleteItems(itemsIdsToDelete);
+            if (retCode != ReturnCode.OK)
+            {
+                Debug.WriteLine($"Something went wrong wile deleting {nameof(IYearMonthOtherBase)}'s.");
+                return retCode;
+            }
+        }
+
+
         int year = itemsToSave[0].Year;
         int month = itemsToSave[0].Month;
         var yearMonthOthersFromDb = GetItemsByFilter(ymOther => ymOther.Year == year && ymOther.Month == month).ToList();
