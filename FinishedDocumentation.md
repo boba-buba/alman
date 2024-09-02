@@ -85,22 +85,26 @@ But if I want to read child with id 1 from database, I would get the instance of
 4. Difficult thing to implement was login window. I wanted to introduce at least basic security element, therefore login process was introduced. It was not requested, but for future use it might be useful. Turned out any window in Avalonia must have parent window to which its bound. Thus if we do not have visible, active parent window we cannot show login window (as show dialog). In the end it was achieved by athynchronous waiting for the login button to be clicked.
 
 ## Demo
-Here are demos of some interesting (and sometimes challenging) functionality.
+Here are demos of some interesting (and sometimes challenging) functionality. If they are not seen (clone repo and open file locally, the gifs from ./DocsImages should be shown.
 ### Login process.
-![alt text](DocsImages/Login.gif)
+
+![alt text](./DocsImages/Login.gif)
 
 ### Choosing language
 For now there is a need in only 2 languages: Russian and English.
 
-![alt text](DocsImages/Language.gif)
+![alt text](./DocsImages/Language.gif)
 ### Adding new child
-![alt text](DocsImages/AddNewChild.gif)
+
+![alt text](./DocsImages/AddNewChild.gif)
 
 ### Saving Monthly activities
-![alt text](DocsImages/SavingMonthActivities.gif)
+
+![alt text](./DocsImages/SavingMonthActivities.gif)
 
 ### Showing bill for the child
-![alt text](DocsImages/ShowChildBill.gif)
+
+![alt text](./DocsImages/ShowChildBill.gif)
 
 ## What was achieved
 1. Among main aims was to create "complex" calculator for the administrator that would calculate result sum needed to be paid by child and would create readable view of the result "bill". That was achieved as is shown in the demo.
