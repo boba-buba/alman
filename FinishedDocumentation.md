@@ -1,27 +1,27 @@
-# TODO
-how to lock alam.db file for read only if not from app
 
-# ALMAN
+## ALMAN
 Alman is information system for kindergarten. Developed mainly for the administrator as it serves as complex calculator for all expenses and revenue of the kindegarten. The application was developed to substitute Excel tables where it used to be calculated.
 
 ## Overview
-- [TODO](#todo)
 - [ALMAN](#alman)
-  - [Overview](#overview)
-  - [Used technologies](#used-technologies)
-  - [Used technoloies in context of C# language](#used-technoloies-in-context-of-c-language)
-  - [Architecture](#architecture)
-  - [Problems and challenges during the development](#problems-and-challenges-during-the-development)
-    - [Database level](#database-level)
-    - [UI level](#ui-level)
-  - [Demo](#demo)
-    - [Choosing language](#choosing-language)
-    - [Adding new child](#adding-new-child)
-    - [Saving Monthly activities](#saving-monthly-activities)
-    - [Showing bill for the child](#showing-bill-for-the-child)
-  - [What was achieved](#what-was-achieved)
-  - [What wasnt achieved and why](#what-wasnt-achieved-and-why)
-  - [Interesting parts of code](#interesting-parts-of-code)
+- [Overview](#overview)
+- [Used technologies](#used-technologies)
+- [Used technoloies in context of C# language](#used-technoloies-in-context-of-c-language)
+- [Architecture](#architecture)
+- [Problems and challenges during the development](#problems-and-challenges-during-the-development)
+  - [Database level](#database-level)
+  - [UI level](#ui-level)
+- [Demo](#demo)
+  - [Login process.](#login-process)
+  - [Choosing language](#choosing-language)
+  - [Adding new child](#adding-new-child)
+  - [Saving Monthly activities](#saving-monthly-activities)
+  - [Showing bill for the child](#showing-bill-for-the-child)
+- [What was achieved](#what-was-achieved)
+- [What wasnt achieved and why](#what-wasnt-achieved-and-why)
+- [Interesting parts of code](#interesting-parts-of-code)
+- [Future ideas](#future-ideas)
+- [References to used resources](#references-to-used-resources)
 
 ## Used technologies
 Application is a desktop application, that works with database. Database system that was used is **SQLite**. The system was chosen, because the data model is not complex and the application is primarily for one person, therefore there is no need for complex concurrency mechanisms. **Entity Framework** was used to work with database. For UI **Avalonia** framework was chosen. The framework was chosen because it allows development of multiplatform applications. Application can run on Windows and MacOS. Concept of **Resources** was used to add localization to the application.
@@ -85,15 +85,22 @@ But if I want to read child with id 1 from database, I would get the instance of
 4. Difficult thing to implement was login window. I wanted to introduce at least basic security element, therefore login process was introduced. It was not requested, but for future use it might be useful. Turned out any window in Avalonia must have parent window to which its bound. Thus if we do not have visible, active parent window we cannot show login window (as show dialog). In the end it was achieved by athynchronous waiting for the login button to be clicked.
 
 ## Demo
+Here are demos of some interesting (and sometimes challenging) functionality.
+### Login process.
+![alt text](DocsImages/Login.gif)
 
 ### Choosing language
+For now there is a need in only 2 languages: Russian and English.
 
+![alt text](DocsImages/Language.gif)
 ### Adding new child
+![alt text](DocsImages/AddNewChild.gif)
 
 ### Saving Monthly activities
+![alt text](DocsImages/SavingMonthActivities.gif)
 
 ### Showing bill for the child
-
+![alt text](DocsImages/ShowChildBill.gif)
 
 ## What was achieved
 1. Among main aims was to create "complex" calculator for the administrator that would calculate result sum needed to be paid by child and would create readable view of the result "bill". That was achieved as is shown in the demo.
@@ -121,4 +128,11 @@ At first I was really against working with Refllection, as it is slow. But in th
 
 ![alt text](./DocsImages/image-1.png)
 
-I do not know how uch slower it makes the application, but as I didnt notice it while running it, I guess it is tolerable.
+I do not know how much slower it makes the application, but as I didnt notice it while running it, I guess it is tolerable.
+
+## Future ideas
+- How to lock alam.db file for read only if not from app.
+- May be rollback of save.
+
+## References to used resources
+1. Logo icon was found on Pinterest. The link is https://pin.it/6OnUYhahT.

@@ -14,4 +14,4 @@ After installing go to the root directory of the project (Doxyfile must be there
 doxygen Doxyfile
 ```
 
-The folder `docs` will appear in the root directory and through file [index.html](./docs/html/index.html) in html folder the user can see code documentation.
+The folder `docs` will appear in the root directory and through opening file [./docs/html/index.html](./docs/html/index.html) in the browser the user can see code documentation.
