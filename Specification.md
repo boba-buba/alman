@@ -68,6 +68,3 @@ Administrator should be able to:
 - Database client store changes to the database.
 
 ![IMG_0505](https://github.com/boba-buba/alman/assets/120932204/30f45edf-8d18-47a9-90a3-aa64650b2035)
-
-
-

@@ -31,7 +31,7 @@ Application is a desktop application, that works with database. Database system 
 - Extension methods (not as much as it was desired)
 - Lambda functions (Mainly in UI to create controls)
 - Reflection (Mainly in Database layer, to create generic API)
-- little bit of asynchronous programming (Mainly in UI layer to manage windows)
+- Little bit of asynchronous programming (Mainly in UI layer to manage windows)
 
 
 ## Architecture

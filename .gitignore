@@ -5,3 +5,5 @@
 /src/db_access/Database/alman.db
 /src/AlmanUI/appsettings.json
 .vs/*
+docs
+.vs
