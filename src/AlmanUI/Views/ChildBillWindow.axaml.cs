@@ -45,6 +45,8 @@ public partial class ChildBillWindow : Window, ILoadItems
         }
         else
         {
+            PrecontractTextTextBlock.IsVisible = true;
+            PrecontractSumTextBlock.IsVisible = true;
             PrecontractSumTextBlock.Text = Bill.PrecontractSum.ToString();
         }
 

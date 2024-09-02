@@ -1,7 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
+using Avalonia.Layout;
 using Material.Icons;
 using Material.Icons.Avalonia;
 using System.Diagnostics;
@@ -66,10 +68,15 @@ public static class UIControlElements
     {
         gridToAddTo.Columns.Add(new DataGridTemplateColumn
         {
+            
             Header = headerName,
+            Width = DataGridLength.Auto,
             CellTemplate = new FuncDataTemplate<TEntity>((x, _) =>
             {
-                return CreateCheckBox(bindingName);
+                var checkBox = CreateCheckBox(bindingName);
+                checkBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+                checkBox.HorizontalAlignment = HorizontalAlignment.Center;
+                return checkBox;
             })
         });
     }
@@ -108,7 +115,9 @@ public static class UIControlElements
             Header = headerName,
             CellTemplate = new FuncDataTemplate<TEntity>((x, _) =>
             {
-                return CreateComboBox(converter, bindingName);
+                var combobox = CreateComboBox(converter, bindingName);
+                combobox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                return combobox;
             })
         });
     }
@@ -138,6 +147,7 @@ public static class UIControlElements
             TextBox moneyTextBox = CreateNumericTextBox(textBoxProperty);
             //CombBox
             ComboBox wayOfPayCombobox = CreateComboBox(new WayOfPayingConverter(), WayOfPayProperty);
+            wayOfPayCombobox.HorizontalAlignment = HorizontalAlignment.Stretch;
             //Adding to cellGrid
             cellGrid.Children.Add(moneyTextBox);
             Grid.SetColumn(moneyTextBox, 0);
@@ -189,6 +199,7 @@ public static class UIControlElements
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged // Optional: Immediately update the source
         };
         checkBox.Bind(CheckBox.IsCheckedProperty, binding);
+        checkBox.HorizontalContentAlignment = HorizontalAlignment.Center;
         return checkBox;
     }
 

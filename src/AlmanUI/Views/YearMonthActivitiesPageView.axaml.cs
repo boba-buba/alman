@@ -1,15 +1,19 @@
 using Alman.SharedModels;
 using AlmanUI.Controls;
 using AlmanUI.Models;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
+using DbAccess.Models;
 using Material.Icons;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 
 namespace AlmanUI.Views;
@@ -17,7 +21,7 @@ namespace AlmanUI.Views;
 /// <summary>
 /// View for monthly children activities.
 /// </summary>
-public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, IUpdateDataGrid
+public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, IUpdateDataGrid, ILoadItemsWithParams
 {
     /// <summary>
     /// Monthly activities table read from the database.
@@ -39,28 +43,47 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
     /// </summary>
     private IReadOnlyList<YearMonthActivityCompositeItem> _yearMonthActivities { get; set; }
 
-    /// <summary>
-    /// ctor
-    /// </summary>
-    public YearMonthActivitiesPageView()
+    public void LoadItems(int year, int month)
     {
-        _yearMonthActivitiesTable = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == DateTime.Now.Year && act.Month == DateTime.Now.Month);
+        _yearMonthActivitiesTable = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
         _activitiesTable = ActivitiesControl.GetItems();
-        _childrenTable = ChildrenControl.GetItemsByFilter(ch => true);
+
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch => true); ///TODO: children that were accepted earlier or in that month.
 
         var compositeItems = new List<YearMonthActivityCompositeItem>();
         foreach (var child in _childrenTable)
         {
             var newItem = new YearMonthActivityCompositeItem { YMChild = child };
-            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id ).ToList();
-            newItem.YMActivities = childActivities;
+            newItem.YMActivities = new List<IYearMonthActivityBase>(_yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id).ToList());
             
+            foreach (var act in _activitiesTable)
+            {
+                if (newItem.YMActivities is null || newItem.YMActivities.Count == 0 || newItem.YMActivities.Where(activity => activity.YmactivityId == act.Id).ToList().Count == 0)
+                {
+                    newItem.YMActivities!.Add(new YearMonthActivityUI
+                    {
+                        YmactivityId = act.Id,
+                        YmchildId = newItem.YMChild!.Id,
+                        Month = month,
+                        Year = year,
+                        YmactivitySum = 0,
+                        YmwasPaid = 0,
+                        YmwayOfPaying = 0,
+                    });
+                }
+            }
+
             compositeItems.Add(newItem);
         }
-        
         _yearMonthActivities = compositeItems;
-        
-        
+    }
+
+    /// <summary>
+    /// ctor
+    /// </summary>
+    public YearMonthActivitiesPageView()
+    {
+        LoadItems(DateTime.Now.Year, DateTime.Now.Month);
         InitializeComponent();
         InitDataGrid();
         Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
@@ -82,24 +105,7 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
 
     public void UpdateDataGrid(int year, int month)
     {
-        var yearMonthActivities = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
-        _yearMonthActivitiesTable = yearMonthActivities;
-        var activities = ActivitiesControl.GetItems();
-        _activitiesTable = activities;
-        var children = ChildrenControl.GetItemsByFilter(ch => true); //ch => ch.ChildState == 1
-        _childrenTable = children;
-
-        var compositeItems = new List<YearMonthActivityCompositeItem>();
-        foreach (var child in _childrenTable)
-        {
-            var newItem = new YearMonthActivityCompositeItem { YMChild = child };
-            var childActivities = _yearMonthActivitiesTable.Where(act => act.YmchildId == child.Id).ToList();
-            newItem.YMActivities = childActivities;
-
-            compositeItems.Add(newItem);
-        }
-
-        _yearMonthActivities = compositeItems;
+        LoadItems(year, month);
 
         MainDataGrid.Columns.Clear();
         InitDataGrid();
@@ -107,8 +113,6 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
 
     public void InitDataGrid()
     {
-        //MainDataGrid.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
-
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildFirstName, Binding = new Binding("YMChild.ChildName"), IsReadOnly = true, MinWidth = 300 });
         MainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.ChildrenResources.ChildLastName, Binding = new Binding("YMChild.ChildLastName"), IsReadOnly = true, MinWidth = 300 });
 
@@ -123,31 +127,14 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
                         new ColumnDefinition(GridLength.Auto),
                         new ColumnDefinition(GridLength.Auto),
                         new ColumnDefinition(GridLength.Auto),
-                        new ColumnDefinition(GridLength.Auto)
+                        new ColumnDefinition(GridLength.Star)
                     }
                 };
 
-                
-                
-
-                if (x.YMActivities is null || x.YMActivities.Count == 0 || x.YMActivities.Where(act => act.YmactivityId == activity.Id).ToList().Count == 0)
-                {
-                    x.YMActivities!.Add(new YearMonthActivityUI { 
-                        YmactivityId = activity.Id, 
-                        YmchildId = x.YMChild!.Id, 
-                        Month = DateTime.Now.Month,
-                        Year = DateTime.Now.Year,
-                        YmactivitySum = 0,
-                        YmwasPaid = 0,
-                        YmwayOfPaying = 0,
-                    });
-                }
-
-                IYearMonthActivityBase act = x.YMActivities.Single(act => act.YmactivityId == activity.Id);
-                int index = x.YMActivities.IndexOf(act);
+                IYearMonthActivityBase act = x.YMActivities!.Single(act => act.YmactivityId == activity.Id);
+                int index = x.YMActivities!.IndexOf(act);
 
                 var monthSumActivity = UIControlElements.CreateNumericTextBox($"YMActivities[{index}].YmactivitySum");
-                //monthSumActivity.Bind(TextBox.TextProperty, new Binding($"YMActivities[{index}].YmactivitySum"));
                 
                 grid.Children.Add(monthSumActivity);
                 Grid.SetColumn(monthSumActivity, 0);
@@ -161,10 +148,12 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
 
                 var oneTimePrice = new TextBlock();
                 oneTimePrice.Text = activity.ActivityPrice.ToString();
+                oneTimePrice.Padding = new Thickness(3);
                 grid.Children.Add(oneTimePrice);
                 Grid.SetColumn(oneTimePrice, 2);
 
                 var paymentMethod = UIControlElements.CreateComboBox(new WayOfPayingConverter(), $"YMActivities[{index}].YmwayOfPaying");
+                paymentMethod.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
                 grid.Children.Add(paymentMethod);
                 Grid.SetColumn(paymentMethod, 3);
 
@@ -194,12 +183,15 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
             
             return calculateButton;
         });
-        
+
         MainDataGrid.Columns.Add(new DataGridTemplateColumn
         {
             Header = "",
             CellTemplate = childBillTemplate,
-            Width = new DataGridLength(40)
+            CanUserResize = false,
+            MinWidth = 40,
+            Width = new DataGridLength(100, DataGridLengthUnitType.Star)
+
         });
 
         MainDataGrid.ItemsSource = _yearMonthActivities;
@@ -220,8 +212,15 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
 
         
         YearMonthActivityCompositeItem item = (YearMonthActivityCompositeItem)compositeItem;
-            
-        ChildBill bill = YearMonthActivitiesControl.CalculateChildBill(item.YMChild!.Id, item.YMActivities![0].Year, item.YMActivities![0].Month);
+
+        int year = 0;
+        int month = 0;
+        if (item.YMActivities is not null && item.YMActivities.Count > 0)
+        {
+            year = item.YMActivities![0].Year;
+            month = item.YMActivities![0].Month;
+        }
+        ChildBill bill = YearMonthActivitiesControl.CalculateChildBill(item.YMChild!.Id, year, month);
 
         var billWindow = new ChildBillWindow();
         billWindow.SetChildBill(bill);
@@ -257,7 +256,7 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
     /// <summary>
     /// Update chosen dates in calendar window.
     /// </summary>
-    /// <param name="selectedDates"></param>
+    /// <param name="selectedDates">List of selected dates for month.</param>
     /// <param name="button"></param>
     public void UpdateSelectedDates(IReadOnlyList<DateTime> selectedDates, Button button)
     {

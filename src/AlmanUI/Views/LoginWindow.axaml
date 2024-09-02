@@ -8,6 +8,7 @@
 		Width="500" Height="500"
         x:Class="AlmanUI.Views.LoginWindow"
 		WindowStartupLocation="CenterScreen"
+		Icon="/Assets/alman_logo.ico"
         Title="{x:Static local:Resources.AlmanLogin}">
 
 	<Grid>
@@ -58,7 +59,7 @@
 				</TextBlock.Text>
 			</TextBlock>
 			<TextBox x:Name="PasswordBox" Width="200" PasswordChar="*" />
-			<Button x:Name="EnterButton" Content="{x:Static local:Resources.Enter}" Width="150" HorizontalAlignment="Center" />
+			<Button x:Name="EnterButton" Content="{x:Static local:Resources.Enter}" Width="150" HorizontalAlignment="Center" HorizontalContentAlignment="Center" />
 			<TextBlock Name="WrongDataTextBlock" HorizontalAlignment="Center"  Text="{x:Static local:Resources.WrongPasswUser}"></TextBlock>
 		</StackPanel>
 	</Grid>

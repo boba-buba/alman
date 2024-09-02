@@ -9,7 +9,7 @@
 		xmlns:local="clr-namespace:AlmanUI.Resources"
         x:Class="AlmanUI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/alman_logo.ico"
         Title="{x:Static local:Resources.AppName}"
 		WindowStartupLocation="CenterScreen"
 		Width="1100"

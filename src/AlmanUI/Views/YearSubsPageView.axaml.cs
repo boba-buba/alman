@@ -62,7 +62,7 @@ public partial class YearSubsPageView : UserControl, IInitDataGrid, IUpdateDataG
                     ColumnDefinitions = new ColumnDefinitions
                     {
                         new ColumnDefinition(GridLength.Auto),
-                        new ColumnDefinition(GridLength.Auto)
+                        new ColumnDefinition(GridLength.Star)
                     }
                 };
                 int indexMonth = months.IndexOf(month);
@@ -73,6 +73,7 @@ public partial class YearSubsPageView : UserControl, IInitDataGrid, IUpdateDataG
                 TextBox moneyTextBox = UIControlElements.CreateNumericTextBox($"YsYearSubscriptions[{index}].Payment");
                 //CombBox
                 ComboBox wayOfPayCombobox = UIControlElements.CreateComboBox(new WayOfPayingConverter(), $"YsYearSubscriptions[{index}].WayOfaying");
+                wayOfPayCombobox.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
                 //Adding to cellGrid
                 cellGrid.Children.Add(moneyTextBox);
                 Grid.SetColumn(moneyTextBox, 0);

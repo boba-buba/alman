@@ -12,7 +12,8 @@
 		Height="300"
 		MinHeight="370"
 		MinWidth="300"
-		MaxHeight="370" MaxWidth="300">
+		MaxHeight="370" MaxWidth="300"
+		Icon="/Assets/alman_logo.ico">
 
 	<Grid RowDefinitions="Auto, Auto"
 		  Width="350"
