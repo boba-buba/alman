@@ -160,27 +160,3 @@ public struct ActivityMonth
 
     }
 }
-
-public static class YearMonthActivitiesExtensions
-{
-    public static bool DbEquals(this IYearMonthActivityBase item,  IYearMonthActivityBase other)
-    {
-        if (item.YmchildId !=  other.YmchildId) 
-            return false;
-        if (item.YmactivityId != other.YmactivityId) 
-            return false;
-        if (item.Month !=  other.Month) 
-            return false;
-        if (item.Year != other.Year) 
-            return false;
-        return true;
-    }
-
-    public static bool InGroup(this IYearMonthActivityBase item, IReadOnlyCollection<IYearMonthActivityBase> group)
-    {
-        if (group.Count == 0) { return false; }
-        var itemInGroup = group.SingleOrDefault(cf => cf.DbEquals(item));
-        if (itemInGroup == null) { return false; }
-        return true;
-    }
-}

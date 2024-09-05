@@ -45,7 +45,7 @@ public class YearMonthOtherControl : ControlBase<YearMonthOther, IYearMonthOther
 
         if (dbCount > 0)
         {
-            var updatedOther = itemsToSave.Where(other => other.InGroup(yearMonthOthersFromDb)).ToList();
+            var updatedOther = itemsToSave.Where(other => other.InGroupId(yearMonthOthersFromDb)).ToList();
             retCode = UpdateItems(updatedOther);
             if (retCode != ReturnCode.OK)
             {
@@ -56,7 +56,7 @@ public class YearMonthOtherControl : ControlBase<YearMonthOther, IYearMonthOther
 
         if (difference > 0)
         {
-            var newOthers = itemsToSave.Where(other => !other.InGroup(yearMonthOthersFromDb)).ToList();
+            var newOthers = itemsToSave.Where(other => !other.InGroupId(yearMonthOthersFromDb)).ToList();
             retCode = AddItems(newOthers);
             if (retCode != ReturnCode.OK)
             {
@@ -64,24 +64,5 @@ public class YearMonthOtherControl : ControlBase<YearMonthOther, IYearMonthOther
             }
         }
         return retCode;
-    }
-}
-
-public static class YearMonthOtherBaseExtensions
-{
-    public static bool DbEquals(this IYearMonthOtherBase item, IYearMonthOtherBase other)
-    {
-        if (item.OtherActivityName != other.OtherActivityName) return false;
-        if (item.Year != other.Year) return false;
-        if (item.Month != other.Month) return false;
-        return true;
-    }
-
-    public static bool InGroup(this IYearMonthOtherBase item, ICollection<IYearMonthOtherBase> group)
-    {
-        if (group.Count == 0) return false;
-        var itemInGroup = group.SingleOrDefault(it => it.DbEquals(item));
-        if (itemInGroup is null) return false;
-        return true;
     }
 }

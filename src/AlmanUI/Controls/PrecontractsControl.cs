@@ -32,7 +32,7 @@ public class PrecontractsControl : ControlBase<Precontract, IPrecontractBase>
 
         if (dbCount > 0)
         {
-            var updatedPrecontracts = itemsToSave.Where(pr => pr.InGroup(precontractsFromDb)).ToList();
+            var updatedPrecontracts = itemsToSave.Where(pr => pr.InGroupId(precontractsFromDb)).ToList();
             retCode = UpdateItems(updatedPrecontracts);
             if (retCode != ReturnCode.OK)
             {
@@ -43,7 +43,7 @@ public class PrecontractsControl : ControlBase<Precontract, IPrecontractBase>
 
         if (difference > 0)
         {
-            var newPrecontracts = itemsToSave.Where(pr => !pr.InGroup(precontractsFromDb)).ToList();
+            var newPrecontracts = itemsToSave.Where(pr => !pr.InGroupId(precontractsFromDb)).ToList();
             retCode = AddItems(newPrecontracts);
             if (retCode != ReturnCode.OK)
             {
@@ -51,23 +51,5 @@ public class PrecontractsControl : ControlBase<Precontract, IPrecontractBase>
             }
         }
         return retCode;
-    }
-}
-
-
-public static class PrecontractsBaseExtensions
-{
-    public static bool DbEquals(this IPrecontractBase item,  IPrecontractBase other)
-    {
-        if (item.PchildId == other.PchildId) { return true; }
-        return false;
-    }
-
-    public static bool InGroup(this IPrecontractBase item, IReadOnlyList<IPrecontractBase> group)
-    {
-        if (group.Count == 0) { return false; }
-        var itemInGroup = group.SingleOrDefault(pr => pr.DbEquals(item));
-        if (itemInGroup == null) { return false; }
-        return true;
     }
 }

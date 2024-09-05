@@ -37,7 +37,7 @@ public class ExpensesControl : ControlBase<Expense, IExpenseBase>
 
         if (dbCount > 0)
         {
-            var updatedExpenses = itemsToSave.Where(exp => exp.InGroup(expensesFromDb)).ToList();
+            var updatedExpenses = itemsToSave.Where(exp => exp.InGroupId(expensesFromDb)).ToList();
             retCode = UpdateItems(updatedExpenses);
             if (retCode != ReturnCode.OK)
             {
@@ -48,7 +48,7 @@ public class ExpensesControl : ControlBase<Expense, IExpenseBase>
 
         if (difference > 0)
         {
-            var addedExpenses = itemsToSave.Where(exp => !exp.InGroup(expensesFromDb)).ToList();
+            var addedExpenses = itemsToSave.Where(exp => !exp.InGroupId(expensesFromDb)).ToList();
             retCode = AddItems(addedExpenses);
             if (retCode != ReturnCode.OK)
             {
@@ -62,20 +62,17 @@ public class ExpensesControl : ControlBase<Expense, IExpenseBase>
 }
 
 
-public static class ExpensesBaseExtensions
-{
-    public static bool InGroup(this IExpenseBase item, IReadOnlyCollection<IExpenseBase> itemsGroup)
-    {
-        if (itemsGroup.Count == 0) { return false; }
-        var groupIds = (from exp in itemsGroup select exp.Id).ToList();
-
-        if (groupIds.Contains(item.Id)) { return true; }
-        return false;
-    }
-}
-
+/// <summary>
+/// Provides functionality to check if the item is in the table.
+/// </summary>
 public static class IIdentifierExtensions
 {
+    /// <summary>
+    /// Check if the row <paramref name="item"/> is in the table.
+    /// </summary>
+    /// <param name="item">The item that has the structure of the row of the table <paramref name="itemsGroup"/></param>
+    /// <param name="itemsGroup">The table if the database.</param>
+    /// <returns>True if the row is in the table, false otherwise.</returns>
     public static bool InGroupId(this IIdentifier item, IReadOnlyCollection<IIdentifier> itemsGroup)
     {
         if (itemsGroup.Count == 0) { return false; }

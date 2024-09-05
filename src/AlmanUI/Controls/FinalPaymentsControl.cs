@@ -41,7 +41,7 @@ public class FinalPaymentsControl : ControlBase<FinalPayment, IFinalPaymentBase>
 
         if (difference > 0)
         {
-            var newFinalPayements = itemsToSave.Where(fp => !fp.InGroup(finalPayementsFromDb)).ToList();
+            var newFinalPayements = itemsToSave.Where(fp => !fp.InGroupId(finalPayementsFromDb)).ToList();
             retCode = AddItems(newFinalPayements);
             if (retCode != ReturnCode.OK)
             {
@@ -49,26 +49,6 @@ public class FinalPaymentsControl : ControlBase<FinalPayment, IFinalPaymentBase>
             }
         }
         return retCode;
-    }
-}
-
-
-public static class FinalPaymentsExtensions
-{
-    public static bool DbEquals(this IFinalPaymentBase item,  IFinalPaymentBase other)
-    {
-        if (item.StaffMemberId != other.StaffMemberId) return false;
-        if (item.Year != other.Year) return false;
-        if (item.Month != other.Month) return false;
-        return true;
-    }
-
-    public static bool InGroup(this IFinalPaymentBase item, IReadOnlyCollection<IFinalPaymentBase> group)
-    {
-        if (group.Count == 0) return false;
-        var itemInGroup = group.SingleOrDefault(fp => fp.DbEquals(item));
-        if (itemInGroup == null) return false;
-        return true;
     }
 }
 

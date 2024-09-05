@@ -48,7 +48,8 @@ public partial class YearMonthActivitiesPageView : UserControl, IInitDataGrid, I
         _yearMonthActivitiesTable = YearMonthActivitiesControl.GetItemsByFilter(act => act.Year == year && act.Month == month);
         _activitiesTable = ActivitiesControl.GetItems();
 
-        _childrenTable = ChildrenControl.GetItemsByFilter(ch => true); ///TODO: children that were accepted earlier or in that month.
+        _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
+                new DateTime(ch.ChildStartYear, ch.ChildStartMonth, 1) <= new DateTime(year, month, 1)); ///TODO: children that were accepted earlier or in that month.
 
         var compositeItems = new List<YearMonthActivityCompositeItem>();
         foreach (var child in _childrenTable)

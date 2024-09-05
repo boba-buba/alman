@@ -59,20 +59,3 @@ public class ActivitiesControl : ControlBase<DbAccess.Models.Activity, IActivity
         return retCode;
     }
 }
-
-public static class ActivitiesBase
-{
-    public static bool DbEquals(this IActivityBase item, IActivityBase other)
-    {
-        if (item.Id != other.Id) return false;
-        return true;
-    }
-    
-    public static bool InGroup(this IActivityBase item, IReadOnlyCollection<IActivityBase> group)
-    {
-        if (group.Count == 0) return false;
-        var itemInGroup = group.SingleOrDefault(act => act.Id == item.Id);
-        if (itemInGroup is null) return false;
-        return true;
-    }
-}

@@ -37,7 +37,7 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 
         if (dbCount > 0)
         {
-            var updatedStaffMembers = itemsToSave.Where(m => m.InGroup(staffMembersFromDb)).ToList();
+            var updatedStaffMembers = itemsToSave.Where(m => m.InGroupId(staffMembersFromDb)).ToList();
             retCode = UpdateItems(updatedStaffMembers);
             if (retCode != ReturnCode.OK)
             {
@@ -48,7 +48,7 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
 
         if (difference > 0)
         {
-            var newStaffMembers = itemsToSave.Where(m => !m.InGroup(staffMembersFromDb)).ToList();
+            var newStaffMembers = itemsToSave.Where(m => !m.InGroupId(staffMembersFromDb)).ToList();
             retCode = AddItems(newStaffMembers);
             if (retCode != ReturnCode.OK)
             {
@@ -56,23 +56,5 @@ public class StaffMembersControl : ControlBase<StaffMember, IStaffMemberBase>
             }
         }
         return retCode;
-    }
-}
-
-
-public static class StaffMemberExtensions
-{
-    public static bool DbEquals(this IStaffMemberBase item, IStaffMemberBase other)
-    {
-        if (item.Id != other.Id) { return false; }
-        return true;
-    }
-     
-    public static bool InGroup(this IStaffMemberBase item, IReadOnlyList<IStaffMemberBase> group)
-    {
-        if (group is null || group.Count == 0) { return false; }
-        var itemFromGroup = group.SingleOrDefault(m => m.DbEquals(item));
-        if (itemFromGroup is null) { return false; }
-        return true;
     }
 }

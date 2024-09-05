@@ -39,7 +39,7 @@ public class YearMonthStaffActivitiesControl : ControlBase<YearMonthStaffActivit
 
         if (difference > 0)
         {
-            var newYMStaffActivities = itemsToSave.Where(item => !item.InGroup(ymStaffActivitiesFromDb)).ToList();
+            var newYMStaffActivities = itemsToSave.Where(item => !item.InGroupId(ymStaffActivitiesFromDb)).ToList();
             retCode = AddItems(newYMStaffActivities);
             if (retCode != ReturnCode.OK)
             {
@@ -49,25 +49,3 @@ public class YearMonthStaffActivitiesControl : ControlBase<YearMonthStaffActivit
         return retCode;
     }
 }
-
-
-public static class YearMonthStaffActivitiesBaseExtensions
-{
-    public static bool DbEquals(this IYearMonthStaffActivityBase item, IYearMonthStaffActivityBase other)
-    {
-        if (item.StaffMemberId != other.StaffMemberId) return false;
-        if (item.Year != other.Year) return false;
-        if (item.Month != other.Month) return false;
-        if (item.StaffActivityId != other.StaffActivityId) return false;
-        return true;
-    }
-
-    public static bool InGroup(this IYearMonthStaffActivityBase item, IReadOnlyCollection<IYearMonthStaffActivityBase> group)
-    {
-        if (group.Count == 0) return false;
-        var itemInGroup = group.SingleOrDefault(it => it.DbEquals(item));
-        if (itemInGroup == null) return false;
-        return true;
-    }
-}
-    

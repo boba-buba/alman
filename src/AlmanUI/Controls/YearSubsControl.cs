@@ -49,23 +49,3 @@ public class YearSubsControl : ControlBase<YearSub, IYearSubBase>
         return retCode;
     }
 }
-
-public static class YearSubExtensions
-{
-    public static bool DbEquals(this IYearSubBase item, IYearSubBase other)
-    {
-        if (item.YchildId != other.YchildId) return false;
-        if (item.Yyear != other.Yyear) return false;
-        return true;
-    }
-
-    public static bool InGroup(this IYearSubBase item, IReadOnlyList<IYearSubBase> group)
-    {
-        if (group.Count == 0) { return false; }
-        var itemInGroup = group.SingleOrDefault(cf => cf.DbEquals(item));
-        if (itemInGroup == null) { return false; }
-        return true;
-    }
-}
-
-

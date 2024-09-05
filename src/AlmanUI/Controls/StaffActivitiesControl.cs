@@ -38,7 +38,7 @@ public class StaffActivitiesControl : ControlBase<StaffActivity, IStaffActivityB
 
         if (dbCount > 0)
         {
-            var updatedStaffActivities = itemsToSave.Where(act => act.InGroup(staffActivitiesFromDb)).ToList();
+            var updatedStaffActivities = itemsToSave.Where(act => act.InGroupId(staffActivitiesFromDb)).ToList();
             retCode = UpdateItems(updatedStaffActivities);
             if (retCode != ReturnCode.OK)
             {
@@ -49,7 +49,7 @@ public class StaffActivitiesControl : ControlBase<StaffActivity, IStaffActivityB
 
         if (difference > 0)
         {
-            var newStaffActivities = itemsToSave.Where(act => !act.InGroup(staffActivitiesFromDb)).ToList();
+            var newStaffActivities = itemsToSave.Where(act => !act.InGroupId(staffActivitiesFromDb)).ToList();
             retCode = AddItems(newStaffActivities);
             if (retCode != ReturnCode.OK)
             {
@@ -60,23 +60,4 @@ public class StaffActivitiesControl : ControlBase<StaffActivity, IStaffActivityB
         return retCode;
     }
 }
-
-
-public static class StaffActivityBaseExtensions
-{
-    public static bool DbEquals(this IStaffActivityBase item,  IStaffActivityBase other)
-    {
-        if (item.Id != other.Id) return false;
-        return true;
-    }
-
-    public static bool InGroup(this IStaffActivityBase item, IReadOnlyCollection<IStaffActivityBase> group) 
-    {
-        if (group.Count == 0) return false;
-        var itemInGroup = group.SingleOrDefault(act => act.Id == item.Id);
-        if (itemInGroup is null) return false;
-        return true;
-    }
-}
-
 

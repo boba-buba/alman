@@ -50,23 +50,3 @@ public class ContractFeesControl : ControlBase<ContractFee, IContractFeeBase>
         return retCode;
     }
 }
-
-
-public static class ContractFeesExtensions
-{
-    public static bool DbEquals(this IContractFeeBase item, IContractFeeBase other)
-    {
-        if (item.CfchildId != other.CfchildId) { return false; }
-        if (item.Cfmonth != other.Cfmonth) { return false;}
-        if (item.Cfyear != other.Cfyear) { return false;}
-        return true;
-    }
-
-    public static bool InGroup(this IContractFeeBase item, IReadOnlyList<IContractFeeBase> group)
-    {
-        if (group.Count == 0) { return false; }
-        var itemInGroup = group.SingleOrDefault(cf => cf.DbEquals(item));
-        if (itemInGroup == null) {  return false; }
-        return true;
-    }
-}
