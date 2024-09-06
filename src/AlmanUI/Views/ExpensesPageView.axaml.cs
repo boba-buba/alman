@@ -40,9 +40,8 @@ public partial class ExpensesPageView : UserControl, IInitDataGrid, IUpdateDataG
         ExpensesDataGrid.MinColumnWidth = 100;
 
         ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.OtherResources.ExpenseName, Binding = new Binding("Name") });
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Year, "Year", (int)YearsBounds.StartYear, (int)YearsBounds.EndYear);
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Month, "Month", (int)Months.January, (int)Months.December);
-
+        ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Month, Binding = new Binding("Month"), IsReadOnly = true });
+        ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Year, Binding = new Binding("Year"), IsReadOnly = true });
         UIControlElements.AddMoneyTextBox<IExpenseBase>(ExpensesDataGrid, "ExpenseSum", "WayOfPaying", AlmanUI.Resources.CommonResources.PaidSum);
 
     }
