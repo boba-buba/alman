@@ -16,7 +16,7 @@ public partial class LoginWindow : Window
     /// <summary>
     /// Completeion of the login.
     /// </summary>
-    private TaskCompletionSource<bool>? _loginTaskCompletionSource;
+    private TaskCompletionSource<bool> _loginTaskCompletionSource;
 
     /// <summary>
     /// Chosen language for the UI.
@@ -46,6 +46,7 @@ public partial class LoginWindow : Window
         WrongDataTextBlock.IsVisible = false;
         EnterButton.Click += OnLoginClick;
         LoginActivateButton.Click += OnLOginActivateClick;
+        _loginTaskCompletionSource = new();
     }
 
     /// <summary>
@@ -110,10 +111,6 @@ public partial class LoginWindow : Window
         return username is not null && password is not null && UserUIControl.UserInDb(username, password);
     }
 
-    /// <summary>
-    /// Flag that indicates 
-    /// </summary>
-    //public bool IsLoginSuccessful { get; private set; } = false;
 
     /// <summary>
     /// Another language is chosen, load the necessary resources.
@@ -122,11 +119,11 @@ public partial class LoginWindow : Window
     /// <param name="e"></param>
     private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.Count > 0)
+        if (e.AddedItems is not null && e.AddedItems.Count > 0)
         {
 
-            var selectedItem = (ComboBoxItem)e.AddedItems[0]!;
-            var selectedLanguage = selectedItem.Tag.ToString();
+            ComboBoxItem selectedItem = (ComboBoxItem)e.AddedItems[0]!;
+            string selectedLanguage = selectedItem.Tag!.ToString()!;
             SetCulture(selectedLanguage);
             _loginTaskCompletionSource.SetResult(false);
             this.Close();

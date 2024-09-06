@@ -110,7 +110,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl, ILoadItemsW
                     ColumnDefinitions = new ColumnDefinitions
                     {
                         new ColumnDefinition(GridLength.Star),
-                        new ColumnDefinition(GridLength.Star)
                     }
                 };
 
@@ -119,7 +118,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl, ILoadItemsW
                     x.Activities = new List<IYearMonthStaffActivityBase>();
                 }
 
-                int i = x.Activities.Where(act => act.StaffActivityId == activity.Id).ToList().Count;
                 if (x.Activities.Count == 0 || x.Activities.Where(act => act.StaffActivityId == activity.Id).ToList().Count == 0) 
                 {
                     x.Activities.Add(new YearMonthStaffActivityUI
@@ -140,11 +138,6 @@ public partial class YearMonthStaffActivitiesPageView : UserControl, ILoadItemsW
 
                 grid.Children.Add( textBox );
                 Grid.SetColumn(textBox, 0);
-
-                CheckBox WasPaidCheckBox = UIControlElements.CreateCheckBox($"Activities[{index}].WasPaid");
-
-                grid.Children.Add(WasPaidCheckBox);
-                Grid.SetColumn(WasPaidCheckBox, 1);
 
                 return grid;
             });

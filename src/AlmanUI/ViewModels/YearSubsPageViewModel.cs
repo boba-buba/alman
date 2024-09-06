@@ -92,17 +92,25 @@ public partial class YearSubsPageViewModel : ViewModelBase, ICurrentYear, ISaveB
     /// <returns></returns>
     private YearSubCompositeItem CalculateSum()
     {
+
+        var monthSum = new YearSubCompositeItem { YsChild = new ChildUI { Id = 0, ChildLastName = "", ChildName = "" } };
+
         if (_yearSubsTable is null)
         {
-            return null;
+            for (int i = 0; i < 12; i++)
+            {
+                IYearSubBase subsSum = new YearSubUI { Payment = 0, Month = i + 1, Yyear = CurrentYear };
+                monthSum.YsYearSubscriptions.Add(subsSum);
+            }
         }
-        var monthSum = new YearSubCompositeItem { YsChild = new ChildUI { Id = 0, ChildLastName = "", ChildName = "" } };
-        for (int i = 0; i < 12; i++)
+        else
         {
-            var items = _yearSubsTable.Where(sub => sub.Month == i + 1);
-            IYearSubBase subsSum = new YearSubUI { Payment = items.Sum(i => i.Payment), Month = i + 1, Yyear = CurrentYear };
-            monthSum.YsYearSubscriptions.Add(subsSum);
-
+            for (int i = 0; i < 12; i++)
+            {
+                var items = _yearSubsTable.Where(sub => sub.Month == i + 1);
+                IYearSubBase subsSum = new YearSubUI { Payment = items.Sum(i => i.Payment), Month = i + 1, Yyear = CurrentYear };
+                monthSum.YsYearSubscriptions.Add(subsSum);
+            }
         }
         return monthSum;
     }

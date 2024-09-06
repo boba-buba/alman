@@ -21,7 +21,7 @@ public static class UIUtilities
     /// </summary>
     /// <param name="sender">Control (TextBox here)</param>
     /// <param name="e"></param>
-    public static void TextBox_NumericInput_KeyDown(object sender, KeyEventArgs e)
+    public static void TextBox_NumericInput_KeyDown(object? sender, KeyEventArgs e)
     {
         if (sender is TextBox)
         {
@@ -40,6 +40,19 @@ public static class UIUtilities
                 // If not a digit, mark the event as handled, so the key is not processed
                 e.Handled = true;
             }
+        }
+    }
+
+    /// <summary>
+    /// Doesn't accept anything from keyboard (except for Delete key).
+    /// </summary>
+    /// <param name="sender">NumericUpDown control instance.</param>
+    /// <param name="e">event that holds info about what what key was pressed.</param>
+    public static void NumericUpDown_KeyDown(object? sender, KeyEventArgs e)
+    {
+        if (sender is NumericUpDown)
+        {
+            e.Handled = true;
         }
     }
 }

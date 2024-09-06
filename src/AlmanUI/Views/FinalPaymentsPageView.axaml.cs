@@ -77,7 +77,7 @@ public partial class FinalPaymentsPageView : UserControl, ILoadItemsWithParams, 
             salary = member.PositionSalary;
         }
 
-        var activities = YearMonthStaffActivitiesControl.GetItemsByFilter(act => act.StaffMemberId == fp.StaffMemberId && act.Month == fp.Month && act.Year == fp.Year && act.WasPaid == (int)WasPaid.True);
+        var activities = YearMonthStaffActivitiesControl.GetItemsByFilter(act => act.StaffMemberId == fp.StaffMemberId && act.Month == fp.Month && act.Year == fp.Year);
 
         int activitiesPayment = 0;
         var activitiesSum = activities.Sum(act => act.SumPaid);

@@ -14,7 +14,7 @@ public partial class ChildBillWindowViewModel : ViewModelBase
     public ObservableCollection<ActivityMonth> ActivityMonths { get; set; }
     public ChildBillWindowViewModel()
     {
-
+        ActivityMonths = new ObservableCollection<ActivityMonth>();
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
@@ -11,7 +12,7 @@ using System.Diagnostics;
 namespace AlmanUI;
 
 /// <summary>
-/// API to create controls for UI.
+/// API to create controls for UI views.
 /// </summary>
 public static class UIControlElements
 {
@@ -40,7 +41,7 @@ public static class UIControlElements
                     Maximum = max,   // Define maximum value
                     Increment = 1,    // Define step size
                 };
-
+                numericUpDown.KeyDown += UIUtilities.NumericUpDown_KeyDown;
                 // Define the binding for the value property
                 var binding = new Binding(bindingName) // Bind to the 'Salary' property of the data item
                 {
@@ -56,6 +57,8 @@ public static class UIControlElements
         });
 
     }
+
+
 
     /// <summary>
     /// Create the checkbox and add to the datagrid <paramref name="gridToAddTo"/>.
