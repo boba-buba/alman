@@ -17,7 +17,7 @@ public partial class YearSubsPageView : UserControl, IInitDataGrid, IUpdateDataG
     {
         InitializeComponent();
         InitDataGrid();
-        Mediator.Mediator.Instance.NotifyWithOneParam += OnNotifyWithOneParam;
+        Mediator.Mediator.Instance.Notify += OnNotify;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public partial class YearSubsPageView : UserControl, IInitDataGrid, IUpdateDataG
     /// <param name="message">Message from view model.</param>
     /// <param name="year">1st param.</param>
 
-    private void OnNotifyWithOneParam(string message, int year)
+    private void OnNotify(string message)
     {
         if (message == "UpdateYearSubsMainDataGrid") UpdateDataGrid();
     }

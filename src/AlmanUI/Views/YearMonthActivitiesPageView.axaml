@@ -24,7 +24,7 @@
 			</Grid>
 		</Border>
 		
-		<DataGrid Name="MainDataGrid" Grid.Row="1" Classes="db-table"/>
+		<DataGrid Name="MainDataGrid" Grid.Row="1" ItemsSource="{Binding YearMonthActivities}" Classes="db-table"/>
 
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">

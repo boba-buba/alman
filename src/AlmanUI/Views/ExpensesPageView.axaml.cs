@@ -1,3 +1,4 @@
+using Alman.SharedDefinitions;
 using Alman.SharedModels;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -39,8 +40,8 @@ public partial class ExpensesPageView : UserControl, IInitDataGrid, IUpdateDataG
         ExpensesDataGrid.MinColumnWidth = 100;
 
         ExpensesDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.OtherResources.ExpenseName, Binding = new Binding("Name") });
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Year, "Year", 2000, 2100);
-        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Month, "Month", 1, 12);
+        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Year, "Year", (int)YearsBounds.StartYear, (int)YearsBounds.EndYear);
+        UIControlElements.AddNumericUpDownToGrid<IExpenseBase>(ExpensesDataGrid, AlmanUI.Resources.CommonResources.Month, "Month", (int)Months.January, (int)Months.December);
 
         UIControlElements.AddMoneyTextBox<IExpenseBase>(ExpensesDataGrid, "ExpenseSum", "WayOfPaying", AlmanUI.Resources.CommonResources.PaidSum);
 

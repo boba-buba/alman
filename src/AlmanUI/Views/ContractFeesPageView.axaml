@@ -23,7 +23,7 @@
 			</Grid>
 		</Border>
 
-		<DataGrid Grid.Row="1" Name="ContractFeesMainDataGrid" Classes="db-table"/>
+		<DataGrid Grid.Row="1" Name="ContractFeesMainDataGrid" ItemsSource="{Binding ChildContractFees}" IsReadOnly="False" Classes="db-table"/>
 
 		<StackPanel Grid.Row="2" Margin="10">
 			<Grid ColumnDefinitions="Auto" HorizontalAlignment="Center">

@@ -12,80 +12,25 @@ namespace AlmanUI.Views;
 /// <summary>
 /// View for the Contract fees.
 /// </summary>
-public partial class ContractFeesPageView : UserControl, ILoadItemsWithParams, IInitDataGrid, IUpdateDataGrid
+public partial class ContractFeesPageView : UserControl, IInitDataGrid, IUpdateDataGridWithoutParams
 {
-    /// <summary>
-    /// Read children table from the database.
-    /// </summary>
-    private IReadOnlyList<IChildBase>? _childrenTable;
-
-    /// <summary>
-    /// Read contract fees table from the database.
-    /// </summary>
-    private IReadOnlyList<IContractFeeBase>? _contractFeesTable;
-
-    /// <summary>
-    /// Read child contracts table from the database. 
-    /// </summary>
-    private IReadOnlyList<ContractFeeCompositeItem>? _childContractFees;
-
-    public void LoadItems(int year, int month)
-    {
-        _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
-                new DateTime(ch.ChildStartYear, ch.ChildStartMonth, 1) <= new DateTime(year, month, 1));
-        
-        
-        if (_childrenTable is null)
-        {
-            return;
-        }
-
-        _contractFeesTable = ContractFeesControl.GetItemsByFilter(cf =>
-                cf.Cfyear == year &&
-                cf.Cfmonth == month);
-        
-
-        var childContractFees = new List<ContractFeeCompositeItem>();
-
-        foreach (var child in _childrenTable)
-        {
-            var newItem = new ContractFeeCompositeItem { CFchild = child };
-            IContractFeeBase? newItemContractFee = _contractFeesTable.SingleOrDefault(cf => cf.CfchildId == child.Id);
-
-            if (_contractFeesTable.Count == 0 || newItemContractFee == null)
-            {
-                newItemContractFee = new ContractFeeUI { CfchildId = child.Id, Cfmonth = month, CfsumPaid = 0, Cfyear = year };
-            }
-            newItem.CFcontractFee = newItemContractFee;
-            childContractFees.Add(newItem);
-        }
-        _childContractFees = childContractFees;
-    }
-
     /// <summary>
     /// ctor.
     /// </summary>
     public ContractFeesPageView()
     {
-        LoadItems(DateTime.Now.Year, DateTime.Now.Month);
-        if (_childContractFees is null)
-        {
-            _childContractFees = new List<ContractFeeCompositeItem>();
-        }
         InitializeComponent();
         InitDataGrid();
-        Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
+        Mediator.Mediator.Instance.Notify += OnNotify;
     }
 
     /// <summary>
     /// Process notification that came from the Mediator.
     /// </summary>
     /// <param name="message">Message from view model.</param>
-    /// <param name="year">1st param.</param>
-    /// <param name="month">2nd param.</param>
-    private void OnNotifyWithParams(string message, int year, int month)
+    private void OnNotify(string message)
     {
-        if (message == "UpdateContractFeesMainDataGrid") UpdateDataGrid(year, month);
+        if (message == "UpdateContractFeesMainDataGrid") UpdateDataGrid();
     }
     
     public void InitDataGrid()
@@ -121,15 +66,10 @@ public partial class ContractFeesPageView : UserControl, ILoadItemsWithParams, I
                 Binding = new Binding("CFcontractFee.Cfyear"), 
                 IsReadOnly = true,
             });
-
-        ContractFeesMainDataGrid.ItemsSource = _childContractFees;
-        SaveContractFeesButton.CommandParameter = _childContractFees;
-
     }
 
-    public void UpdateDataGrid(int year, int month)
+    public void UpdateDataGrid()
     {
-        LoadItems(year, month);
         ContractFeesMainDataGrid.Columns.Clear();
         InitDataGrid();
     }

@@ -80,9 +80,9 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase, IMonthButtons,
     [RelayCommand]
     public void TriggerPrevMonthCommand()
     {
-        if (CurrentMonth == 1)
+        if (CurrentMonth == (int)Months.January)
         {
-            CurrentMonth = 12;
+            CurrentMonth = (int)Months.December;
             CurrentYear = CurrentYear - 1;
         }
         else
@@ -97,9 +97,9 @@ public partial class YearMonthOtherPageViewModel : ViewModelBase, IMonthButtons,
     [RelayCommand]
     public void TriggerNextMonthCommand()
     {
-        if (CurrentMonth == 12)
+        if (CurrentMonth == (int)Months.December)
         {
-            CurrentMonth = 1;
+            CurrentMonth = (int)Months.January;
             CurrentYear = CurrentYear + 1;
         }
         else

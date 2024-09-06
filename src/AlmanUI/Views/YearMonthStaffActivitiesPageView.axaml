@@ -23,7 +23,7 @@
 			</Grid>
 		</Border>
 
-		<DataGrid Name="YearMonthStaffActivitiesMainDataGrid" Grid.Row="1" Classes="db-table">
+		<DataGrid Name="YearMonthStaffActivitiesMainDataGrid" ItemsSource="{Binding MemberActivities}" Grid.Row="1" Classes="db-table">
 		</DataGrid>
 
 		<StackPanel Grid.Row="2" Margin="10">

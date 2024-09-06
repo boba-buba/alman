@@ -60,7 +60,7 @@ public partial class YearSubsPageViewModel : ViewModelBase, ICurrentYear, ISaveB
         {
             var newItem = new YearSubCompositeItem { YsChild = child };
             
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < (int)Months.December; i++)
             {
                 IYearSubBase? newItemYearSub = _yearSubsTable.SingleOrDefault(ys => ys.YchildId == child.Id && ys.Month == i + 1);
                 if (_yearSubsTable.Count == 0 || newItemYearSub is null)
@@ -97,7 +97,7 @@ public partial class YearSubsPageViewModel : ViewModelBase, ICurrentYear, ISaveB
 
         if (_yearSubsTable is null)
         {
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < (int)Months.December; i++)
             {
                 IYearSubBase subsSum = new YearSubUI { Payment = 0, Month = i + 1, Yyear = CurrentYear };
                 monthSum.YsYearSubscriptions.Add(subsSum);
@@ -105,7 +105,7 @@ public partial class YearSubsPageViewModel : ViewModelBase, ICurrentYear, ISaveB
         }
         else
         {
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < (int)Months.December; i++)
             {
                 var items = _yearSubsTable.Where(sub => sub.Month == i + 1);
                 IYearSubBase subsSum = new YearSubUI { Payment = items.Sum(i => i.Payment), Month = i + 1, Yyear = CurrentYear };

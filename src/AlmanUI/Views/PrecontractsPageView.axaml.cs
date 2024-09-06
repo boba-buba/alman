@@ -12,74 +12,18 @@ namespace AlmanUI.Views;
 /// <summary>
 /// View for precontracts.
 /// </summary>
-public partial class PrecontractsPageView : UserControl, IInitDataGrid, IUpdateDataGrid, ILoadItemsWithParams
+public partial class PrecontractsPageView : UserControl, IInitDataGrid, IUpdateDataGridWithoutParams
 {
-    /// <summary>
-    /// Children table read from the database.
-    /// </summary>
-    private IReadOnlyList<IChildBase>? _childrenTable;
-
-    /// <summary>
-    /// Precontracts table read from the database.
-    /// </summary>
-    private IReadOnlyList<IPrecontractBase>? _precontractsTable;
-
-    /// <summary>
-    /// Collection of the items to be shown in UI view.
-    /// </summary>
-    private IReadOnlyList<PrecontractCompositeItem>? _childPrecontracts { get; set; }
-
-    public void LoadItems(int year, int month)
-    {
-        
-        _childrenTable = ChildrenControl.GetItemsByFilter(ch =>
-            ch.ChildStartYear == year &&
-            ch.ChildStartMonth == month);
-
-        if (_childrenTable is null)
-        {
-            return;
-        }
-
-        _precontractsTable = PrecontractsControl.GetItemsByFilter(pr =>
-            pr.PYear == year &&
-            pr.PMonth == month);
-
-
-        var childPrecontracts = new List<PrecontractCompositeItem>();
-
-        foreach (var child in _childrenTable)
-        {
-            var newItem = new PrecontractCompositeItem { PChild = child };
-            IPrecontractBase? newItemPrecontract = _precontractsTable.SingleOrDefault(pr => pr.PchildId == child.Id);
-
-            if (_precontractsTable.Count == 0 || newItemPrecontract == null)
-            {
-                newItemPrecontract = new PrecontractUI { PchildId = child.Id, PMonth = child.ChildStartMonth, PYear = child.ChildStartYear };
-
-            }
-            
-            newItem.Precontract = newItemPrecontract;
-            childPrecontracts.Add(newItem);
-        }
-
-        _childPrecontracts = childPrecontracts;
-
-    }
-
+    
     /// <summary>
     /// ctor.
     /// </summary>
     public PrecontractsPageView()
     {
-        LoadItems(DateTime.Now.Year, DateTime.Now.Month);
-        if (_childPrecontracts  is null)
-        {
-            _childPrecontracts = new List<PrecontractCompositeItem>();
-        }
+
         InitializeComponent();
         InitDataGrid();
-        Mediator.Mediator.Instance.NotifyWithParams += OnNotifyWithParams;
+        Mediator.Mediator.Instance.Notify += OnNotify;
 
     }
 
@@ -87,13 +31,11 @@ public partial class PrecontractsPageView : UserControl, IInitDataGrid, IUpdateD
     /// Process notification that came from the Mediator.
     /// </summary>
     /// <param name="message">Message from view model.</param>
-    /// <param name="year">1st param.</param>
-    /// <param name="month">2nd param.</param>
-    private void OnNotifyWithParams(string message, int year, int month)
+    private void OnNotify(string message)
     {
         if (message == "UpdatePrecontractsMainDataGrid")
         {
-            UpdateDataGrid(year, month);
+            UpdateDataGrid();
         }
     }
 
@@ -111,13 +53,10 @@ public partial class PrecontractsPageView : UserControl, IInitDataGrid, IUpdateD
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Month, Binding = new Binding("Precontract.PMonth"), IsReadOnly = true });
         PrecontractsMainDataGrid.Columns.Add(new DataGridTextColumn { Header = AlmanUI.Resources.CommonResources.Year, Binding = new Binding("Precontract.PYear"), IsReadOnly = true});
 
-        PrecontractsMainDataGrid.ItemsSource = _childPrecontracts;
-        SavePrecontractsButton.CommandParameter = _childPrecontracts;
     }
 
-    public void UpdateDataGrid(int year, int month)
+    public void UpdateDataGrid()
     {
-        LoadItems(year, month);
         PrecontractsMainDataGrid.Columns.Clear();
         InitDataGrid();
     }

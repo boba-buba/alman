@@ -79,3 +79,33 @@ public enum UserPermissions
     None = 0,
     ManageUsers = 1,
 }
+
+/// <summary>
+/// Months enum for Previous and Next month setting.
+/// </summary>
+public enum Months
+{
+    January = 1,
+    February,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November, 
+    December
+}
+
+
+/// <summary>
+/// Year bounds for setting children and staff parameters
+/// </summary>
+public enum YearsBounds
+{ 
+    StartYear = 2000,
+    EndYear = 2100
+
+}
